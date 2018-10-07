@@ -24,9 +24,11 @@ def image(data):
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         QtGui.QApplication.instance().exec_()
 
+#TODO always go through entire list, annotate values, even if one list 
+#is smaller
 class compareWindow(pg.GraphicsWindow):
 
-    def __init__(self, data_list, kwargs_list=None, size=(800,600), *args, **kwargs):
+    def __init__(self, data_list, kwargs_list=None, titles_list: list =[], size=(800,600), *args, **kwargs):
         super().__init__(*args, **kwargs)
         
         l = pg.GraphicsLayout(border=(100,100,100))
@@ -36,6 +38,7 @@ class compareWindow(pg.GraphicsWindow):
         self.resize(size[0],size[1])
 
         self.data_list = data_list
+        self.titles_list = titles_list
         
         if (kwargs_list == None):
             self.kwargs_list = [{} for i in data_list]
@@ -62,6 +65,15 @@ class compareWindow(pg.GraphicsWindow):
             vb.addItem(img)
             vb.autoRange()
             self.images.append(img)
+        
+        self.setWindowTitle(titles_list[0][2])
+        #Fixme
+        # if len(titles_list[0]) == len(self.images):
+            # #l.nextRow()
+            # l2 = l.addLayout(colspan=len(self.images), border=(0,0,0))
+            # for i,title in enumerate(titles_list[0]):
+                # l2.addLabel(title, col=i, colspan=1)
+                # print(i)
     
     def keyPressEvent(self, event):
         self.scene().keyPressEvent(event)
@@ -74,19 +86,21 @@ class compareWindow(pg.GraphicsWindow):
         self.plotCounter += 1
         if self.plotCounter > min([len(i) for i in self.data_list])-1:
             self.plotCounter = 0
-            
+
+        self.setWindowTitle(self.titles_list[self.plotCounter][2])            
         for (img, array, kwargs) in zip(self.images,self.data_list, self.kwargs_list):
             img.setImage(array[self.plotCounter], **kwargs)
 
-def compare(data):
+def compare(data, titles=[]):
 
     #TODO do some sanity checks on input
     
     kwargs_list = [
       {"levels": (0,0.01)},
-      {"levels": (0,8000)}]
+      {"levels": (0,8000)},
+      {}]
       
-    view = compareWindow(data, kwargs_list=kwargs_list)
+    view = compareWindow(data, kwargs_list=kwargs_list, size=(1800,800), titles_list=titles)
     
     ## Start Qt event loop/show the plot
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
