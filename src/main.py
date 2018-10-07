@@ -31,32 +31,46 @@
 
 import psf.from_simulated_psf as psf
 import plot.fast as plotfast
+import plot.slow as plotslow
 import glob
 
 if __name__ == "__main__":
     
-    #process, 
-    clean_sim = psf.get_clean()
-    #on_sky =psf.get_on_sky()
+    # #process, 
+    # clean_sim = psf.get_clean()
+    # #on_sky =psf.get_on_sky()
 	
-    sims = []
-    speclers = []
+    # sims = []
+    # speclers = []
     
-    paths = []
+    # paths = []
     
     
-    for (i, path) in enumerate(glob.glob("../specler_images/*") ):
-        (simulated, specler) = psf.apply_specles(clean_sim, path)
-        sims.append(simulated)
-        speclers.append(specler)
-        paths.append(path)
+    # for (i, path) in enumerate(glob.glob("../specler_images/*") ):
+        # (simulated, specler) = psf.apply_specles(clean_sim, path)
+        # sims.append(simulated)
+        # speclers.append(specler)
+        # paths.append(path)
     
-    on_skies = psf.get_on_sky(len(sims))
+    # on_skies = psf.get_on_sky(len(sims))
     
-    titles = [list(a) for a in zip([""] * len(paths),[""] * len(paths), paths)]
+    # titles = [list(a) for a in zip([""] * len(paths),[""] * len(paths), paths)]
     
     #plot
-    plotfast.compare([sims,on_skies,speclers],titles=titles)
+    A, specle = psf.createSpecle()
+    plotfast.image(A)
+    plotfast.image(specle)
+    
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    plt.imshow(np.log10(specle+1E-5))
+    plt.show()
+
+    
+    #plotslow.image(specle)
+    
+    #plotfast.compare([sims,on_skies,speclers])
     
     
     

@@ -1,5 +1,6 @@
 import numpy as np
 import astropy.io.fits as fits
+import skimage.draw as sk
 
 #test code
 def get_clean():
@@ -29,38 +30,13 @@ def normalise(array):
     rng = maxs - mins
     return (array-mins)/(maxs - mins)
 
-def sin2d(x, y):
-    return np.sin(y * x)
-
-def box(shape):
-    A = np.empty(shape,dtype=complex)
+def circle(shape, radius=0.5):
+    A = np.zeros(shape,dtype=float)
     
-    for x in np.arange(0, shape[0]):
-        for y in np.arange(0, shape[1]):
-            if (x > 80) and (x < 120) and (y > 80) and (y< 120):
-                A[x,y] = 1j+1
-            else:
-                A[x,y] = 0
+    rr, cc = sk.circle(shape[0]/2, shape[1]/2, radius*min(shape[0]/2,shape[1]/2) )
+    A[rr,cc] = 1
+    
     return A
-
-def sine(shape):
-    A = np.empty(shape,dtype=complex)
-    
-    for x in np.arange(0, shape[0]):
-        for y in np.arange(0, shape[1]):
-            A[x,y] = (1j+1)*np.sin(x)
-    return A
-
-from PIL import Image
-from scipy.misc import imresize
-def load_black_and_white(shape, path):    
-    image_file = Image.open(path) # open colour image
-    image_file = image_file.convert('1') # convert image to black and white
-    image_shape = image_file.size
-    np_frame = np.array(image_file.getdata()).reshape(image_shape)
-    
-    A = imresize(np_frame, shape)
-    return normalise(A)
 
 def field(shape, func):
     print(shape[0])
@@ -73,13 +49,21 @@ def field(shape, func):
 def apply_specles(in_data, path):
     Fdata = np.fft.fft2(in_data)
     
-    #specler = field(Fdata.shape, sin2d)
-    #specler = box(Fdata.shape)*0.8
-    #specler = sine(Fdata.shape)*0.8
-    specler = load_black_and_white(Fdata.shape, path)
+    specler = field(Fdata.shape, circle)
     Fdata = Fdata * specler
     
     out_data = np.fft.ifft2(Fdata).real
     #cant plot the imaginary part so "cast to real"
     return(out_data, specler)
     #print(out_data)
+
+########################################################################
+
+def createSpecle():
+    
+    A = normalise(circle((1000,1000), radius=0.05) )
+    B = np.fft.fftshift(np.fft.fft2(A))
+    B = np.abs(B)
+    specle = np.real(B)
+    
+    return A,specle;
