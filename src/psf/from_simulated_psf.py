@@ -59,11 +59,31 @@ def apply_specles(in_data, path):
 
 ########################################################################
 
-def createSpecle():
+def createSpecle(size=5):
     
-    A = normalise(circle((1000,1000), radius=0.05) )
+    A = normalise(circle((1000,1000), radius=1./size) )
     B = np.fft.fftshift(np.fft.fft2(A))
     B = np.abs(B)
     specle = np.real(B)
     
     return A,specle;
+
+# specle needs to have 4x the number of pixels then the source
+# to do: deal with uneven input
+def placeSpecles(source: np.ndarray, specle: np.ndarray, coords: [(int,int)]):
+    specle_middle_x = specle.shape[0]//2
+    specle_middle_y = specle.shape[1]//2
+    
+    source_middle_x = source.shape[0]//2
+    source_middle_y = source.shape[1]//2
+    
+    for (x_pos, y_pos) in coords:
+        specle_view_begin_x = specle_middle_x - source_middle_x +x_pos
+        specle_view_begin_y = specle_middle_y - source_middle_y +y_pos
+        specle_view_end_x = specle_middle_x + source_middle_x + x_pos
+        specle_view_end_y = specle_middle_y + source_middle_y + y_pos
+     
+        specle_subview = specle[specle_view_begin_x:specle_view_end_x,specle_view_begin_y:specle_view_end_y]
+        source += specle_subview
+    
+    return source

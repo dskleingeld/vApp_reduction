@@ -58,17 +58,15 @@ if __name__ == "__main__":
     
     #plot
     A, specle = psf.createSpecle()
-    plotfast.image(A)
-    plotfast.image(specle)
+    #plotfast.image(A)
+    #plotfast.image(specle)
     
-    import matplotlib.pyplot as plt
     import numpy as np
-    
-    plt.imshow(np.log10(specle+1E-5))
-    plt.show()
+    image = np.zeros((300,300))
+    psf.placeSpecles(image, specle, [(10,10),(-20,30),(30,-30)])
 
     
-    #plotslow.image(specle)
+    plotslow.image(image)
     
     #plotfast.compare([sims,on_skies,speclers])
     
