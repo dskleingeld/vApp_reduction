@@ -70,14 +70,17 @@ def createSpecle(size=5):
 
 # specle needs to have 4x the number of pixels then the source
 # to do: deal with uneven input
-def placeSpecles(source: np.ndarray, specle: np.ndarray, coords: [(int,int)]):
+def placeSpecles(source: np.ndarray, specle: np.ndarray, coords):
     specle_middle_x = specle.shape[0]//2
     specle_middle_y = specle.shape[1]//2
     
     source_middle_x = source.shape[0]//2
     source_middle_y = source.shape[1]//2
     
-    for (x_pos, y_pos) in coords:
+    for coord in coords:
+        x_pos = int(coord[0])
+        y_pos = int(coord[1])
+        
         specle_view_begin_x = specle_middle_x - source_middle_x +x_pos
         specle_view_begin_y = specle_middle_y - source_middle_y +y_pos
         specle_view_end_x = specle_middle_x + source_middle_x + x_pos

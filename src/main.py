@@ -63,9 +63,11 @@ if __name__ == "__main__":
     
     import numpy as np
     image = np.zeros((300,300))
-    psf.placeSpecles(image, specle, [(10,10),(-20,30),(30,-30)])
-
     
+    random_numbers = np.random.normal(loc=0.0, scale=30.0,size=(100,2) )
+    
+    #psf.placeSpecles(image, specle, [(10,10),(-20,30),(30,-30)])
+    psf.placeSpecles(image, specle, random_numbers)
     plotslow.image(image)
     
     #plotfast.compare([sims,on_skies,speclers])
