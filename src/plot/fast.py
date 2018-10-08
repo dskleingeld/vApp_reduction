@@ -66,7 +66,7 @@ class compareWindow(pg.GraphicsWindow):
             vb.autoRange()
             self.images.append(img)
         
-        self.setWindowTitle(titles_list[0][2])
+        #self.setWindowTitle(titles_list[0][2])
         #Fixme
         # if len(titles_list[0]) == len(self.images):
             # #l.nextRow()
@@ -87,7 +87,7 @@ class compareWindow(pg.GraphicsWindow):
         if self.plotCounter > min([len(i) for i in self.data_list])-1:
             self.plotCounter = 0
 
-        self.setWindowTitle(self.titles_list[self.plotCounter][2])            
+        #self.setWindowTitle(self.titles_list[self.plotCounter][2])            
         for (img, array, kwargs) in zip(self.images,self.data_list, self.kwargs_list):
             img.setImage(array[self.plotCounter], **kwargs)
 
@@ -97,8 +97,7 @@ def compare(data, titles=[]):
     
     kwargs_list = [
       {"levels": (0,0.01)},
-      {"levels": (0,8000)},
-      {}]
+      {"levels": (0,8000)},]
       
     view = compareWindow(data, kwargs_list=kwargs_list, size=(1800,800), titles_list=titles)
     
