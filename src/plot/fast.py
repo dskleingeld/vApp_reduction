@@ -40,8 +40,10 @@ class compareWindow(pg.GraphicsWindow):
         self.data_list = data_list
         self.titles_list = titles_list
         
-        if (kwargs_list == None):
+        if not isinstance(kwargs_list, list):
             self.kwargs_list = [{} for i in data_list]
+        elif len(kwargs_list) != len(data_list):
+            self.kwargs_list = kwargs_list + [{}]*(len(data_list) - len(kwargs_list) )
         else:
             self.kwargs_list = kwargs_list
         
@@ -51,16 +53,15 @@ class compareWindow(pg.GraphicsWindow):
         
         #array is not a good name FIXME
         for (i, (array,kwargs)) in enumerate(zip(data_list,kwargs_list)):
-            
-            if not isinstance(kwargs, dict):
-                kwargs_list[i] = {}
-                kwargs = {}
-            
+
+            print(array)            
             if not isinstance(array, list):
                 data_list[i] = [array]
                 array = [array]
                 
-            vb = l.addViewBox(lockAspect=True)                
+            vb = l.addViewBox(lockAspect=True)
+            
+            #print(array,kwargs)                
             img = pg.ImageItem(array[0], **kwargs)
             vb.addItem(img)
             vb.autoRange()
@@ -97,7 +98,7 @@ def compare(data, titles=[]):
     
     kwargs_list = [
       {"levels": (0,0.01)},
-      {"levels": (0,8000)},]
+      {"levels": (0,8000)},{}]
       
     view = compareWindow(data, kwargs_list=kwargs_list, size=(1800,800), titles_list=titles)
     
