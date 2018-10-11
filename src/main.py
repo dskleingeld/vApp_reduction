@@ -111,7 +111,7 @@ if __name__ == "__main__":
         plotfast.compare([[image_clean,image_withSpecles]]  )    
     
     image_clean = psf.get_clean()  
-    roll_psf_fft(image_clean)
+    image_withSpecles = place_specles(image_clean)
     
     ########################TESTING###################
     
