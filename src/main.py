@@ -108,10 +108,24 @@ if __name__ == "__main__":
 
     def place_specles(image):
         image_withSpecles = psf.add_specles(image_clean)
-        plotfast.compare([[image_clean,image_withSpecles]]  )    
+        #plotfast.compare([[image_clean,image_withSpecles]]  )    
+        plotfast.image(image_withSpecles)
+        #plotslow.image(image_withSpecles)
+
+    def compare():
+        image_clean = psf.get_clean()      
+        sims = []       
+        for i in range(1,100):
+            image_withSpecles = psf.add_specles(image_clean)
+            sims.append(image_withSpecles)
     
-    image_clean = psf.get_clean()  
-    image_withSpecles = place_specles(image_clean)
+        on_skies = psf.get_on_sky(len(sims))
+        plotfast.image(sims[0])
+        plotfast.compare([sims,on_skies])
+    
+    compare()
+    #image_clean = psf.get_clean()  
+    #image_withSpecles = place_specles(image_clean)
     
     ########################TESTING###################
     

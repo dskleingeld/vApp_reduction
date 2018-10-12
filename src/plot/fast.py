@@ -54,7 +54,7 @@ class compareWindow(pg.GraphicsWindow):
         #array is not a good name FIXME
         for (i, (array,kwargs)) in enumerate(zip(data_list,kwargs_list)):
 
-            print(array)            
+            #print(array)            
             if not isinstance(array, list):
                 data_list[i] = [array]
                 array = [array]
