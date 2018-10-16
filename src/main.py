@@ -82,7 +82,7 @@ if __name__ == "__main__":
         for (i, path) in enumerate(glob.glob("../specler_images/*.png")
         +glob.glob("../specler_images/*.jpg")
         +glob.glob("../specler_images/*.gif") ):
-            (simulated, specler) = psf.apply_specles(clean_sim, path)
+            (simulated, specler) = psf.apply_specles_from_path(clean_sim, path)
             sims.append(simulated)
             speclers.append(specler)
             paths.append(path)
@@ -95,7 +95,7 @@ if __name__ == "__main__":
         plotfast.compare([sims,on_skies,speclers],titles=titles)
 
     def roll_psf_fft(clean_sim):
-        image = psf.load_black_and_white(clean_sim.shape, "../specler_images/three.jpg")
+        image = psf.load_black_and_white(clean_sim.shape, "../specler_images/two.gif")
         sims = []
         speclers = []
         for i in range(1,100):
@@ -123,9 +123,23 @@ if __name__ == "__main__":
         plotfast.image(sims[0])
         plotfast.compare([sims,on_skies])
     
-    compare()
-    #image_clean = psf.get_clean()  
+
+    #compare()
+    image_clean = psf.get_clean()  
+    #roll_psf_fft(image_clean)
+    #modify_psf(image_clean)
     #image_withSpecles = place_specles(image_clean)
+    
+    spectrum = psf.get_spectrum(image_clean)
+    phase = psf.phase_from_spectrum(spectrum)
+    magnitude = psf.magnitude_from_spectrum(spectrum)
+    
+    spectrum = psf.spectrum_from_phase(phase, magnitude)
+    org = psf.org_from_spectrum(spectrum)
+    
+    plotfast.image(phase )
+    plotfast.image(org )
+    
     
     ########################TESTING###################
     

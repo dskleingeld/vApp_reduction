@@ -28,3 +28,15 @@ def apply_specles(in_data, in_specler):
     out_data = np.fft.ifft2(Fdata).real
     #cant plot the imaginary part so "cast to real"
     return(out_data, in_specler)
+
+def apply_specles_from_path(in_data, path):
+    Fdata = np.fft.fft2(in_data)
+    
+    #specler = field(Fdata.shape, sin2d)
+    #specler = box(Fdata.shape)*0.8
+    specler = load_black_and_white(in_data.shape, path)
+    Fdata += Fdata * specler
+    
+    out_data = np.fft.ifft2(Fdata).real
+    #cant plot the imaginary part so "cast to real"
+    return(out_data, specler)

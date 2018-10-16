@@ -28,3 +28,26 @@ def get_on_sky(length):
             hdulist.append(hdul[0].data[i])
         return hdulist
 
+def get_spectrum(clean):
+    z = np.fft.fft2(clean)
+    z = np.fft.fftshift(z)
+    return z
+
+def phase_from_spectrum(spectrum):
+    phase = np.arctan2(np.imag(spectrum), np.real(spectrum))
+    return phase
+
+def magnitude_from_spectrum(spectrum):
+    real = np.abs(spectrum)    
+    return real
+
+def spectrum_from_phase(phase, magnitude):
+    real = magnitude * np.cos(phase)
+    imag = magnitude * np.sin(phase)
+    return real + imag
+
+
+def org_from_spectrum(spectrum):
+    spectrum = np.fft.ifftshift(spectrum)
+    a = np.real(np.fft.fft2(spectrum) )
+    return a
