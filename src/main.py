@@ -76,7 +76,6 @@ if __name__ == "__main__":
     def modify_psf(clean_sim):
         sims = []
         speclers = []
-        
         paths = []
         
         for (i, path) in enumerate(glob.glob("../specler_images/*.png")
@@ -123,23 +122,61 @@ if __name__ == "__main__":
         plotfast.image(sims[0])
         plotfast.compare([sims,on_skies])
     
-
-    #compare()
+    def change_phase():
+        spectrum = psf.get_spectrum(image_clean)
+        phase = psf.phase_from_spectrum(spectrum)
+        magnitude = psf.magnitude_from_spectrum(spectrum)
+        # spectrum = psf.spectrum_from_phase(phase, magnitude)
+        # org = psf.org_from_spectrum(spectrum)
+        
+        image_clean = psf.get_clean()      
+        sims = []       
+        for i in range(1,10):
+            modded_phase = phase*psf.circle(phase.shape, radius=1/i)
+            spectrum = psf.spectrum_from_phase(modded_phase, magnitude)
+            sim = psf.org_from_spectrum(spectrum)
+            sims.append(sim)
+        
+        on_skies = psf.get_on_sky(len(sims))
+        plotfast.image(sims[0])
+        plotfast.compare([sims,on_skies])   
+    
+    def add_to_phase():
+        spectrum = psf.get_spectrum(image_clean)
+        phase = psf.phase_from_spectrum(spectrum)
+        magnitude = psf.magnitude_from_spectrum(spectrum)
+        image_clean = psf.get_clean()      
+        speclers = []
+        sims = []       
+        for (i, path) in enumerate(glob.glob("../specler_images/*.png")
+        +glob.glob("../specler_images/*.jpg")
+        +glob.glob("../specler_images/*.gif") ):
+            modded_phase, specler = psf.add_image(phase, path)
+            spectrum = psf.spectrum_from_phase(modded_phase, magnitude)
+            sim = psf.org_from_spectrum(spectrum)
+            sims.append(sim)
+            speclers.append(specler)
+        
+        on_skies = psf.get_on_sky(len(sims))
+        plotfast.image(sims[0])
+        plotfast.compare([sims,on_skies])     
+    
     image_clean = psf.get_clean()  
+    def toplot(funct_args, modifiers_list):
+        one, two = psf.place_circle_grid(funct_args,radius=modifiers_list[0], spacing=modifiers_list[1])
+        return [one,two]
+
+    plotfast.plotfunct(toplot, image_clean, [1,1])
+    #compare()
+    #image_clean = psf.get_clean()  
+    
+    #spectrum = psf.get_spectrum(image_clean)
+    #phase = psf.phase_from_spectrum(spectrum)
+    #plotfast.image(phase);
+    
     #roll_psf_fft(image_clean)
     #modify_psf(image_clean)
-    #image_withSpecles = place_specles(image_clean)
-    
-    spectrum = psf.get_spectrum(image_clean)
-    phase = psf.phase_from_spectrum(spectrum)
-    magnitude = psf.magnitude_from_spectrum(spectrum)
-    
-    spectrum = psf.spectrum_from_phase(phase, magnitude)
-    org = psf.org_from_spectrum(spectrum)
-    
-    plotfast.image(phase )
-    plotfast.image(org )
-    
+    #image_withSpecles = place_specles(image_clean)    
     
     ########################TESTING###################
     

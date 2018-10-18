@@ -46,7 +46,6 @@ def spectrum_from_phase(phase, magnitude):
     imag = magnitude * np.sin(phase)
     return real + imag
 
-
 def org_from_spectrum(spectrum):
     spectrum = np.fft.ifftshift(spectrum)
     a = np.real(np.fft.fft2(spectrum) )
