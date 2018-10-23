@@ -2,6 +2,7 @@ from PIL import Image
 from scipy.misc import imresize
 import numpy as np
 import skimage.draw as sk
+from skimage.filters import gaussian
 
 def normalise(array):
     mins = np.min(array)
@@ -83,7 +84,7 @@ def place_random_circles(source: np.ndarray):
     
     return np.fft.ifft2(source).real, A
 
-def place_circle_grid(source: np.ndarray, radius=4, spacing=2):
+def place_circle_grid(source: np.ndarray, radius=4, spacing=2, blur=0):
     numb_in_x = int(source.shape[0] / (radius*2+spacing) ) 
     numb_in_y = int(source.shape[1] / (radius*2+spacing) )
     
@@ -96,6 +97,7 @@ def place_circle_grid(source: np.ndarray, radius=4, spacing=2):
         rr, cc = sk.circle(x, y, radius, shape=source.shape )
         A[rr,cc] = 1    
 
+    A = gaussian(A,sigma=blur)
     source = np.fft.fft2(source)
     source *= A
     source = np.fft.ifft2(source).real

@@ -148,13 +148,24 @@ class plotFunction(pg.GraphicsWindow):
             QtGui.QApplication.quit()
         elif (event.key()==QtCore.Qt.Key_1):
             if len(self.modifiers_list)>0:
-                self.modifiers_list[0] += self.modifiers_list[0]
+                self.modifiers_list[0] = self.modifiers_list[0] +1
         elif (event.key()==QtCore.Qt.Key_2):
-            if len(self.modifiers_list)>1:
-                self.modifiers_list[1] += self.modifiers_list[1]
+            if len(self.modifiers_list)>0:
+                self.modifiers_list[0] = self.modifiers_list[0] -1
         elif (event.key()==QtCore.Qt.Key_3):
+            if len(self.modifiers_list)>1:
+                self.modifiers_list[1] = self.modifiers_list[1] +1
+        elif (event.key()==QtCore.Qt.Key_4):
+            if len(self.modifiers_list)>1:
+                self.modifiers_list[1] = self.modifiers_list[1] -1
+        elif (event.key()==QtCore.Qt.Key_5):
             if len(self.modifiers_list)>2:
-                self.modifiers_list[2] += self.modifiers_list[2]
+                self.modifiers_list[2] = self.modifiers_list[2] +1
+        elif (event.key()==QtCore.Qt.Key_6):
+            if len(self.modifiers_list)>2:
+                self.modifiers_list[2] = self.modifiers_list[2] -1
+ 
+        print("new paramaters: ",self.modifiers_list)
         self.reRender()
 
 def plotfunct(funct, args, modifiers_list):
@@ -163,7 +174,7 @@ def plotfunct(funct, args, modifiers_list):
     
     kwargs_list = [
       {"levels": (0,0.012)},
-      {"levels": (0,8000)},{}]
+      {"levels": (0,1)},{}]
       
     view = plotFunction(funct, args, modifiers_list, kwargs_list=kwargs_list, size=(1800,800))
     
