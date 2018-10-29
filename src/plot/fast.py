@@ -108,7 +108,7 @@ def compare(data, titles=[]):
 
 class plotFunction(pg.GraphicsWindow):
 
-    def __init__(self, funct, funct_args, modifiers_list, kwargs_list, size=(800,600), *args, **kwargs):
+    def __init__(self, funct, funct_args, modifiers_list, modifiers_magnitude, kwargs_list, size=(800,600), *args, **kwargs):
         super().__init__(*args, **kwargs)
         
         l = pg.GraphicsLayout(border=(100,100,100))
@@ -118,6 +118,7 @@ class plotFunction(pg.GraphicsWindow):
         self.resize(size[0],size[1])
   
         self.modifiers_list = modifiers_list
+        self.modifiers_magnitude = modifiers_magnitude
         self.funct_args = funct_args
         self.funct = funct
 
@@ -148,27 +149,39 @@ class plotFunction(pg.GraphicsWindow):
             QtGui.QApplication.quit()
         elif (event.key()==QtCore.Qt.Key_1):
             if len(self.modifiers_list)>0:
-                self.modifiers_list[0] = self.modifiers_list[0] +1
+                self.modifiers_list[0] = self.modifiers_list[0] +self.modifiers_magnitude[0]
         elif (event.key()==QtCore.Qt.Key_2):
             if len(self.modifiers_list)>0:
-                self.modifiers_list[0] = self.modifiers_list[0] -1
+                self.modifiers_list[0] = self.modifiers_list[0] -self.modifiers_magnitude[0]
         elif (event.key()==QtCore.Qt.Key_3):
             if len(self.modifiers_list)>1:
-                self.modifiers_list[1] = self.modifiers_list[1] +1
+                self.modifiers_list[1] = self.modifiers_list[1] +self.modifiers_magnitude[1]
         elif (event.key()==QtCore.Qt.Key_4):
             if len(self.modifiers_list)>1:
-                self.modifiers_list[1] = self.modifiers_list[1] -1
+                self.modifiers_list[1] = self.modifiers_list[1] -self.modifiers_magnitude[1]
         elif (event.key()==QtCore.Qt.Key_5):
             if len(self.modifiers_list)>2:
-                self.modifiers_list[2] = self.modifiers_list[2] +1
+                self.modifiers_list[2] = self.modifiers_list[2] +self.modifiers_magnitude[2]
         elif (event.key()==QtCore.Qt.Key_6):
             if len(self.modifiers_list)>2:
-                self.modifiers_list[2] = self.modifiers_list[2] -1
- 
+                self.modifiers_list[2] = self.modifiers_list[2] -self.modifiers_magnitude[2]
+        elif (event.key()==QtCore.Qt.Key_7):
+            if len(self.modifiers_list)>3:
+                self.modifiers_list[3] = self.modifiers_list[3] +self.modifiers_magnitude[3]
+        elif (event.key()==QtCore.Qt.Key_8):
+            if len(self.modifiers_list)>3:
+                self.modifiers_list[3] = self.modifiers_list[3] -self.modifiers_magnitude[3]
+        elif (event.key()==QtCore.Qt.Key_9):
+            if len(self.modifiers_list)>4:
+                self.modifiers_list[4] = self.modifiers_list[4] +self.modifiers_magnitude[4]
+        elif (event.key()==QtCore.Qt.Key_0):
+            if len(self.modifiers_list)>4:
+                self.modifiers_list[4] = self.modifiers_list[4] -self.modifiers_magnitude[4]
+
         print("new paramaters: ",self.modifiers_list)
         self.reRender()
 
-def plotfunct(funct, args, modifiers_list):
+def plotfunct(funct, args, modifiers_list,modifiers_magnitude):
 
     #TODO do some sanity checks on input
     
@@ -176,7 +189,7 @@ def plotfunct(funct, args, modifiers_list):
       {"levels": (0,0.012)},
       {"levels": (0,1)},{}]
       
-    view = plotFunction(funct, args, modifiers_list, kwargs_list=kwargs_list, size=(1800,800))
+    view = plotFunction(funct, args, modifiers_list, modifiers_magnitude, kwargs_list=kwargs_list, size=(1800,800))
     
     ## Start Qt event loop/show the plot
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):

@@ -55,15 +55,14 @@ def add_image(in_data, path):
 #coord is coordinate relative to left bottem corner
 # specle needs to have 4x the number of pixels then the source
 # TODO: deal with uneven input
-def place_random_circles(source: np.ndarray):
+def place_random_circles(source: np.ndarray, intensity: float=1, scalefactor: float=1, numb_of_specles:int = 50):
     radius = 0.05 #radius of background to sample to determine brightness 
     source = np.fft.fft2(source)
     
-    source_middle_x = source.shape[0]//2
-    source_middle_y = source.shape[1]//2
+    source_middle_x = source.shape[0]//2 *scalefactor
+    source_middle_y = source.shape[1]//2 *scalefactor
     
     index = 0
-    numb_of_specles = 50
     y = np.random.normal(loc=source_middle_y, scale=source_middle_y,size=(numb_of_specles) )
     x = np.random.normal(loc=source_middle_x, scale=source_middle_x,size=(numb_of_specles) )
     coords = np.stack((x, y), axis=-1)
@@ -80,11 +79,11 @@ def place_random_circles(source: np.ndarray):
         rr, cc = sk.circle(x_pos, y_pos, radius*min(source_middle_x,source_middle_y), shape=source.shape )
         A[rr,cc] = 1
      
-    source *= A
+    B = source*A*intensity + (1-intensity)*source
     
-    return np.fft.ifft2(source).real, A
+    return np.fft.ifft2(B).real, A
 
-def place_circle_grid(source: np.ndarray, radius=4, spacing=2, blur=0):
+def place_circle_grid(source: np.ndarray, radius=4, spacing=2, blur=0, roll_x: int =0, roll_y: int=0, intensity: float=1):
     numb_in_x = int(source.shape[0] / (radius*2+spacing) ) 
     numb_in_y = int(source.shape[1] / (radius*2+spacing) )
     
@@ -97,9 +96,39 @@ def place_circle_grid(source: np.ndarray, radius=4, spacing=2, blur=0):
         rr, cc = sk.circle(x, y, radius, shape=source.shape )
         A[rr,cc] = 1    
 
+    A = np.roll(A, roll_x, axis=0)
+    A = np.roll(A, roll_y, axis=1)
     A = gaussian(A,sigma=blur)
-    source = np.fft.fft2(source)
-    source *= A
-    source = np.fft.ifft2(source).real
     
-    return source, A
+    source = np.fft.fft2(source)
+    B = source*A*intensity + (1-intensity)*source
+    #source + source* A*intensity
+    B = np.fft.ifft2(B).real
+    
+    return B, A
+    
+def place_circle_grid_randomshift(source: np.ndarray, radius=4, spacing=2, blur=0, shift: int=0, intensity: float=1):
+    numb_in_x = int(source.shape[0] / (radius*2+spacing) ) 
+    numb_in_y = int(source.shape[1] / (radius*2+spacing) )
+    
+    x = np.linspace(radius, source.shape[0]+radius, numb_in_x, endpoint=False, dtype=int)
+    y = np.linspace(radius, source.shape[1]+radius, numb_in_y, endpoint=False, dtype=int)
+    xv, yv = np.meshgrid(x, y)
+
+    A = np.zeros(source.shape,dtype=float)   
+    for (x, y) in zip(xv.flat, yv.flat):
+        rr, cc = sk.circle(x, y, radius, shape=source.shape )
+        A[rr,cc] = 1    
+
+
+    np.random.seed(seed=shift)
+    A = np.roll(A, np.random.random_integers(20), axis=0)
+    A = np.roll(A, np.random.random_integers(20), axis=1)
+    A = gaussian(A,sigma=blur)
+    
+    source = np.fft.fft2(source)
+    B = source*A*intensity + (1-intensity)*source
+    #source + source* A*intensity
+    B = np.fft.ifft2(B).real
+    
+    return B, A

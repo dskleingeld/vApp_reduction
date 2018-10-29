@@ -38,7 +38,7 @@ from scipy import signal
 
 if __name__ == "__main__":
     
-    disk_properties = disk.properties(50)
+    disk_properties = disk.properties(1e3, with_star=False,inner_radius=1e2,outer_radius=5e2)
     clean_disk = disk.from_properties(disk_properties, resolution=200)
     
     clean_psf = psf.get_clean()  
