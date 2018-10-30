@@ -38,22 +38,22 @@ from scipy import signal
 
 if __name__ == "__main__":
     
-    disk_properties = disk.properties(1e3, with_star=False,inner_radius=1e2,outer_radius=5e2)
+    disk_properties = disk.properties(6, with_star=False,inner_radius=1,outer_radius=5, rotation=45, inclination=70)
     clean_disk = disk.from_properties(disk_properties, resolution=200)
     
     clean_psf = psf.get_clean()  
     #TODO specler/abberations (load/gen new?)
     #print(clean_psf)
     #print(clean_disk)
-    simulated_output = signal.convolve2d(clean_disk,clean_psf)
+    #simulated_output = signal.convolve2d(clean_disk,clean_psf)
     
     #print(simulated_output)
-    #plotfast.image(clean_disk)
+    plotfast.image(clean_disk)
 
-    from matplotlib import pyplot as plt
-    plt.clf()
-    plt.imshow(simulated_output, interpolation='none', origin = 'lower',
-               cmap = plt.get_cmap('afmhot'))
-    plt.colorbar(label = 'Relative luminosity')
-    plt.title('Intensity profile')
-    plt.show()
+    # from matplotlib import pyplot as plt
+    # plt.clf()
+    # plt.imshow(simulated_output, interpolation='none', origin = 'lower',
+               # cmap = plt.get_cmap('afmhot'))
+    # plt.colorbar(label = 'Relative luminosity')
+    # plt.title('Intensity profile')
+    # plt.show()
