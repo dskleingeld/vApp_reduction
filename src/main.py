@@ -30,30 +30,30 @@
         #something faster and better for experimenting
 
 import psf.from_simulated_psf as psf
-import disk
+import disk as d
 import plot.fast as plotfast
 import plot.slow as plotslow
-
 from scipy import signal
+from hcipy import * 
 
+    #https://github.com/spacetelescope/asdf
+def adi(angular_seperation, time_between_exposures, numb):
+    
+    #set disk properties
+    clean_disk = d.disk(10, with_star=False, inner_radius=1,
+                 outer_radius=3, rotation=135, inclination=70)
+    
+    #create disk cube
+    #disk_cube = d.gen_cube(clean_disk, angular_seperation, numb)
+    
+    #lazily create psf cube
+    psf_cube = psf.calc_cube() #fix in ultra ugly way
+    
+    #lazily convolve signals
+    image_cube = process_clean(psf_cube, disk_cude)
+    
+    #do adi
+    #plotfast.image(clean_disk)
+    
 if __name__ == "__main__":
-    
-    disk_properties = disk.properties(6, with_star=False,inner_radius=1,outer_radius=5, rotation=45, inclination=70)
-    clean_disk = disk.from_properties(disk_properties, resolution=200)
-    
-    clean_psf = psf.get_clean()  
-    #TODO specler/abberations (load/gen new?)
-    #print(clean_psf)
-    #print(clean_disk)
-    #simulated_output = signal.convolve2d(clean_disk,clean_psf)
-    
-    #print(simulated_output)
-    plotfast.image(clean_disk)
-
-    # from matplotlib import pyplot as plt
-    # plt.clf()
-    # plt.imshow(simulated_output, interpolation='none', origin = 'lower',
-               # cmap = plt.get_cmap('afmhot'))
-    # plt.colorbar(label = 'Relative luminosity')
-    # plt.title('Intensity profile')
-    # plt.show()
+    adi(10, 0.7, 10)

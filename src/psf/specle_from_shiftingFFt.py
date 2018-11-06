@@ -64,6 +64,7 @@ def place_random_circles(source: np.ndarray, radius=4, spacing=2, blur=0, roll_x
     xv, yv = np.meshgrid(x, y)
 
     A = np.zeros(source.shape,dtype=float)   
+    np.random.seed(seed=radius)
     for (x, y) in zip(xv.flat, yv.flat):
         rr, cc = sk.circle(
                  x+np.random.normal(0, spacing), 

@@ -44,11 +44,8 @@ def update(args):
     psf_cube[time] = psf
     pbar.update()
 
-#amplitude_file = 'SCExAO_vAPP_amplitude_resampled.fits'
-#phase_file     = 'SCExAO_vAPP_phase_resampled.fits'
 amplitude_file = os.getcwd()[:-3]+"data/SCExAO_vAPP_amplitude_resampled.fits"
 phase_file     = os.getcwd()[:-3]+"data/SCExAO_vAPP_phase_resampled.fits"
-
 
 #get paramaters from files
 params = sys.argv
@@ -97,7 +94,6 @@ pupil_wf_PSF_3 = Wavefront(amplitude, wavelength) # leakage
 psf_cube = {"fried_parameter": fried_parameter, # meter //increased from 0.2 to reduce atmos effects
             "time_between": time_between,
             "numb": numb }
-
 times = np.linspace(0,time_between,numb)
 pbar = tqdm(total=len(times))
 #https://github.com/tqdm/tqdm/issues/484
@@ -110,6 +106,7 @@ if __name__ == '__main__':
     pool.join()
     pbar.close()
 
+    filepath = "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
     target = AsdfFile(psf_cube)
-    target.write_to('psf_cube.asdf', all_array_compression='zlib')
+    target.write_to(filepath, all_array_compression='zlib')
 
