@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from pyqtgraph.Qt import QtCore, QtGui
+from matplotlib import cm #for using matplotlib colormaps
 import pyqtgraph as pg
 import sys
 
@@ -18,7 +19,11 @@ def image(data):
     win.show()
     win.setWindowTitle('testplot')
 
-    imv.setImage(data, levels=(0,0.012))
+    imv.setImage(data)
+    
+    mpl_colormap = cm.get_cmap("afmhot")  # cm.get_cmap("CMRmap")
+    mpl_colormap._init()
+
 
     ## Start Qt event loop unless running in interactive mode.
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):

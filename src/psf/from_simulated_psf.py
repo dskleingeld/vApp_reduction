@@ -2,9 +2,43 @@ import numpy as np
 import astropy.io.fits as fits
 import skimage.draw as sk
 import itertools
+from multiprocess import Pool
+import os
 
-from .specle_from_shiftingFFt import *
-from .specle_from_placing2dSincs import *
+from asdf import AsdfFile, Stream
+
+#from .specle_from_shiftingFFt import *
+#from .specle_from_placing2dSincs import *
+
+import subprocess
+def myrun(cmd):
+    """from http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
+    """
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout = []
+    while True:
+        line = p.stdout.readline()
+        stdout.append(line)
+        print(line),
+        if line == '' and p.poll() != None:
+            break
+    return ''.join(stdout)
+
+def calc_cube(fried_parameter = 4, time_between = 0.7, numb = 30):
+    filepath = "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
+    if os.path.exists(filepath): 
+        return AsdfFile.open(filepath)
+    else:
+        path =  os.getcwd()+"/psf/generate_vAPP_cube.py"
+        params = [str(fried_parameter), str(time_between), str(numb)]
+        cmd = ["python3", path, *params]
+        print(cmd)
+        myrun(cmd)
+        return AsdfFile.open(filepath)
+
+def process_clean(psf_cube, image_cube):
+    with Pool(processes=16) as pool:
+        return pool.map(signal.convolve2d, [psf_cube, disk_cube])
 
 #test code
 def get_clean():
