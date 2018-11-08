@@ -1,11 +1,19 @@
 import numpy as np
+from scipy import signal
 import astropy.io.fits as fits
 import skimage.draw as sk
 import itertools
+import pickle
+
 from multiprocess import Pool
+from tqdm import tqdm
+from functools import partial
 import os
+import glob
+
 
 from asdf import AsdfFile, Stream
+import asdf
 
 #from .specle_from_shiftingFFt import *
 #from .specle_from_placing2dSincs import *
@@ -24,21 +32,71 @@ def myrun(cmd):
             break
     return ''.join(stdout)
 
-def calc_cube(fried_parameter = 4, time_between = 0.7, numb = 30):
+def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
     filepath = "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
-    if os.path.exists(filepath): 
-        return AsdfFile.open(filepath)
+    
+    #expand to only demand numb =< numb on disk
+    if os.path.exists(filepath):
+        
+        tree = AsdfFile.open(filepath, copy_arrays=True).tree
+        tree_keys = tree.keys()
+        psf_params = sorted(list(filter(lambda key: isinstance(key, float), tree_keys)))
+        psf_cube = list(map(lambda param: np.copy(tree[param]), psf_params))
+        return psf_cube, psf_params
     else:
         path =  os.getcwd()+"/psf/generate_vAPP_cube.py"
         params = [str(fried_parameter), str(time_between), str(numb)]
         cmd = ["python3", path, *params]
         print(cmd)
         myrun(cmd)
-        return AsdfFile.open(filepath)
+        
+        tree = AsdfFile.open(filepath).tree
+        tree_keys = tree.keys()
+        psf_params = sorted(list(filter(lambda key: isinstance(key, float), tree_keys)))
+        psf_cube = list(map(lambda param: tree[param], psf_params))
+        
+        return psf_cube, psf_params
+ 
+def conv(psf_cube, disk_cube):
+    len_side = int(np.sqrt(psf_cube.shape))
+    psf_cube = psf_cube.reshape(len_side,len_side)
+    disk_cube = disk_cube.reshape(len_side,len_side)
+    res = signal.convolve2d(psf_cube, disk_cube)
 
-def process_clean(psf_cube, image_cube):
-    with Pool(processes=16) as pool:
-        return pool.map(signal.convolve2d, [psf_cube, disk_cube])
+    return res
+
+## note: input comes from async `calc_psf`
+def update(pbar, img_cube, res):
+    img_cube.append(res)
+    pbar.update()
+
+def convolve(psf_cube, disk_cube, psf_params, disk_params):
+    img_params = list(zip(psf_params, disk_params))
+    cached_results = sorted(glob.glob('?.params'))
+    for params_path in cached_results:
+        with open(params_path, "rb") as fp:
+            params = pickle.load(fp)
+            if params == img_params:
+                print("loading old result from disk")
+                img_cube = np.load(params_path[:-len('.params')]+'.data.npz')["img_cube"]
+                return img_cube, img_params 
+                
+    img_cube = []
+    print("recalculating convolution")
+    pbar = tqdm(total=len(img_params))
+    pool = Pool(processes=16)
+    callback = partial(update, pbar, img_cube)
+    for psf, disk in zip(psf_cube, disk_cube):
+        pool.apply_async(conv, args=(psf, disk), callback=callback)
+    pool.close()
+    pool.join()
+    pbar.close()
+    
+    highest_numb = len(cached_results)
+    with open(str(highest_numb)+'.params', "wb") as fp: pickle.dump(img_params, fp)
+    np.savez_compressed(str(highest_numb)+'.data.npz', img_cube=img_cube)
+    
+    return img_cube, img_params
 
 #test code
 def get_clean():

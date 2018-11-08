@@ -44,8 +44,8 @@ def update(args):
     psf_cube[time] = psf
     pbar.update()
 
-amplitude_file = os.getcwd()[:-3]+"data/SCExAO_vAPP_amplitude_resampled.fits"
-phase_file     = os.getcwd()[:-3]+"data/SCExAO_vAPP_phase_resampled.fits"
+amplitude_file = os.getcwd()[:-7]+"data/SCExAO_vAPP_amplitude_resampled.fits"
+phase_file     = os.getcwd()[:-7]+"data/SCExAO_vAPP_phase_resampled.fits"
 
 #get paramaters from files
 params = sys.argv
@@ -54,7 +54,7 @@ if len(params) == 3:
 else:
     fried_parameter = 4 # meter //increased from 0.2 to reduce atmos effects
     time_between = 0.7
-    numb = 30
+    numb = 10
 
 
 
@@ -91,9 +91,7 @@ pupil_wf_PSF_1 = Wavefront(amplitude * np.exp(1j * phase), wavelength) # coronag
 pupil_wf_PSF_2 = Wavefront(amplitude * np.exp(-1j * phase), wavelength) # coronagraphic PSF 2
 pupil_wf_PSF_3 = Wavefront(amplitude, wavelength) # leakage
 
-psf_cube = {"fried_parameter": fried_parameter, # meter //increased from 0.2 to reduce atmos effects
-            "time_between": time_between,
-            "numb": numb }
+psf_cube = {}
 times = np.linspace(0,time_between,numb)
 pbar = tqdm(total=len(times))
 #https://github.com/tqdm/tqdm/issues/484

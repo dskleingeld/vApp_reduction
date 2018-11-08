@@ -52,6 +52,9 @@ class disk:
             print("inner_rad is nul")
             field[(XX == 0) & (YY == 0)] = field.max()
         
+        if self.with_star:
+            field[int(field.shape[0]/2), int(field.shape[1]/2)] = self.F_star
+        
         if False: #debugplot
             from matplotlib import pyplot as plt
             plt.clf()
@@ -62,24 +65,37 @@ class disk:
             plt.show()
         
         self.field = field        
+    
+    def to_list(self):
+        return [self.rotation, self.field]
         
-    def add_star(self):
-        field = self.field.copy()
-        field[int(field.shape[0]/2), int(field.shape[1]/2)] = self.F_star
-        return field
+    def paramslist(self):
+        return [self.F_star, self.R_star, self.L, self.inclination, self.inner_radius, 
+                self.outer_radius, self.with_star, self.resolution]
 
 def rotate(clean_disk, theta):
     rotated_disk = deepcopy(clean_disk)
     rotated_disk.rotation += to_radians(theta)
     rotated_disk.render()
-    return rotated_disk
+    return rotated_disk.to_list()
 
-def gen_cube(clean_disk, angular_sep, num):
+def gen_cube(num, clean_disk, angular_sep):
+    print("generating disk cube")
+    params = clean_disk.paramslist()
     angles = np.linspace(0,angular_sep, num)
     func = partial(rotate, clean_disk)
     with Pool(processes=16) as pool:
-        return pool.map(func, angles)
-
+        cube_list = pool.map(func, angles)
+        
+    def add_disk_params(c_list):
+        rotation = c_list[0]
+        diskp = deepcopy(params)
+        diskp[-1] = rotation
+        return diskp
+        
+    cube_params = list(map(add_disk_params, cube_list))
+    disk_cube = list(map(lambda x: x[1], cube_list))
+    return disk_cube, cube_params
 
 if __name__ == "__main__":
     test = properties(10, inner_radius=4, outer_radius=9, with_star=False)
