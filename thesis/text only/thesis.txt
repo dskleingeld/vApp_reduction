@@ -1,0 +1,46 @@
+chap 1: Theory
+
+Here we discuss the vector aphodising phase plate (vApp) and proto planatary disks.
+
+The vApp /ref{paper_vApp} is a coronograph placed at the pupil of a telescope. It blocks part of the star light making it possible to observe faint objects close to a star. The vApp does this by modifing the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Thus any faint object next to the star in the now dark region becomes visible. This is done mirrored for 2 duplications of the image. Thus it does not matter where around the star the object is.
+
+We can describe what happens to light going through an optical system with its point spread function (PSF). How do we find the PSF? The Hygens-Fresnel Principle states any area can be treated as filled with coherent point sources. An optical element can change these point sources, for example an aperture allows only a small area to be filled with these point sources. To find the field at a point P at location R we sum over the infinite point sources taking into account these all have different distances to R. This is written as:
+
+hecht 10.41
+where: Y,Z are the coord of the field in the image plane
+y,z coord of the point source
+
+We only want the amplitude for the PSF thus drop the phase info (e power etc). To account for changes in phase and magnitude of the field caused by Optical instruments we including an aperture function. This results in:
+
+hecht 11.62
+here: expl vars.  
+
+hecht 11.63
+here: expl vars.  
+
+The above still depends on the distance from the screen R. We can rewrite it by subsututing Ky = kY/R and Kz = kZ/R for Y and Z. This gives the final form: 
+
+hecht 11.66
+with: expl vars
+
+Ignoring one of the dimensions this reduces to the Foerier transformation of the aperture function. Thus "the field distribution in the fraunhofer diffraction pattern is the Fourier transform of the field distrubution across the aperture (e.i., the aperture function" /cite{hecht}. 
+
+This means we can calculate the PSF of the vApp by simply foerier transforming its apperture function. The latter is given by the phase modification and apperture shape of the vApp. 
+
+
+
+The vApp:
+general intro
+psf
+    intro (fix)
+    foerier optics (finish)
+    convolve theory (write)
+specles
+    intro
+    approching
+    atmos moddeling
+
+Disks:
+general intro
+structure, rings vs spirals
+challenges

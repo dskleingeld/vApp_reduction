@@ -1,0 +1,39 @@
+Abstract
+
+chap 0: Introduction
+
+chap 1: Theory (short to the point and with lots of references for extra explanation)
+vApp
+  hyg/foer optics
+  psf
+proto planatary disks
+  rings
+  spirals
+
+chap 2: modelling
+disk (method results discussion)
+psf  (method results discussion)
+
+chap 3: data reduction
+Rdi (method results discussion)
+Adi (same)
+Pdi (same)
+
+Discussion (incl quantifying results)
+Conclusion
+
+-----
+appendici
+
+
+###############################
+notes on tone:
+see: https://www.nature.com/scitable/topicpage/effective-writing-13815989
+
+shorter = better
+no filler words,
+active voice (we made a mistake vs a mistake was made by us)
+verb tenses:
+    -past: work done, work reported, observations
+    -present: general truths like conclusions and atemporal facts (what does paper cover)
+    -future: perspective, only things that will happen in the future

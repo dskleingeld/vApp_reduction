@@ -35,8 +35,17 @@ def adi(angular_seperation, time_between_exposures, numb):
     (img_cube_with_star, img_params) = psf.convolve(psf_cube, disk_cube, psf_params, disk_params)
     
     #do adi
-    mean = np.mean(img_cube_with_star, axis=0)
+    median = np.median(img_cube_with_star, axis=0)
+    I_adi = []
+    a = 0.1; b=2; c=2
+    for i in range(b,len(img_cube_with_star)-c):    
+        I_d = img_cube_with_star[i] - median
+        I_adi.append( I_d - a*np.median(img_cube_with_star[i-b..i+c])
     
+    I_f = 0
+    for i,I in enumerate(I_adi):
+        I(i)
+        
     plotfast.image(img_cube_with_star-mean)
     
     
