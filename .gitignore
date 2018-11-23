@@ -102,3 +102,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# latex
+*.aux
+*.lot
+*.lof
+*.out
+*.bbl
+*.blg
+*.lol
+*.toc

@@ -61,7 +61,7 @@ def conv(psf_cube, disk_cube):
     len_side = int(np.sqrt(psf_cube.shape))
     psf_cube = psf_cube.reshape(len_side,len_side)
     disk_cube = disk_cube.reshape(len_side,len_side)
-    res = signal.convolve2d(psf_cube, disk_cube)
+    res = signal.convolve2d(psf_cube, disk_cube, boundary='symm', mode='same')
 
     return res
 
