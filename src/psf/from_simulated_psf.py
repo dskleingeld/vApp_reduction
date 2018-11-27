@@ -10,7 +10,7 @@ from tqdm import tqdm
 from functools import partial
 import os
 import glob
-
+import sys
 
 from asdf import AsdfFile, Stream
 import asdf
@@ -22,7 +22,7 @@ import subprocess
 def myrun(cmd):
     """from http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
     """
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout = []
     while True:
         line = p.stdout.readline()
@@ -33,7 +33,8 @@ def myrun(cmd):
     return ''.join(stdout)
 
 def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
-    filepath = "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
+    filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/"
+    filepath += "psf_cube_"+str(float(fried_parameter))+"_"+str(float(time_between))+"_"+str(int(numb))+".asdf"
     
     #expand to only demand numb =< numb on disk
     if os.path.exists(filepath):
@@ -46,9 +47,10 @@ def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
     else:
         path =  os.getcwd()+"/psf/generate_vAPP_cube.py"
         params = [str(fried_parameter), str(time_between), str(numb)]
-        cmd = ["python3", path, *params]
-        print(cmd)
-        myrun(cmd)
+        cmd = [sys.executable, path, *params]
+        print("please run: ")
+        print(' '.join(cmd))
+        #myrun(cmd)
         
         tree = AsdfFile.open(filepath).tree
         tree_keys = tree.keys()

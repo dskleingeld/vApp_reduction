@@ -44,13 +44,16 @@ def update(args):
     psf_cube[time] = psf
     pbar.update()
 
-amplitude_file = os.getcwd()[:-7]+"data/SCExAO_vAPP_amplitude_resampled.fits"
-phase_file     = os.getcwd()[:-7]+"data/SCExAO_vAPP_phase_resampled.fits"
+amplitude_file = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/SCExAO_vAPP_amplitude_resampled.fits"
+phase_file     = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/SCExAO_vAPP_phase_resampled.fits"
 
 #get paramaters from files
 params = sys.argv
-if len(params) == 3:
-    fried_parameter, time_between, numb = params
+if len(params) == 4:
+    path, fried_parameter, time_between, numb = params
+    fried_parameter = float(fried_parameter)
+    time_between = float(time_between)
+    numb = int(numb)
 else:
     fried_parameter = 4 # meter //increased from 0.2 to reduce atmos effects
     time_between = 0.7
@@ -104,7 +107,9 @@ if __name__ == '__main__':
     pool.join()
     pbar.close()
 
-    filepath = "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
+
+    filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/"
+    filepath += "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
     target = AsdfFile(psf_cube)
     target.write_to(filepath, all_array_compression='zlib')
 

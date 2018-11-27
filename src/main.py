@@ -9,25 +9,8 @@ from hcipy import *
 from scipy.stats import multivariate_normal
 
 #radius numb between 0 and 1
-def find_sub_psf_location(img, init_radius=0.3, init_rotation=45):
-    #gauss_2d(1,4)
-    
-    shape = img.shape
-    A = np.zeros(shape,dtype=float)
-    B = A.copy()
-    
-    rr, cc = sk.circle(shape[0]/2, shape[1]/2, init_radius*min(shape[0]/2, shape[1]/2) )
-    A[rr,cc] = 1
-    [A_left,A_right] = np.split(A,2)
-    [B_left,B_right] = np.split(B,2)
-    
-    left = np.vstack((A_left, B_right))
-    right = np.vstack((B_left, A_right))
-    left = ndimage.rotate(left, init_rotation)
-    right = ndimage.rotate(right, init_rotation)
-    
-    
-    #todo prepare image by cutting off one of the psf's
+def find_sub_psf_location(img):
+    #prepare image by cutting off one of the psf's
     height = img.shape[0]
     img_left = img.copy()
     img_right = img.copy()
@@ -35,20 +18,41 @@ def find_sub_psf_location(img, init_radius=0.3, init_rotation=45):
     img_left[:,:int(height/2)] = 0
     img_right[:,int(height/2):] = 0
     
-    left_psf_loc = np.unravel_index(np.argmax(img_left),shape)
-    right_psf_loc = np.unravel_index(np.argmax(img_right),shape)
+    #find maxima
+    left_psf_loc = np.unravel_index(np.argmax(img_left),img.shape)
+    right_psf_loc = np.unravel_index(np.argmax(img_right),img.shape)
     
-    #show location of psf's
+    #DEBUG show location of psf's
     #img[left_psf_loc] = 100
     #img[right_psf_loc] = 100
     #plotfast.image(img)
+    shape = img.shape
+    A = np.zeros(shape,dtype=float)
+    B = A.copy()
+    
     return (left_psf_loc, right_psf_loc)
 
-def extract_psfs(img, left_loc, right_loc):
-
+#if error radius might be to large
+def extract_psfs(img, left_loc, right_loc, init_radius=0.25):
+    x_start = int(left_loc[0] - init_radius*img.shape[0])
+    x_stop = int(left_loc[0] + init_radius*img.shape[0])
+    
+    y_start = int(left_loc[1] - init_radius*img.shape[1])
+    y_stop = int(left_loc[1] + init_radius*img.shape[1])
+    
+    #copy psf's
+    left_psf = img[x_start:x_stop, y_start:y_stop]
+    
+    x_start = int(right_loc[0] - init_radius*img.shape[0])
+    x_stop = int(right_loc[0] + init_radius*img.shape[0])
+    
+    y_start = int(right_loc[1] - init_radius*img.shape[1])
+    y_stop = int(right_loc[1] + init_radius*img.shape[1])
+    
+    right_psf = img[x_start:x_stop, y_start:y_stop]  
     return (left_psf, right_psf)
 
-def adi(angular_seperation, time_between_exposures, numb):
+def gen_adi_dataset(angular_seperation, time_between_exposures, numb):
     
     #set disk properties
     disk_without_star = d.disk(10, with_star=False, inner_radius=1,
@@ -63,7 +67,7 @@ def adi(angular_seperation, time_between_exposures, numb):
     #lazily create psf cube
     (psf_cube, psf_params) = psf.calc_cube(numb, fried_parameter=4, time_between=0.7)
     #lazily convolve signals
-    (img_cube_without_star, img_params) = psf.convolve(psf_cube, disk_cube, psf_params, disk_params)
+    (img_cube_without_star, img_params_without_star) = psf.convolve(psf_cube, disk_cube, psf_params, disk_params)
     
     #process disk with center star
     #create disk cube
@@ -72,28 +76,41 @@ def adi(angular_seperation, time_between_exposures, numb):
     #lazily create psf cube
     (psf_cube, psf_params) = psf.calc_cube(numb, fried_parameter=4, time_between=0.7)
     #lazily convolve signals
-    (img_cube_with_star, img_params) = psf.convolve(psf_cube, disk_cube, psf_params, disk_params)
+    (img_cube, img_params) = psf.convolve(psf_cube, disk_cube, psf_params, disk_params)
     
-    #select interesting region
-    test_img = img_cube_with_star[0]
+    return (img_cube, img_params, img_cube_without_star, img_params_without_star)
     
-    (left, right) = find_sub_psf_location(test_img)
-    
+def adi(img_cube, img_params):
+    #select single psf from img
+
     
 #    #do adi
-#    median = np.median(img_cube_with_star, axis=0)
-#    I_adi = []
-#    a = 0.1; b=2; c=2
-#    for i in range(b,len(img_cube_with_star)-c):    
-#        I_d = img_cube_with_star[i] - median
-#        I_adi.append( I_d - a*np.median(img_cube_with_star[i-b..i+c])
-#    
-#    I_f = 0
-#    for i,I in enumerate(I_adi):
-#        I(i)
-        
-    #plotfast.image(img_cube_with_star-mean)
+    median = np.median(img_cube, axis=0)
+    I_adi = []
+    a = 1; b=2; c=2
+    for i in range(b,len(img_cube)-c):    
+        I_d = img_cube[i] - median
+        #store I_d -median 1.5 FHWM and the rotation of I_d which is the 
+        #second param of img_params in the I_adi list
+        I_adi.append( (I_d - a*np.median(img_cube[i-b:i+c]), img_params[i][0]) )
+    
+    I_f = 0
+    for i,(I,rotation) in enumerate(I_adi):
+        rotated = ndimage.rotate(I, -rotation, reshape=False)#TODO better params
+        I_f += rotated
+    I_f = I_f/len(I)
+    
+    plotfast.image(I_f)
     
     
 if __name__ == "__main__":
-    adi(10, 0.7, 10)
+    (img_cube, img_params, img_cube_without_star, img_params_without_star) = gen_adi_dataset(3, 0.01, 100)
+    
+    left_psfs = []
+    for img in img_cube:
+        (left, right) = find_sub_psf_location(img)
+        (left_psf, right_psf) = extract_psfs(img, left, right)
+        left_psfs.append(left_psf)
+    
+    adi(left_psfs, img_params)
+    #adi(right_psfs, img_params)
