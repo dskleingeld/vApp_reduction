@@ -8,7 +8,7 @@ def to_radians(deg):
 
 class disk:
     def __init__(self, field_size=8, steller_surface_flux=1.0, steller_radius=0.00465, inclination=30, 
-    rotation=30, inner_radius=None,outer_radius=None, with_star=True):
+    rotation=30, inner_radius=None, outer_radius=None, with_star=True):
         
         self.F_star = steller_surface_flux
         self.R_star = steller_radius

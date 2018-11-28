@@ -33,13 +33,12 @@ def find_sub_psf_location(img):
     return (left_psf_loc, right_psf_loc)
 
 #if error radius might be to large
-def extract_psfs(img, left_loc, right_loc, init_radius=0.25):
+def extract_psfs(img, left_loc, right_loc, init_radius=0.20):
     x_start = int(left_loc[0] - init_radius*img.shape[0])
     x_stop = int(left_loc[0] + init_radius*img.shape[0])
     
     y_start = int(left_loc[1] - init_radius*img.shape[1])
     y_stop = int(left_loc[1] + init_radius*img.shape[1])
-    
     #copy psf's
     left_psf = img[x_start:x_stop, y_start:y_stop]
     
@@ -55,10 +54,10 @@ def extract_psfs(img, left_loc, right_loc, init_radius=0.25):
 def gen_adi_dataset(angular_seperation, time_between_exposures, numb):
     
     #set disk properties
-    disk_without_star = d.disk(10, with_star=False, inner_radius=1,
-                        outer_radius=3, rotation=135, inclination=70)
-    disk_with_star = d.disk(10, with_star=True, inner_radius=1,
-                     outer_radius=3, rotation=135, inclination=70)
+    disk_without_star = d.disk(field_size=10, with_star=False, inner_radius=1,
+                        outer_radius=8, rotation=0, inclination=80)
+    disk_with_star = d.disk(field_size=10, with_star=True, inner_radius=5,
+                     outer_radius=8, rotation=0, inclination=80)
     
     #process disk without center star
 #    #create disk cube
@@ -82,29 +81,31 @@ def gen_adi_dataset(angular_seperation, time_between_exposures, numb):
     
 def adi(img_cube, img_params):
     #select single psf from img
-
-    
 #    #do adi
     median = np.median(img_cube, axis=0)
     I_adi = []
-    a = 1; b=2; c=2
+    a = 0.8; b=2; c=2
     for i in range(b,len(img_cube)-c):    
         I_d = img_cube[i] - median
         #store I_d -median 1.5 FHWM and the rotation of I_d which is the 
         #second param of img_params in the I_adi list
-        I_adi.append( (I_d - a*np.median(img_cube[i-b:i+c]), img_params[i][0]) )
+        I_adi.append( (I_d - a*np.median(img_cube[i-b:i+c], axis=0), img_params[i][0]) )
     
-    I_f = 0
+    I_f = []
     for i,(I,rotation) in enumerate(I_adi):
         rotated = ndimage.rotate(I, -rotation, reshape=False)#TODO better params
-        I_f += rotated
-    I_f = I_f/len(I)
+        I_f.append(rotated[:])
+    print(I_f)
+    I_f = np.median(np.array(I_f), axis=0)
+    print(I_f)
     
-    plotfast.image(I_f)
+    plotfast.image(np.abs(I_f))
     
     
 if __name__ == "__main__":
     (img_cube, img_params, img_cube_without_star, img_params_without_star) = gen_adi_dataset(3, 0.01, 100)
+    img_cube = img_cube_without_star
+    img_params = img_params_without_star
     
     left_psfs = []
     for img in img_cube:
