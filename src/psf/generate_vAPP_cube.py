@@ -44,8 +44,9 @@ def update(args):
     psf_cube[time] = psf
     pbar.update()
 
-amplitude_file = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/SCExAO_vAPP_amplitude_resampled.fits"
-phase_file     = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/SCExAO_vAPP_phase_resampled.fits"
+script_path = os.path.realpath(__file__)
+amplitude_file = script_path.split("vApp_reduction",1)[0]+"vApp_reduction/data/SCExAO_vAPP_amplitude_resampled.fits"
+phase_file     = script_path.split("vApp_reduction",1)[0]+"vApp_reduction/data/SCExAO_vAPP_phase_resampled.fits"
 
 #get paramaters from files
 params = sys.argv
@@ -108,7 +109,7 @@ if __name__ == '__main__':
     pbar.close()
 
 
-    filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/"
+    filepath = script_path.split("vApp_reduction",1)[0]+"vApp_reduction/data/"
     filepath += "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
     target = AsdfFile(psf_cube)
     target.write_to(filepath, all_array_compression='zlib')

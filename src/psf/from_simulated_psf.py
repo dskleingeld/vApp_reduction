@@ -1,8 +1,6 @@
 import numpy as np
 from scipy import signal
 import astropy.io.fits as fits
-import skimage.draw as sk
-import itertools
 import pickle
 
 from multiprocess import Pool
@@ -12,13 +10,11 @@ import os
 import glob
 import sys
 
-from asdf import AsdfFile, Stream
-import asdf
-
-#from .specle_from_shiftingFFt import *
-#from .specle_from_placing2dSincs import *
+from asdf import AsdfFile
 
 import subprocess
+
+
 def myrun(cmd):
     """from http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
     """
@@ -31,6 +27,7 @@ def myrun(cmd):
         if line == '' and p.poll() != None:
             break
     return ''.join(stdout)
+
 
 def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
     filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/"
@@ -50,7 +47,7 @@ def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
         cmd = [sys.executable, path, *params]
         print("please run: ")
         print(' '.join(cmd))
-        #myrun(cmd)
+        input("Press Enter to continue...")
         
         tree = AsdfFile.open(filepath).tree
         tree_keys = tree.keys()
@@ -59,21 +56,25 @@ def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
         
         return psf_cube, psf_params
  
-def conv(psf_cube, disk_cube):
-    len_side = int(np.sqrt(psf_cube.shape))
-    psf_cube = psf_cube.reshape(len_side,len_side)
-    disk_cube = disk_cube.reshape(len_side,len_side)
-    res = signal.convolve2d(psf_cube, disk_cube, boundary='symm', mode='same')
-
+    
+def conv(psf, field):
+    len_side = int(np.sqrt(psf.shape))
+    psf = psf.reshape(len_side, len_side)
+    field = field.reshape(len_side, len_side)
+    res = signal.convolve2d(psf, field, boundary='symm', mode='same')
+    print("convolving")
     return res
+
 
 ## note: input comes from async `calc_psf`
 def update(pbar, img_cube, res):
     img_cube.append(res)
     pbar.update()
-
-def convolve(psf_cube, disk_cube, psf_params, disk_params):
-    img_params = list(zip(psf_params, disk_params))
+    print("appending")
+    
+    
+def convolve(psf_cube, field_cube, psf_params, field_params):
+    img_params = list(zip(psf_params, field_params))
     cached_results = sorted(glob.glob('?.params'))
     for params_path in cached_results:
         with open(params_path, "rb") as fp:
@@ -88,8 +89,10 @@ def convolve(psf_cube, disk_cube, psf_params, disk_params):
     pbar = tqdm(total=len(img_params))
     pool = Pool(processes=16)
     callback = partial(update, pbar, img_cube)
-    for psf, disk in zip(psf_cube, disk_cube):
-        pool.apply_async(conv, args=(psf, disk), callback=callback)
+    
+    for psf, field in zip(psf_cube, field_cube):
+        print("test")
+        pool.apply_async(conv, args=(psf, field), callback=callback)
     pool.close()
     pool.join()
     pbar.close()
@@ -97,50 +100,58 @@ def convolve(psf_cube, disk_cube, psf_params, disk_params):
     highest_numb = len(cached_results)
     with open(str(highest_numb)+'.params', "wb") as fp: pickle.dump(img_params, fp)
     np.savez_compressed(str(highest_numb)+'.data.npz', img_cube=img_cube)
-    
+    print(img_cube)
     return img_cube, img_params
 
-#test code
+
+# test code
 def get_clean():
     clean_simulated_psf_path = "SCExAO_vAPP_model.fits"
     with fits.open("../data/"+clean_simulated_psf_path) as hdul:
-        #hdul.info()
+        # hdul.info()
         return hdul[0].data
 
+
 def get_on_sky():
-    on_sky_set = "pbimage_14_36_50.575271241_bg.fits"    
+    on_sky_set = "pbimage_14_36_50.575271241_bg.fits"
     with fits.open("../data/"+on_sky_set) as hdul:
-        #hdul.info()
-        return [ hdul[0].data[0], hdul[0].data[1] ]
+        # hdul.info()
+        return [hdul[0].data[0], hdul[0].data[1]]
+
 
 def get_on_sky(length):
-    on_sky_set = "pbimage_14_36_50.575271241_bg.fits"    
+    on_sky_set = "pbimage_14_36_50.575271241_bg.fits"
     with fits.open("../data/"+on_sky_set) as hdul:
-        #hdul.info()
+        # hdul.info()
         hdulist = []
         for i in range(length):
             hdulist.append(hdul[0].data[i])
         return hdulist
+
 
 def get_spectrum(clean):
     z = np.fft.fft2(clean)
     z = np.fft.fftshift(z)
     return z
 
+
 def phase_from_spectrum(spectrum):
     phase = np.arctan2(np.imag(spectrum), np.real(spectrum))
     return phase
 
+
 def magnitude_from_spectrum(spectrum):
-    real = np.abs(spectrum)    
+    real = np.abs(spectrum)
     return real
+
 
 def spectrum_from_phase(phase, magnitude):
     real = magnitude * np.cos(phase)
     imag = magnitude * np.sin(phase)
     return real + imag
 
+
 def org_from_spectrum(spectrum):
     spectrum = np.fft.ifftshift(spectrum)
-    a = np.real(np.fft.fft2(spectrum) )
+    a = np.real(np.fft.fft2(spectrum))
     return a
