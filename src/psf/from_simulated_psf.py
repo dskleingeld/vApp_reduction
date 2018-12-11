@@ -13,7 +13,7 @@ import sys
 from asdf import AsdfFile
 
 import subprocess
-
+from typing import List, Set, Dict, Tuple, Optional
 
 def myrun(cmd):
     """from http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
@@ -57,23 +57,17 @@ def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
         return psf_cube, psf_params
  
     
-def conv(psf, field):
+def conv(args):
+    (psf, field) = args
     len_side = int(np.sqrt(psf.shape))
+
     psf = psf.reshape(len_side, len_side)
     field = field.reshape(len_side, len_side)
     res = signal.convolve2d(psf, field, boundary='symm', mode='same')
-    print("convolving")
     return res
 
 
-## note: input comes from async `calc_psf`
-def update(pbar, img_cube, res):
-    img_cube.append(res)
-    pbar.update()
-    print("appending")
-    
-    
-def convolve(psf_cube, field_cube, psf_params, field_params):
+def convolve_cube(psf_cube, field_cube, psf_params, field_params):
     img_params = list(zip(psf_params, field_params))
     cached_results = sorted(glob.glob('?.params'))
     for params_path in cached_results:
@@ -86,21 +80,20 @@ def convolve(psf_cube, field_cube, psf_params, field_params):
                 
     img_cube = []
     print("recalculating convolution")
-    pbar = tqdm(total=len(img_params))
-    pool = Pool(processes=16)
-    callback = partial(update, pbar, img_cube)
-    
-    for psf, field in zip(psf_cube, field_cube):
-        print("test")
-        pool.apply_async(conv, args=(psf, field), callback=callback)
-    pool.close()
-    pool.join()
-    pbar.close()
-    
+
+    #print(type(field_cube[0]))
+    args = zip(psf_cube,field_cube);
+    with Pool(16) as p:
+        max_ = 30
+        with tqdm(total=len(img_params)) as pbar:
+            for i, img in tqdm(enumerate(p.imap(conv, args))):
+                pbar.update()
+                img_cube.append(img)
+
+
     highest_numb = len(cached_results)
     with open(str(highest_numb)+'.params', "wb") as fp: pickle.dump(img_params, fp)
     np.savez_compressed(str(highest_numb)+'.data.npz', img_cube=img_cube)
-    print(img_cube)
     return img_cube, img_params
 
 

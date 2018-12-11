@@ -24,12 +24,11 @@ def image(data):
     mpl_colormap = cm.get_cmap("afmhot")  # cm.get_cmap("CMRmap")
     mpl_colormap._init()
 
-
     ## Start Qt event loop unless running in interactive mode.
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         QtGui.QApplication.instance().exec_()
 
-#TODO always go through entire list, annotate values, even if one list 
+#TODO always go through entire list, annotate values, even if one list
 #is smaller
 class compareWindow(pg.GraphicsWindow):
 
