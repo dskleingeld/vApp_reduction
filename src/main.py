@@ -64,16 +64,14 @@ def extract_psfs(img, left_loc, right_loc, init_radius=0.15):
     return (left_psf, right_psf)
 
 
-def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
+def gen_disk_dataset_without_star(angular_seperation, time_between_exposures, numb):
 
     # set disk properties
     disk_without_star = d.disk(field_size=10, with_star=False, inner_radius=2,
                                outer_radius=3, rotation=0, inclination=60)
-    disk_with_star = d.disk(field_size=10, with_star=True, inner_radius=2,
-                            outer_radius=3, rotation=0, inclination=60)
 
-    # process disk without center star
-#    #create disk cube
+    # process disk with center star
+    # create disk cube
     (disk_cube, disk_params) = d.gen_cube(
         numb, disk_without_star, angular_seperation)
     plotfast.image(disk_cube[0])
@@ -82,8 +80,18 @@ def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
         numb, fried_parameter=4, time_between=0.7)
     # plotfast.image(psf_cube[0].reshape(200,200))
     # lazily convolve signals
-    (img_cube_without_star, img_params_without_star) = psf.convolve_cube(
+    (img_cube, img_params) = psf.convolve_cube(
         psf_cube, disk_cube, psf_params, disk_params)
+
+    return (
+        img_cube,
+        img_params)
+
+def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
+
+    # set disk properties
+    disk_with_star = d.disk(field_size=10, with_star=True, inner_radius=2,
+                            outer_radius=3, rotation=0, inclination=60)
 
     # process disk with center star
     # create disk cube
@@ -100,9 +108,7 @@ def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
 
     return (
         img_cube,
-        img_params,
-        img_cube_without_star,
-        img_params_without_star)
+        img_params)
 
 
 def gen_adi_star_controlset(total_angle, numb):
@@ -195,24 +201,35 @@ def simple_adi(img_cube, img_params):
     I = np.median(np.array(I), axis=0)
     return I
 
-
-if __name__ == "__main__":
-    (img_cube, img_params, img_cube_without_star, img_params_without_star) = gen_disk_dataset(0.60, 0.1, 100)
-    #(img_cube, img_params) = gen_adi_star_controlset(60,100)
-    #(img_cube, img_params) = gen_adi_binary_controlset(360, 20)
-
-    clean_psf = psf.get_clean()
-    img_cube = center_cube(img_cube, clean_psf)
-    plotfast.image(np.array(img_cube))
-
+##use average to determine psf loc
+def find_sub_psf_location_from_cube(img_cube):
     left_x=0; left_y=0
     right_x=0; right_y=0
     for img in img_cube:
         (left, right) = find_sub_psf_location(img)
         left_x += left[0]; left_y += left[1]
         right_x += right[0]; right_y += right[1]
+
     left = (left_x/len(img_cube), left_y/len(img_cube))
     right = (right_x/len(img_cube), right_y/len(img_cube))
+    return (left, right)
+
+if __name__ == "__main__":
+    (img_cube, img_params) = gen_disk_dataset(0.60, 0.1, 100)
+    #(img_cube, img_params) = gen_disk_dataset_without_star(0.60, 0.1, 100)
+    #(img_cube, img_params) = gen_adi_star_controlset(60,100)
+    #(img_cube, img_params) = gen_adi_binary_controlset(360, 20)
+
+
+    clean_psf = psf.get_clean()
+    img_cube = center_cube(img_cube, clean_psf)
+    #img_cube = center_cube(img_cube, img_cube[0]) #used when far from ref psf
+    plotfast.image(np.array(img_cube))
+
+    (left, right) = find_sub_psf_location_from_cube(img_cube)
+    ##alternatively use coords from perfect psf
+    (left, right) = find_sub_psf_location(clean_psf)
+
 
     right_psfs = []; left_psfs = [];
     for img in img_cube:
@@ -226,16 +243,3 @@ if __name__ == "__main__":
 
     #adi(right_psfs, img_params)
 
-#    img_cube = img_cube_without_star
-#    plotfast.image(img_cube)
-#    img_params = img_params_without_star
-#
-#    left_psfs = []
-#    right_psfs = []
-#    for img in img_cube:
-#        (left, right) = find_sub_psf_location(img)
-#        (left_psf, right_psf) = extract_psfs(img, left, right)
-#        left_psfs.append(left_psf); right_psfs.append(right_psf)
-#
-#    adi(left_psfs, img_params)
-#    #adi(right_psfs, img_params)
