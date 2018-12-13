@@ -7,7 +7,7 @@ def to_radians(deg):
     return deg *np.pi/180
 
 class disk:
-    def __init__(self, field_size=8, steller_surface_flux=0.001, steller_radius=0.00465, inclination=30, 
+    def __init__(self, field_size=8, steller_surface_flux=1., steller_radius=0.00465, inclination=30,
     rotation=30, inner_radius=None, outer_radius=None, with_star=True):
         
         self.F_star = steller_surface_flux
@@ -40,6 +40,7 @@ class disk:
         Yt = R0*np.sin(ang)/np.cos(self.inclination)
         Rr = np.hypot(Xt, Yt)  # Real radius
         inverse_square_law = (Rr/self.R_star)**2
+        #TODO hardcode brightness diff
 
         field = np.zeros([self.resolution,self.resolution])
         field[(Rr>R_inner) & (Rr<R_outer)] = np.divide(Star[(Rr>R_inner) & (Rr<R_outer)], 
@@ -48,6 +49,8 @@ class disk:
                     #Intensity of 1/R**2, with inner_radius and outer_radius
                      where = Rr[(Rr>R_inner) & (Rr<R_outer)] != 0)  
         
+        field *= 100
+
         if R_inner == 0:
             print("inner_rad is nul")
             field[(XX == 0) & (YY == 0)] = field.max()

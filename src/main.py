@@ -18,8 +18,7 @@ def center(img, clean_psf):
     img = ndimage.interpolation.shift(img, shift, order=3)
     return img
 
-def center_cube(offset_cube):
-    clean_psf = psf.get_clean()
+def center_cube(offset_cube, clean_psf):
     img_cube = []
     img_cube[:] = [center(offset, clean_psf) for offset in offset_cube]
     return img_cube
@@ -77,13 +76,12 @@ def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
 #    #create disk cube
     (disk_cube, disk_params) = d.gen_cube(
         numb, disk_without_star, angular_seperation)
-    # plotfast.image(disk_cube[0])
+    plotfast.image(disk_cube[0])
     # lazily create psf cube
     (psf_cube, psf_params) = psf.calc_cube(
         numb, fried_parameter=4, time_between=0.7)
     # plotfast.image(psf_cube[0].reshape(200,200))
     # lazily convolve signals
-
     (img_cube_without_star, img_params_without_star) = psf.convolve_cube(
         psf_cube, disk_cube, psf_params, disk_params)
 
@@ -98,6 +96,7 @@ def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
     # lazily convolve signals
     (img_cube, img_params) = psf.convolve_cube(
         psf_cube, disk_cube, psf_params, disk_params)
+    plotfast.image(psf_cube[0].reshape(200,200))
 
     return (
         img_cube,
@@ -186,9 +185,12 @@ def simple_adi(img_cube, img_params):
     median = np.median(img_cube, axis=0)
     rotation = [param[1][0] for param in img_params]
     I = []
+    I_without_sub = []
     for (img, angle) in zip(img_cube, rotation):
+        derotated_without_sub = ndimage.rotate(img, -angle, reshape=False)
         derotated = ndimage.rotate(img-median, -angle, reshape=False)
         I.append(derotated)
+        I_without_sub.append(derotated_without_sub)
 
     I = np.median(np.array(I), axis=0)
     return I
@@ -199,8 +201,9 @@ if __name__ == "__main__":
     #(img_cube, img_params) = gen_adi_star_controlset(60,100)
     #(img_cube, img_params) = gen_adi_binary_controlset(360, 20)
 
-    img_cube = center_cube(img_cube)
-    #plotfast.image(np.array(img_cube))
+    clean_psf = psf.get_clean()
+    img_cube = center_cube(img_cube, clean_psf)
+    plotfast.image(np.array(img_cube))
 
     left_x=0; left_y=0
     right_x=0; right_y=0
@@ -217,9 +220,9 @@ if __name__ == "__main__":
         left_psfs.append(left_psf)
         right_psfs.append(right_psf)
 
-    #plotfast.image(np.asarray(right_psfs))
+    plotfast.image(np.asarray(right_psfs))
     right_final = simple_adi(right_psfs, img_params)
-    #plotfast.image(right_final)
+    plotfast.image(right_final)
 
     #adi(right_psfs, img_params)
 
