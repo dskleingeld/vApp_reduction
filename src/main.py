@@ -171,8 +171,8 @@ def simple_adi(img_cube, img_params):
     img_cube2 = copy.deepcopy(img_cube)
     for (img, angle) in zip(img_cube, rotation):
         print(angle)
-        derotated_without_sub = ndimage.rotate(img, -math.degrees(angle), reshape=False)
-        derotated = ndimage.rotate(img-median, -math.degrees(angle), reshape=False)
+        derotated_without_sub = ndimage.rotate(img, math.degrees(angle), reshape=False)
+        derotated = ndimage.rotate(img-median, math.degrees(angle), reshape=False)
         I.append(derotated)
         I_without_sub.append(derotated_without_sub)
 
