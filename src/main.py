@@ -4,6 +4,7 @@ import plot.fast as plotfast
 import numpy as np
 from scipy import signal, ndimage
 from skimage.feature import register_translation
+from astropy.io import fits
 import copy
 import math
 
@@ -194,6 +195,11 @@ def find_sub_psf_location_from_cube(img_cube):
     right = (right_x/len(img_cube), right_y/len(img_cube))
     return (left, right)
 
+def save_to_fits(name: str, array):
+    #array = 2d_array.flatten()
+    hdu = fits.PrimaryHDU(array)
+    hdu.writeto(name+".fits")
+
 if __name__ == "__main__":
 
     (img_cube, img_params) = gen_disk_dataset(60, 0.1, 100)
@@ -230,6 +236,7 @@ if __name__ == "__main__":
     right_final = simple_adi(right_psfs, img_params)
     plotfast.image(right_final)
 
+    save_to_fits("right_final",right_final)
 
     #adi(right_psfs, img_params)
 
