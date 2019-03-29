@@ -4,6 +4,8 @@ import plot.fast as plotfast
 import numpy as np
 from scipy import signal, ndimage
 from skimage.feature import register_translation
+import copy
+import math
 
 def center(img, clean_psf):
     offset_image = img
@@ -97,14 +99,13 @@ def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
     # create disk cube
     (disk_cube, disk_params) = d.gen_cube(
         numb, disk_with_star, angular_seperation)
-    plotfast.image(disk_cube[0])
+    #plotfast.image(disk_cube[0])
     # lazily create psf cube
     (psf_cube, psf_params) = psf.calc_cube(
         numb, fried_parameter=4, time_between=0.7)
     # lazily convolve signals
     (img_cube, img_params) = psf.convolve_cube(
         psf_cube, disk_cube, psf_params, disk_params)
-    plotfast.image(psf_cube[0].reshape(200,200))
 
     return (
         img_cube,
@@ -162,42 +163,21 @@ def gen_adi_binary_controlset(total_angle, numb):
     return (img_cube, img_params)
 
 
-def adi(img_cube, img_params):
-    # select single psf from img
-    #    #do adi
-    median = np.median(img_cube, axis=0)
-    I_adi = []
-    a = 0
-    b = 4
-    c = 4
-    for i in range(b, len(img_cube) - c):
-        I_d = img_cube[i] - median
-        # store I_d -median 1.5 FHWM and the rotation of I_d which is the
-        # second param of img_params in the I_adi list
-        I_adi.append(
-            (I_d - a * np.median(img_cube[i - b:i + c], axis=0), img_params[i][0]))
-
-    I_f = []
-    for (I, rotation) in I_adi:
-        rotated = ndimage.rotate(I, -rotation, reshape=False)
-        I_f.append(rotated[:])
-    I_f = np.median(np.array(I_f), axis=0)
-    # plotfast.image(I_adi[0][0])
-    # plotfast.image(I_f)
-    # plotfast.image(np.abs(I_f))
-
-
 def simple_adi(img_cube, img_params):
     median = np.median(img_cube, axis=0)
-    rotation = [param[1][0] for param in img_params]
+    rotation = [param[1][-1] for param in img_params]
     I = []
     I_without_sub = []
+    img_cube2 = copy.deepcopy(img_cube)
     for (img, angle) in zip(img_cube, rotation):
-        derotated_without_sub = ndimage.rotate(img, -angle, reshape=False)
-        derotated = ndimage.rotate(img-median, -angle, reshape=False)
+        print(angle)
+        derotated_without_sub = ndimage.rotate(img, -math.degrees(angle), reshape=False)
+        derotated = ndimage.rotate(img-median, -math.degrees(angle), reshape=False)
         I.append(derotated)
         I_without_sub.append(derotated_without_sub)
 
+    #plotfast.image(np.array(img_cube))
+    plotfast.compare([I_without_sub,img_cube2])
     I = np.median(np.array(I), axis=0)
     return I
 
@@ -215,31 +195,41 @@ def find_sub_psf_location_from_cube(img_cube):
     return (left, right)
 
 if __name__ == "__main__":
-    (img_cube, img_params) = gen_disk_dataset(0.60, 0.1, 100)
+
+    (img_cube, img_params) = gen_disk_dataset(60, 0.1, 100)
     #(img_cube, img_params) = gen_disk_dataset_without_star(0.60, 0.1, 100)
     #(img_cube, img_params) = gen_adi_star_controlset(60,100)
     #(img_cube, img_params) = gen_adi_binary_controlset(360, 20)
-
+    #plotfast.image(psf_cube[0].reshape(200,200))
 
     clean_psf = psf.get_clean()
     img_cube = center_cube(img_cube, clean_psf)
     #img_cube = center_cube(img_cube, img_cube[0]) #used when far from ref psf
-    plotfast.image(np.array(img_cube))
+    #plotfast.image(np.array(img_cube))
 
-    (left, right) = find_sub_psf_location_from_cube(img_cube)
+    #(left, right) = find_sub_psf_location_from_cube(img_cube)
     ##alternatively use coords from perfect psf
     (left, right) = find_sub_psf_location(clean_psf)
 
-
-    right_psfs = []; left_psfs = [];
+    right_psfs = []
+    left_psfs = []
     for img in img_cube:
         (left_psf, right_psf) = extract_psfs(img, left, right)
         left_psfs.append(left_psf)
         right_psfs.append(right_psf)
 
-    plotfast.image(np.asarray(right_psfs))
+    #combine left and right psfs into one
+    # for (left_psf, right_psf) in zip(left_psfs, right_psfs):
+    #     psf_combined = left_psf.copy()
+    #     psf_combined = right_psf
+        #TODO array with indexes + something with np where to split that into left
+        #and right indexes
+
+
+    #plotfast.image(np.asarray(right_psfs))
     right_final = simple_adi(right_psfs, img_params)
     plotfast.image(right_final)
+
 
     #adi(right_psfs, img_params)
 

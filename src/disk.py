@@ -93,13 +93,17 @@ def gen_cube(num, clean_disk, angular_sep):
     def add_disk_params(c_list):
         rotation = c_list[0]
         diskp = deepcopy(params)
-        diskp[-1] = rotation
+        diskp.append(rotation)
         return diskp
         
-    cube_params = list(map(add_disk_params, cube_list))
+    disk_cube_params = list(map(add_disk_params, cube_list))
     disk_cube = list(map(lambda x: x[1], cube_list))
-    return disk_cube, cube_params
+    # print("rrrrrrrrrrrrrrrrrrr")
+    # print(disk_cube_params)
+    # print("rrrrrrrrrrrrrrrrrrr")
+    return disk_cube, disk_cube_params
 
 if __name__ == "__main__":
+    print("DO NOT RUN THIS FILE DIRECTLY, USE MAIN.PY")
     test = properties(10, inner_radius=4, outer_radius=9, with_star=False)
     from_properties(test)

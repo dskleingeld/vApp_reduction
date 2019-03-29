@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from typing import List, Tuple
+
 import numpy as np
 from pyqtgraph.Qt import QtCore, QtGui
 from matplotlib import cm #for using matplotlib colormaps
@@ -82,7 +84,7 @@ class compareWindow(pg.GraphicsWindow):
     
     def keyPressEvent(self, event):
         self.scene().keyPressEvent(event)
-        if (event.key()==QtCore.Qt.Key_Tab): 
+        if (event.key()==QtCore.Qt.Key_Right):
             self.nextImage()
         elif (event.key()==QtCore.Qt.Key_C):
             QtGui.QApplication.quit()
@@ -96,14 +98,13 @@ class compareWindow(pg.GraphicsWindow):
         for (img, array, kwargs) in zip(self.images,self.data_list, self.kwargs_list):
             img.setImage(array[self.plotCounter], **kwargs)
 
-def compare(data, titles=[]):
+def compare(data: list, titles: list=[], levels: List[Tuple[float,float]]=[]):
 
     #TODO do some sanity checks on input
-    
     kwargs_list = [
-      {"levels": (0,0.012)},
-      {"levels": (0,8000)},{}]
-      
+      {"levels": (0,0.0001)},
+      {"levels": (0,0.0001)},]
+
     view = compareWindow(data, kwargs_list=kwargs_list, size=(1800,800), titles_list=titles)
     
     ## Start Qt event loop/show the plot
