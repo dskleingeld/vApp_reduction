@@ -41,9 +41,9 @@ def run():
         #TODO array with indexes + something with np where to split that into left
         #and right indexes
 
-
+    save_to_fits("without_disk_perfect_psf/right_psfs",right_psfs)
     #plotfast.image(np.asarray(right_psfs))
     right_final = simple_adi(right_psfs, img_params)
     plotfast.image(right_final)
 
-    save_to_fits("disk_without_star_perfect_psf_final",right_final)
+    save_to_fits("without_disk_perfect_psf/right_final",right_final)

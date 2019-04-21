@@ -41,8 +41,9 @@ def run():
         #and right indexes
 
 
+    save_to_fits("without_disk/right_psfs",right_psfs)
     #plotfast.image(np.asarray(right_psfs))
     right_final = simple_adi(right_psfs, img_params)
     plotfast.image(right_final)
 
-    save_to_fits("disk_without_star_final",right_final)
+    save_to_fits("without_disk/right_final",right_final)

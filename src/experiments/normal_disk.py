@@ -1,7 +1,7 @@
 from code.adi import *
 
 def run():
-    (img_cube, img_params) = gen_disk_dataset(60, 0.1, 100)
+    (img_cube, img_params) = gen_disk_dataset(60, 0.1, 3)
 
     clean_psf = psf.get_clean()
     (img_cube, _) = center_cube(img_cube, ref_img=clean_psf)
@@ -24,9 +24,11 @@ def run():
         #TODO array with indexes + something with np where to split that into left
         #and right indexes
 
-
+    plotfast.image(np.asarray(right_psfs))
+    save_to_fits("normal_disk/right_psfs",right_psfs)
+    
     #plotfast.image(np.asarray(right_psfs))
     right_final = simple_adi(right_psfs, img_params)
-    plotfast.image(right_final)
+    #plotfast.image(right_final)
 
-    save_to_fits("normal_disk_final",right_final)
+    save_to_fits("normal_disk/right_final",right_final)

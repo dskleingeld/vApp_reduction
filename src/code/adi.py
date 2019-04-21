@@ -20,7 +20,7 @@ def center(img, ref_img):
 #center with a given shift (gotten from the center funct above)
 def center_wshift(img, shift):
     img = ndimage.interpolation.shift(img, shift, order=3)
-    return (img, shift)
+    return (img)
 
 def center_cube(offset_cube, ref_img=None, shifts=None):
     if shifts == None:
@@ -34,11 +34,11 @@ def center_cube(offset_cube, ref_img=None, shifts=None):
         return (img_cube, shift_cube)
     else:
         img_cube = []
-        for offset in offset_cube:
-            centerd = center_wshift(offset, shifts);
+        for (offset, shift) in zip(offset_cube,shifts):
+            centerd = center_wshift(offset, shift);
             img_cube.append(centerd)
 
-        return shift_cube
+        return img_cube
 
 
 # radius numb between 0 and 1
@@ -160,7 +160,6 @@ def simple_adi(img_cube, img_params):
     I_without_sub = []
     img_cube2 = copy.deepcopy(img_cube)
     for (img, angle) in zip(img_cube, rotation):
-        print(angle)
         derotated_without_sub = ndimage.rotate(img, math.degrees(angle), reshape=False)
         derotated = ndimage.rotate(img-median, math.degrees(angle), reshape=False)
         I.append(derotated)
@@ -186,7 +185,11 @@ def find_sub_psf_location_from_cube(img_cube):
 def save_to_fits(name: str, array):
     #array = 2d_array.flatten()
     script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
-    plot_path = script_path+"vApp_reduction/plots"
+    plot_path = script_path+"vApp_reduction/plots/"
+    
+    folder = name.split("/")[0]
+    if not os.path.exists(plot_path+folder):
+        os.makedirs(plot_path+folder)
 
     hdu = fits.PrimaryHDU(array)
     hdu.writeto(plot_path+name+".fits", overwrite=True)

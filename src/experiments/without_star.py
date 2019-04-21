@@ -5,11 +5,11 @@ def gen_disk_dataset_without_star(angular_seperation, time_between_exposures, nu
 
     # set disk properties
     disk_without_star = d.disk(field_size=10, with_star=False, inner_radius=2,
-                               outer_radius=3, rotation=0, inclination=60)
+                               outer_radius=3, rotation=0, inclination=80)
     # set disk properties //also need disk with star convolved with same psf for
     # alignment
     disk_with_star = d.disk(field_size=10, with_star=True, inner_radius=2,
-                            outer_radius=3, rotation=0, inclination=60)
+                            outer_radius=3, rotation=0, inclination=80)
 
     # create disk cube
     (disk_cube, disk_params) = d.gen_cube(
@@ -33,14 +33,11 @@ def gen_disk_dataset_without_star(angular_seperation, time_between_exposures, nu
         img_params)
 
 def run():
-    (ref_cube, img_cube, img_params) = gen_disk_dataset_without_star(0.60, 0.1, 3)
+    (ref_cube, img_cube, img_params) = gen_disk_dataset_without_star(60, 0.1, 100)
 
     clean_psf = psf.get_clean()
-    (_, shift_cube) = center_cube(ref_cube, clean_psf)#TODO doesnt work for no star psf (use star image)
-    img_cube = center_wshift(img_cube, shift_cube)
-
-
-    plotfast.image(img_cube)
+    (_, shift_cube) = center_cube(ref_cube, ref_img=clean_psf)#TODO doesnt work for no star psf (use star image)
+    img_cube = center_cube(img_cube, shifts=shift_cube)
 
     #(left, right) = find_sub_psf_location_from_cube(img_cube)
     ##alternatively use coords from perfect psf
@@ -60,12 +57,11 @@ def run():
         #TODO array with indexes + something with np where to split that into left
         #and right indexes
 
-
     #plotfast.image(np.asarray(right_psfs))
+    save_to_fits("without_star/right_psfs",right_psfs)
+
     right_final = simple_adi(right_psfs, img_params)
-    plotfast.image(right_final)
+    #print(right_final)
+    plotfast.image(np.asarray(right_final))
 
-    save_to_fits("disk_without_star_final",right_final)
-    #save_to_fits("star_only_clean_psf_final",right_final)
-
-    #adi(right_psfs, img_params)
+    save_to_fits("without_star/right_final",right_final)
