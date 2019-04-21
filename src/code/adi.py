@@ -4,6 +4,7 @@ from skimage.feature import register_translation
 from astropy.io import fits
 import copy
 import math
+import os
 
 from code.psf import from_simulated_psf as psf
 import code.disk as d
@@ -184,5 +185,8 @@ def find_sub_psf_location_from_cube(img_cube):
 
 def save_to_fits(name: str, array):
     #array = 2d_array.flatten()
+    script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
+    plot_path = script_path+"vApp_reduction/plots"
+
     hdu = fits.PrimaryHDU(array)
-    hdu.writeto(name+".fits", overwrite=True)
+    hdu.writeto(plot_path+name+".fits", overwrite=True)

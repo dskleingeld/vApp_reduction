@@ -30,7 +30,7 @@ def myrun(cmd):
 
 
 def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
-    filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/"
+    filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/psf_cube_cache/"
     filepath += "psf_cube_"+str(float(fried_parameter))+"_"+str(float(time_between))+"_"+str(int(numb))+".asdf"
 
     #expand to only demand numb =< numb on disk
@@ -69,7 +69,7 @@ def conv(args):
 
 def convolve_cube(psf_cube, field_cube, psf_params, field_params):
     img_params = list(zip(psf_params, field_params))
-    cached_results = sorted(glob.glob('?.params'))
+    cached_results = sorted(glob.glob('../data/convolved_cache/?.params'))
     for params_path in cached_results:
         with open(params_path, "rb") as fp:
             params = pickle.load(fp)
@@ -84,7 +84,6 @@ def convolve_cube(psf_cube, field_cube, psf_params, field_params):
     #print(type(field_cube[0]))
     args = zip(psf_cube,field_cube)
     with Pool(16) as p:
-        max_ = 30
         with tqdm(total=len(img_params)) as pbar:
             for i, img in tqdm(enumerate(p.imap(conv, args))):
                 pbar.update()
@@ -92,8 +91,8 @@ def convolve_cube(psf_cube, field_cube, psf_params, field_params):
 
 
     highest_numb = len(cached_results)
-    with open(str(highest_numb)+'.params', "wb") as fp: pickle.dump(img_params, fp)
-    np.savez_compressed(str(highest_numb)+'.data.npz', img_cube=img_cube)
+    with open("../data/convolved_cache/"+str(highest_numb)+'.params', "wb") as fp: pickle.dump(img_params, fp)
+    np.savez_compressed("../data/convolved_cache/"+str(highest_numb)+'.data.npz', img_cube=img_cube)
     return img_cube, img_params
 
 
@@ -103,20 +102,3 @@ def get_clean():
     with fits.open("../data/"+clean_simulated_psf_path) as hdul:
         # hdul.info()
         return hdul[0].data
-
-
-def get_on_sky():
-    on_sky_set = "pbimage_14_36_50.575271241_bg.fits"
-    with fits.open("../data/"+on_sky_set) as hdul:
-        # hdul.info()
-        return [hdul[0].data[0], hdul[0].data[1]]
-
-
-def get_on_sky(length):
-    on_sky_set = "pbimage_14_36_50.575271241_bg.fits"
-    with fits.open("../data/"+on_sky_set) as hdul:
-        # hdul.info()
-        hdulist = []
-        for i in range(length):
-            hdulist.append(hdul[0].data[i])
-        return hdulist
