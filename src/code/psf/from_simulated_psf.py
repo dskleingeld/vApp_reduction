@@ -32,31 +32,31 @@ def myrun(cmd):
 def calc_cube(numb, fried_parameter = 4, time_between = 0.7):
     filepath = os.getcwd().split("vApp_reduction",1)[0]+"vApp_reduction/data/"
     filepath += "psf_cube_"+str(float(fried_parameter))+"_"+str(float(time_between))+"_"+str(int(numb))+".asdf"
-    
+
     #expand to only demand numb =< numb on disk
     if os.path.exists(filepath):
-        
+
         tree = AsdfFile.open(filepath, copy_arrays=True).tree
         tree_keys = tree.keys()
         psf_params = sorted(list(filter(lambda key: isinstance(key, float), tree_keys)))
         psf_cube = list(map(lambda param: np.copy(tree[param]), psf_params))
         return psf_cube, psf_params
     else:
-        path =  os.getcwd()+"/psf/generate_vAPP_cube.py"
+        path =  os.getcwd()+"/code/psf/generate_vAPP_cube.py"
         params = [str(fried_parameter), str(time_between), str(numb)]
         cmd = [sys.executable, path, *params]
         print("please run: ")
         print(' '.join(cmd))
         input("Press Enter to continue...")
-        
+
         tree = AsdfFile.open(filepath).tree
         tree_keys = tree.keys()
         psf_params = sorted(list(filter(lambda key: isinstance(key, float), tree_keys)))
         psf_cube = list(map(lambda param: tree[param], psf_params))
-        
+
         return psf_cube, psf_params
- 
-    
+
+
 def conv(args):
     (psf, field) = args
     len_side = int(np.sqrt(psf.shape))
@@ -76,13 +76,13 @@ def convolve_cube(psf_cube, field_cube, psf_params, field_params):
             if params == img_params:
                 print("loading old result from disk")
                 img_cube = np.load(params_path[:-len('.params')]+'.data.npz')["img_cube"]
-                return img_cube, img_params 
-                
+                return img_cube, img_params
+
     img_cube = []
     print("recalculating convolution")
 
     #print(type(field_cube[0]))
-    args = zip(psf_cube,field_cube);
+    args = zip(psf_cube,field_cube)
     with Pool(16) as p:
         max_ = 30
         with tqdm(total=len(img_params)) as pbar:

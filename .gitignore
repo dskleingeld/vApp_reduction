@@ -1,3 +1,20 @@
+# Custom
+papers/
+saved plots/
+specler_images/
+literatuur/
+generate_vAPP/
+dependencies/
+data/
+README.md
+thesis/
+BRP38.py
+*.params
+*.npz
+*.fits
+*.asdf
+*.goutputstream*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
