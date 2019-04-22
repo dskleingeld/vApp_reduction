@@ -1,7 +1,21 @@
 from code.adi import *
 
 def run():
-    (img_cube, img_params) = gen_disk_dataset(60, 0.1, 3)
+    time_between_exposures: float = 0.7
+    fried_parameter: float = 4
+    field_size: float = 10 
+    inner_radius: float = 2
+    outer_radius: float = 3
+    rotation: float = 0
+    inclination: float = 80 
+    set_rotation: float = 60
+    numb: int = 20
+
+    (img_cube, img_params) = gen_disk_dataset(time_between_exposures, fried_parameter, field_size, inner_radius, outer_radius, 
+        rotation, inclination, set_rotation, numb)
+    write_metadata("normal_disk/meta", time_between_exposures=time_between_exposures, fried_parameter=fried_parameter, 
+        field_size=field_size, inner_radius=inner_radius, outer_radius=outer_radius, rotation=rotation, inclination=inclination, 
+        set_rotation=set_rotation, numb=numb)
 
     clean_psf = psf.get_clean()
     (img_cube, _) = center_cube(img_cube, ref_img=clean_psf)

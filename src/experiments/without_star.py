@@ -1,8 +1,6 @@
 from code.adi import *
 
 def gen_disk_dataset_without_star(angular_seperation, time_between_exposures, numb):
-
-
     # set disk properties
     disk_without_star = d.disk(field_size=10, with_star=False, inner_radius=2,
                                outer_radius=3, rotation=0, inclination=80)

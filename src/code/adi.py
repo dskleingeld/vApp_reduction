@@ -103,20 +103,30 @@ def gen_disk_dataset_without_star(angular_seperation, time_between_exposures, nu
         img_cube,
         img_params)
 
-def gen_disk_dataset(angular_seperation, time_between_exposures, numb):
+def write_metadata(path: str, **keywords):
+    script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
+    plot_path = script_path+"vApp_reduction/plots/" #TODO rename plot path to "out"?
+
+    with open(plot_path+path+".txt", 'w') as meta:
+        for (keyword, value) in keywords.items():
+            print(keyword, "=", value, file=meta)
+
+def gen_disk_dataset(time_between_exposures: float, fried_parameter: float, field_size: float, 
+    inner_radius: float, outer_radius: float, rotation: float, inclination: float, 
+    set_rotation: float, numb: int):
 
     # set disk properties
-    disk_with_star = d.disk(field_size=10, with_star=True, inner_radius=2,
-                            outer_radius=3, rotation=0, inclination=60)
+    disk_with_star = d.disk(field_size=field_size, with_star=True, inner_radius=inner_radius,
+        outer_radius=outer_radius, rotation=rotation, inclination=inclination)
 
     # process disk with center star
     # create disk cube
     (disk_cube, disk_params) = d.gen_cube(
-        numb, disk_with_star, angular_seperation)
+        numb, disk_with_star, set_rotation)
     #plotfast.image(disk_cube[0])
     # lazily create psf cube
     (psf_cube, psf_params) = psf.calc_cube(
-        numb, fried_parameter=4, time_between=0.7)
+        numb, fried_parameter=fried_parameter, time_between=time_between_exposures)
     # lazily convolve signals
     (img_cube, img_params) = psf.convolve_cube(
         psf_cube, disk_cube, psf_params, disk_params)
