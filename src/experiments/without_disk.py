@@ -51,11 +51,10 @@ def run():
         #and right indexes
 
     save_to_fits(output_path+"right_psfs",right_psfs)
-    save_to_fits(output_path+"left_psfs",left_psf) 
-    #plotfast.image(np.asarray(right_psfs))
+    save_to_fits(output_path+"left_psfs",left_psfs) 
+
     right_final = simple_adi(right_psfs, img_params)
-    left_final = simple_adi(left_psf, img_params)
-    #plotfast.image(right_final)
+    left_final = simple_adi(left_psfs, img_params)
 
     save_to_fits(output_path+"right_final",right_final)
     save_to_fits(output_path+"left_final",left_final)
