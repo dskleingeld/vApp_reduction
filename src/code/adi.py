@@ -5,6 +5,7 @@ from astropy.io import fits
 import copy
 import math
 import os
+import glob
 
 from code.psf import from_simulated_psf as psf
 import code.disk as d
@@ -80,36 +81,6 @@ def extract_psfs(img, left_loc, right_loc, init_radius=0.15):
 
     right_psf = img[x_start:x_stop, y_start:y_stop]
     return (left_psf, right_psf)
-
-
-def gen_disk_dataset_without_star(angular_seperation, time_between_exposures, numb):
-
-    # set disk properties
-    disk_without_star = d.disk(field_size=10, with_star=False, inner_radius=2,
-                               outer_radius=3, rotation=0, inclination=60)
-
-    # process disk with center star
-    # create disk cube
-    (disk_cube, disk_params) = d.gen_cube(
-        numb, disk_without_star, angular_seperation)
-    # lazily create psf cube
-    (psf_cube, psf_params) = psf.calc_cube(
-        numb, fried_parameter=4, time_between=0.7)
-    # plotfast.image(psf_cube[0].reshape(200,200))
-    # lazily convolve signals
-    (img_cube, img_params) = psf.convolve_cube(
-        psf_cube, disk_cube, psf_params, disk_params)
-    return (
-        img_cube,
-        img_params)
-
-def write_metadata(path: str, **keywords):
-    script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
-    plot_path = script_path+"vApp_reduction/plots/" #TODO rename plot path to "out"?
-
-    with open(plot_path+path+".txt", 'w') as meta:
-        for (keyword, value) in keywords.items():
-            print(keyword, "=", value, file=meta)
 
 def gen_disk_dataset(time_between_exposures: float, fried_parameter: float, field_size: float, 
     inner_radius: float, outer_radius: float, rotation: float, inclination: float, 
@@ -192,14 +163,25 @@ def find_sub_psf_location_from_cube(img_cube):
     right = (right_x/len(img_cube), right_y/len(img_cube))
     return (left, right)
 
-def save_to_fits(name: str, array):
-    #array = 2d_array.flatten()
-    script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
-    plot_path = script_path+"vApp_reduction/plots/"
-    
-    folder = name.split("/")[0]
-    if not os.path.exists(plot_path+folder):
-        os.makedirs(plot_path+folder)
 
+
+#creates output dir if it does not exists and sets the output path for the experiment results
+def get_output_path(output_dir: str):
+    script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
+    full_path = script_path+"vApp_reduction/plots/"+output_dir
+
+    if not os.path.exists(full_path):
+        os.makedirs(full_path)
+
+    cached_results = glob.glob(full_path+'/*.txt')
+    output_path = full_path+"/"+str(len(cached_results))+"_"
+    return output_path
+
+def write_metadata(path: str, **keywords):
+    with open(path+".txt", 'w') as meta:
+        for (keyword, value) in keywords.items():
+            print(keyword, "=", value, file=meta)
+
+def save_to_fits(path: str, array):
     hdu = fits.PrimaryHDU(array)
-    hdu.writeto(plot_path+name+".fits", overwrite=True)
+    hdu.writeto(path+".fits", overwrite=True)

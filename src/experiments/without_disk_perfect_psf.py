@@ -1,8 +1,10 @@
 from code.adi import *
 
 #generates using only one psf
-def gen_adi_star_controlset(total_angle, numb):
-    angular_seperation = total_angle / numb
+def gen_adi_star_controlset(time_between_exposures: float, fried_parameter: float, 
+    set_rotation: float, numb: int):
+    
+    angular_seperation = set_rotation / numb
 
     star = np.zeros((200, 200))
     star[int(star.shape[0] / 2), int(star.shape[1] / 2)] = 1
@@ -18,7 +20,17 @@ def gen_adi_star_controlset(total_angle, numb):
     return (img_cube, img_params)
 
 def run():
-    (img_cube, img_params) = gen_adi_star_controlset(60,100)
+        
+    time_between_exposures: float = 0.7
+    fried_parameter: float = 4
+    set_rotation: float = 60
+    numb: int = 20
+
+    output_path = get_output_path("without_disk_perfect_psf")
+
+    (img_cube, img_params) = gen_adi_star_controlset(time_between_exposures,fried_parameter, set_rotation, numb)
+    write_metadata(output_path+"meta", time_between_exposures=time_between_exposures, fried_parameter=fried_parameter, 
+        set_rotation=set_rotation, numb=numb)
 
     clean_psf = psf.get_clean()
     (img_cube, _) = center_cube(img_cube, ref_img=clean_psf)
@@ -41,9 +53,12 @@ def run():
         #TODO array with indexes + something with np where to split that into left
         #and right indexes
 
-    save_to_fits("without_disk_perfect_psf/right_psfs",right_psfs)
+    save_to_fits(output_path+"right_psfs",right_psfs)
+    save_to_fits(output_path+"left_psfs",left_psf) 
     #plotfast.image(np.asarray(right_psfs))
     right_final = simple_adi(right_psfs, img_params)
-    plotfast.image(right_final)
+    left_final = simple_adi(left_psf, img_params)
+    #plotfast.image(right_final)
 
-    save_to_fits("without_disk_perfect_psf/right_final",right_final)
+    save_to_fits(output_path+"right_final",right_final)
+    save_to_fits(output_path+"left_final",left_final)

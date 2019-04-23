@@ -1,19 +1,22 @@
 from code.adi import *
 
 def run():
+    
     time_between_exposures: float = 0.7
     fried_parameter: float = 4
     field_size: float = 10 
     inner_radius: float = 2
     outer_radius: float = 3
-    rotation: float = 0
-    inclination: float = 80 
+    rotation: float = 30
+    inclination: float = 60 
     set_rotation: float = 60
     numb: int = 20
+    
+    output_path = get_output_path("normal_disk")
 
     (img_cube, img_params) = gen_disk_dataset(time_between_exposures, fried_parameter, field_size, inner_radius, outer_radius, 
         rotation, inclination, set_rotation, numb)
-    write_metadata("normal_disk/meta", time_between_exposures=time_between_exposures, fried_parameter=fried_parameter, 
+    write_metadata(output_path+"meta", time_between_exposures=time_between_exposures, fried_parameter=fried_parameter, 
         field_size=field_size, inner_radius=inner_radius, outer_radius=outer_radius, rotation=rotation, inclination=inclination, 
         set_rotation=set_rotation, numb=numb)
 
@@ -38,11 +41,13 @@ def run():
         #TODO array with indexes + something with np where to split that into left
         #and right indexes
 
-    plotfast.image(np.asarray(right_psfs))
-    save_to_fits("normal_disk/right_psfs",right_psfs)
-    
     #plotfast.image(np.asarray(right_psfs))
-    right_final = simple_adi(right_psfs, img_params)
-    #plotfast.image(right_final)
+    save_to_fits(output_path+"right_psfs",right_psfs)
+    save_to_fits(output_path+"left_psfs",left_psfs) 
 
-    save_to_fits("normal_disk/right_final",right_final)
+    right_final = simple_adi(right_psfs, img_params)
+    left_final = simple_adi(left_psfs, img_params)
+
+    save_to_fits(output_path+"right_final",right_final)
+    save_to_fits(output_path+"left_final",left_final)
+
