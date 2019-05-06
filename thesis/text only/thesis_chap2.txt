@@ -1,3 +1,29 @@
 chap 2: modelling
 
+-why model
+-generate disk
+-generate psfs with hcipy
+-combine
+
+Since we don't know what **artifacts** different data reduction methods will introduce we model the disk and mimic an observation data-set. This has a number of other advantages over using real observation with the vAPP.
+-its possible to change disk rotation and inclination whenever we want
+-we can create different disk features
+-we know what the disk should look like
+
+//TODO cite other bsc thesis
 Disk
+We use a 2-dimensional model based on the work by \cite{Pieter en Okko}. The model is based on 4 parameters: inclination, rotation, inner and outer radius. For an inclination of 0 degree the disk is observed face on. After the disk has been inclined it can be rotated //TODO rotation/pos angle. The inner radius allows a gap between the star and the disk where no light is reflected. At the outer radius the disk ends and no more light is reflected.
+
+The disk modeled is optically thick and only reflects the star light. At a certain radii between the inner and outer radii the brightness is given by:
+B(r) = B_star*(r/R_star)
+
+Psf
+//TODO cite source vApp
+To simulate an observation do not use a single psf as given by /cite{vApp} as during an observation the combined psf of the atmosphere and instrument changes. A complete simulation of these effects is out of the scope of this thesis. We instead decided to try and approach a similar morphology to the on sky psf. First we tried modifying a give single vApp psf to get a set of disturbed psfs. To achieve this we tried adding shifting patterns to the foerier transform of the psf and transforming it back from foerier space. The best results where achieved using a grid of blurred circles as pattern.
+
+F2d_inverse( F2d(psf) * pattern * intensity +  (1-intensity)*F2d(psf) )
+
+Then we tried a simulation of the psfs using HCIPy, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. Here the framework is used to do a very rough simulation. We use the provided methods to create a multi-layer atmospheric model that changes in time and generate a psf from it and the vApps amplitude and phase screen. Then we modify the fried parameter to get morphological changes that closely match the give on sky sample of the vApp.
+
+Combine
+From the disk model en a set of psf we create a dataset. The disk model is rasterised, rotated r*n degrees for every n-th psf then convolved with that n-th psf. We rotate the model before convolving to replicate the rotation of the field from observing with an alt-azimuth telescope. By convolving with the same psf instead of a set we can create a dataset without atmospheric effects. We can use such sets to check our reduction algorithms.

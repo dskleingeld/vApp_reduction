@@ -49,6 +49,8 @@ Roughly speaking disks seem to be ring or spiral shaped with some forms in betwe
 -spiral disks are almost starting theire main sequence
 -ring disk have no outer stellar companion (??)  
 
+//TODO something about the gap (inner radius)
+
 It is challanging to observe a disk since its brightness is low compared to the star. To get an upper limit on the brightness of a disk assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exeeding 1/R^2. A disk at 1 AU from an run like star will have a brightness 2.1*10**-5 of the star. At 5 au this drops to 8.6*10**-7. 
 
 Currently there is only one planet that has been detected with direct imaging within a 1 EU radius, however it orbits an ultracool dwarf /ref{http://exoplanet.eu/catalog/de0823-49_b/}.

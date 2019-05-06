@@ -6,8 +6,8 @@ def run():
     fried_parameter: float = 4
     field_size: float = 10 
     inner_radius: float = 2
-    outer_radius: float = 3
-    rotation: float = 30
+    outer_radius: float = 5
+    rotation: float = 120
     inclination: float = 60 
     set_rotation: float = 60
     numb: int = 20
@@ -50,4 +50,4 @@ def run():
 
     save_to_fits(output_path+"right_final",right_final)
     save_to_fits(output_path+"left_final",left_final)
-
+    plotfast.image(np.asarray(right_final))

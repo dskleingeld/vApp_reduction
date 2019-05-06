@@ -3,7 +3,7 @@ from scipy import signal
 import astropy.io.fits as fits
 import pickle
 
-from multiprocess import Pool
+from multiprocessing import Pool
 from tqdm import tqdm
 from functools import partial
 import os

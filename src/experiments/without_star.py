@@ -40,7 +40,7 @@ def run():
     field_size: float = 10 
     inner_radius: float = 2
     outer_radius: float = 3
-    rotation: float = 0
+    rotation: float = 120
     inclination: float = 60 
     set_rotation: float = 60
     numb: int = 20

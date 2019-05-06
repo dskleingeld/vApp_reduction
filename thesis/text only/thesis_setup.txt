@@ -13,8 +13,9 @@ proto planatary disks
 chap 2: modelling
 disk (method results discussion)
 psf  (method results discussion)
+combine with convolution
 
-chap 3: data reduction
+chap 3: ADI
 Rdi (method results discussion)
 Adi (same)
 Pdi (same)
@@ -37,3 +38,12 @@ verb tenses:
     -past: work done, work reported, observations
     -present: general truths like conclusions and atemporal facts (what does paper cover)
     -future: perspective, only things that will happen in the future
+    
+################################################################################
+
+chap ? approch
+
+ADI
+-alignment (preprocessing)
+-adi (postprocessing)
+
