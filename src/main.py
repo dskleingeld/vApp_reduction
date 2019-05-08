@@ -57,11 +57,12 @@ if __name__ == "__main__":
 
     plotfast.plotfunct(toplot, image_clean, [16,3, 1.5, -1750, 0.3], [1,1,1,1,1])
     
-    psf1, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1750, intensity=0.3)
+    psf1, p1 = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1750, intensity=0.3)
     psf2, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1740, intensity=0.3)
 
     psf3, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1750, intensity=0.3)
     psf4, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1745, intensity=0.3)
+
 
 
     difference1 = psf1-psf2
@@ -70,3 +71,5 @@ if __name__ == "__main__":
     output_path = get_output_path("old_psf_changing")
     plotslow.saveImage(difference1, output_path+"old_psf_diff1")
     plotslow.saveImage(difference2, output_path+"old_psf_diff2")
+
+    plotslow.saveImage(p1, output_path+"pattern")
