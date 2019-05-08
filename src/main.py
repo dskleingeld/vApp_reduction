@@ -1,4 +1,4 @@
-from experiments import normal_disk, without_disk, without_disk_perfect_psf, without_star, without_star_perfect_psf, plots
+from experiments import normal_disk, without_disk, without_disk_perfect_psf, without_star, without_star_perfect_psf, miscellaneous
 
 if __name__ == "__main__":
     #normal_disk.run()
@@ -6,4 +6,4 @@ if __name__ == "__main__":
     #without_disk_perfect_psf.run()
     #without_star.run()
     #without_star_perfect_psf.run()
-    plots.run()
+    miscellaneous.on_sky()

@@ -91,6 +91,7 @@ def on_sky():
     difference2 = normalised[0]-normalised[9]
     difference3 = normalised[0]-normalised[49]
 
-    plotslow.saveImage(difference1, normalised+"on_sky_psf_diff_007")
-    plotslow.saveImage(difference2, normalised+"on_sky_psf_diff_070")
-    plotslow.saveImage(difference3, normalised+"on_sky_psf_diff_140")
+    output_path = get_output_path("miscellaneous")
+    plotslow.saveImage(difference1, output_path+"on_sky_psf_diff_007")
+    plotslow.saveImage(difference2, output_path+"on_sky_psf_diff_070")
+    plotslow.saveImage(difference3, output_path+"on_sky_psf_diff_140")
