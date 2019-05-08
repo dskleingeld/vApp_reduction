@@ -7,7 +7,6 @@ generate_vAPP/
 dependencies/
 data/
 README.md
-thesis/
 BRP38.py
 *.params
 *.npz
