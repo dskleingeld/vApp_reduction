@@ -33,27 +33,40 @@ import psf.from_simulated_psf as psf
 import disk
 import plot.fast as plotfast
 import plot.slow as plotslow
-
+import os
+import glob
 from scipy import signal
 
-if __name__ == "__main__":
-    
-    disk_properties = disk.properties(6, with_star=False,inner_radius=1,outer_radius=5, rotation=45, inclination=70)
-    clean_disk = disk.from_properties(disk_properties, resolution=200)
-    
-    clean_psf = psf.get_clean()  
-    #TODO specler/abberations (load/gen new?)
-    #print(clean_psf)
-    #print(clean_disk)
-    #simulated_output = signal.convolve2d(clean_disk,clean_psf)
-    
-    #print(simulated_output)
-    plotfast.image(clean_disk)
+def get_output_path(output_dir: str):
+    script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
+    full_path = script_path+"vApp_reduction/plots/"+output_dir
 
-    # from matplotlib import pyplot as plt
-    # plt.clf()
-    # plt.imshow(simulated_output, interpolation='none', origin = 'lower',
-               # cmap = plt.get_cmap('afmhot'))
-    # plt.colorbar(label = 'Relative luminosity')
-    # plt.title('Intensity profile')
-    # plt.show()
+    if not os.path.exists(full_path):
+        os.makedirs(full_path)
+
+    cached_results = glob.glob(full_path+'/*.txt')
+    output_path = full_path+"/"+str(len(cached_results))+"_"
+    return output_path
+
+if __name__ == "__main__":
+
+    image_clean = psf.get_clean()  
+    def toplot(funct_args, modifiers_list):
+        one, two = psf.place_circle_grid(funct_args,radius=modifiers_list[0], spacing=modifiers_list[1], blur=modifiers_list[2], roll_x=modifiers_list[3], intensity=modifiers_list[4])
+        return [one,two]
+
+    plotfast.plotfunct(toplot, image_clean, [16,3, 1.5, -1750, 0.3], [1,1,1,1,1])
+    
+    psf1, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1750, intensity=0.3)
+    psf2, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1740, intensity=0.3)
+
+    psf3, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1750, intensity=0.3)
+    psf4, _ = psf.place_circle_grid(image_clean,radius=16, spacing=3, blur=1.5, roll_x=-1745, intensity=0.3)
+
+
+    difference1 = psf1-psf2
+    difference2 = psf3-psf4
+
+    output_path = get_output_path("old_psf_changing")
+    plotslow.saveImage(difference1, output_path+"old_psf_diff1")
+    plotslow.saveImage(difference2, output_path+"old_psf_diff2")
