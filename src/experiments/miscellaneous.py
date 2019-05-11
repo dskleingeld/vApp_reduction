@@ -95,3 +95,49 @@ def on_sky():
     plotslow.saveImage(difference1, output_path+"on_sky_psf_diff_007")
     plotslow.saveImage(difference2, output_path+"on_sky_psf_diff_070")
     plotslow.saveImage(difference3, output_path+"on_sky_psf_diff_140")
+
+
+
+def run_loyt():
+    from hcipy import make_pupil_grid, make_focal_grid, FraunhoferPropagator, circular_aperture, evaluate_supersampled, imshow_field, imsave_field, Field, LyotCoronagraph, Wavefront
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import skimage.draw as sk
+
+    def circle(shape, radius=0.5):
+        A = np.zeros(shape,dtype=float)
+        
+        rr, cc = sk.circle(shape[0]/2, shape[1]/2, radius*min(shape[0]/2,shape[1]/2) )
+        A[rr,cc] = 1
+        
+        return A
+
+    pupil_grid = make_pupil_grid(1024)
+    focal_grid = make_focal_grid(pupil_grid, 8, 32)
+    prop = FraunhoferPropagator(pupil_grid, focal_grid)
+
+    aperture = circular_aperture(1)
+    aperture = evaluate_supersampled(aperture, pupil_grid, 8)
+
+    mask = Field(circle((1024,1024), radius=0.5).ravel(), pupil_grid)
+    stop = Field((1-circle((1024,1024), radius=0.5)).ravel(), focal_grid)
+    coro = LyotCoronagraph(pupil_grid, mask, stop)
+
+    wf = Wavefront(aperture)
+    lyot = coro(wf)
+
+    img = prop(lyot)
+    img_ref = prop(wf)
+
+
+    output_path = get_output_path("lyot")
+
+    fig = plt.figure()
+    imshow_field(np.log10(img.intensity / img_ref.intensity.max()), vmin=-12)
+    plt.colorbar()
+    fig.savefig(output_path+"lyot_psf")
+
+    fig = plt.figure()
+    imshow_field(np.log10(img_ref.intensity / img_ref.intensity.max()), vmin=-12)
+    plt.colorbar()
+    fig.savefig(output_path+"normal_psf")
