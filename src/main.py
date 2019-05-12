@@ -6,4 +6,4 @@ if __name__ == "__main__":
     #without_disk_perfect_psf.run()
     #without_star.run()
     #without_star_perfect_psf.run()
-    miscellaneous.on_sky()
+    miscellaneous.clean_vapp()
