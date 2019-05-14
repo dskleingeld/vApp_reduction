@@ -1,0 +1,117 @@
+% Chapter X
+
+\chapter{Instrument and Opics} % Chapter title
+\label{ch:vapp} % For referencing the chapter elsewhere, use \autoref{ch:name} 
+
+%intro
+
+%------------------------------------------------
+\section{PSF}
+
+We can describe what happens to light going through an optical system with its point spread function (PSF). How do we find the PSF? The Hygens-Fresnel Principle states any area can be treated as filled with coherent point sources. An optical element can change these point sources, for example an aperture allows only a small area to be filled with these point sources. To find the field at a point P at location R we sum over the infinite point sources taking into account these all have different distances to R. This is written as:
+
+\begin{subequations}
+    \begin{align}
+        E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{Aperture} e^{ik(Yy+Zz)/R} dS
+    \end{align}
+\end{subequations}
+
+hecht 10.41
+where: Y,Z are the coord of the field in the image plane
+y,z coord of the point source
+
+We only want the amplitude for the PSF thus drop the phase info (e power etc). To account for changes in phase and magnitude of the field caused by Optical instruments we including an aperture function. This results in:
+
+\begin{subequations}
+%  \label{eq:Master} % NO! impossible here
+  \begin{align}
+    \mathscr{A}(y,z) &= \mathscr{A}_0 (y,z)e^{i\upphi(y,z)}
+  \end{align}
+\end{subequations}
+
+hecht 11.62
+here: expl vars.  
+
+\begin{subequations}
+%  \label{eq:Master} % NO! impossible here
+  \begin{align}
+    E(Y,Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(Yy+Zz)/R} dydz
+  \end{align}
+\end{subequations}
+
+hecht 11.63
+here: expl vars.  
+
+The above still depends on the distance from the screen R. We can rewrite it by subsututing Ky = kY/R and Kz = kZ/R for Y and Z. This gives the final form: 
+
+\begin{subequations}
+%  \label{eq:Master} % NO! impossible here
+  \begin{align}
+    E(K_Y,K_Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(K_Yy+K_Zz)/R} dydz
+  \end{align}
+\end{subequations}
+hecht 11.66
+with: expl vars
+
+Ignoring one of the dimensions this reduces to the Foerier transformation of the aperture function. Thus "the field distribution in the fraunhofer diffraction pattern is the Fourier transform of the field distrubution across the aperture (e.i., the aperture function" /cite{hecht}. 
+
+This means we can calculate the PSF of the vApp by simply foerier transforming its apperture function. The apperture function is given by the phase modification and apperture shape of the vApp. These are given.
+
+Now we have the PSF we know how a single point source would look when imaged by the vApp. If we assume the vApp is a linear system where changing the location of the input only changes the location of the output. Thus disregarding possible abberations. We can use the superposision pinciple. To create an image of any extended source we simply sum over the PSF of the discrete sources that make up the extended source. More generally we convolve the PSF and the extended source.
+
+\subsection{Atmorphere and Specles}
+% how does the atmospere and AO influence the instrument psf
+
+Unfortunately using a PSF to simulate observed data neglects the effect of the atmosphere. These effects are an unwanted optical system in front of the instrument. With adaptive optics (AO) the effects can be reduced. However AO create theire own distortions, these are known as specles. As the light passes through the AO before hitting the vApp, the vApp PSF is applied to the AO PSF. As the atmosphere changes the AO PSF will change with it. This results in a total PSF that changes over time.
+
+%---------------------------------------------------------------------------------------
+
+
+
+-
+
+\section{vApp}
+
+The vApp /ref{papervApp} is a coronograph placed at the pupil of a telescope. It blocks part of the star light making it possible to observe faint objects close to a star. The vApp does this by modifing the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Thus any faint object next to the star in the now dark region becomes visible. This is done mirrored for 2 duplications of the image. Thus it does not matter where around the star the object is.
+
+%---------------------------------------------------------------------------------------
+
+
+
+
+
+
+\section{Disks} % Chapter title
+\label{sec:disks} % For referencing the chapter elsewhere, use \autoref{ch:name} 
+
+A newly formed star is enveloped in a disk of gass and dust, a protoplanatary disk.
+
+--something about the components/dust/gass ref{williams}
+
+From it planets can form. The process of planat formation is not yet understoot. Direct imaging of newly formed planets is hard. Objects inside a disk disturb the shape and create features in the disk. By observing the features of a disk we can learn more about planet formation.
+
+\subsection{Catogorisation}
+
+Roughly speaking disks seem to be ring or spiral shaped with some forms in between. /ref{garufi} classifies them into 6 catogories in \autoref{fig:sketch_garufi}. 
+
+\begin{figure}[h]
+    \label{fig:sketch_garufi}
+    \caption{Sketch summarizing the different classifications of protoplenatary disks proposed by /ref}
+    \centering
+    \includegraphics[width=8cm]{gfx/catogories}
+\end{figure}
+
+They then conclude that: 
+-faint disks are young
+-spiral disks are almost starting theire main sequence
+-ring disk have no outer stellar companion (??)  
+
+%------------------------------------------------
+
+\subsection{Challenging to Obeserve}
+
+It is challanging to observe a disk since its brightness is low compared to the star. To get an upper limit on the brightness of a disk assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exeeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. 
+
+%Currently there is only one planet that has been detected with direct imaging within a 1 EU radius, however it orbits an ultracool dwarf /ref{http://exoplanet.eu/catalog/de0823-49_b/}.
+
+%----------------------------------------------------------------------------------------
