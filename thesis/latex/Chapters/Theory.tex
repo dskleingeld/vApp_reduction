@@ -1,48 +1,54 @@
 % Chapter X
 
-\chapter{Instrument and Opics} % Chapter title
-\label{ch:vapp} % For referencing the chapter elsewhere, use \autoref{ch:name} 
-
+\chapter{Theory} % Chapter title
+\label{ch:theory} % For referencing the chapter elsewhere, use \autoref{ch:name} 
 %intro
-
+Here we discuss what an psf is, how it helps us describe an optical system and how they natuarally apear from basic optics. Then we look at the different types of disks that have been observed and what contrasts we expect.
 %------------------------------------------------
 \section{PSF}
+\label{sec:PSF}
 
-We can describe what happens to light going through an optical system with its point spread function (PSF). How do we find the PSF? The Hygens-Fresnel Principle states any area can be treated as filled with coherent point sources. An optical element can change these point sources, for example an aperture allows only a small area to be filled with these point sources. To find the field at a point P at location R we sum over the infinite point sources taking into account these all have different distances to R. This is written as:
+We can describe what happens to light going through an optical system with its point spread function (PSF). It describes the light intensity on the focal plane (where the sensor is located) as a function of x and y when a single light ray is imaged on the center of the focal plane. 
+
+We derive a way to find the PSF from the Hygens-Fresnel Principle. It states any part of a wave can be described as a front of inifinite point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
+
+\begin{figure}[h]
+    \caption{Fraunhofer diffraction from an arbitary aperture, r and R large compared to the size of the hole. Extracted from Optics 5th edition, by \cite{hecht}}
+    \centering
+    \includegraphics[width=\textwidth]{gfx/hecht2}
+    \label{fig:hecht}
+\end{figure}
+
+We find the electric field at a point P at distance R by summing up the fields of these infinite point sources taking into account the different distances to R. Writing the infinite sum as an integral we get \autoref{eq:hecht10.41} for the electric field at a point P some distance R from an apperture.
 
 \begin{subequations}
     \begin{align}
         E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{Aperture} e^{ik(Yy+Zz)/R} dS
     \end{align}
+    \label{eq:hecht10.41}
 \end{subequations}
 
-hecht 10.41
-where: Y,Z are the coord of the field in the image plane
-y,z coord of the point source
+Here capital Y, Z describe the position in the imaging plane in which P lies as seen in \autoref{fig:hecht}. Small letters y and z are the position in the apperture plane. The integral is over the apperture, only integrating over the transparent parts. 
 
-We only want the amplitude for the PSF thus drop the phase info (e power etc). To account for changes in phase and magnitude of the field caused by Optical instruments we including an aperture function. This results in:
+To account for changes in phase and not only magnitude of the field caused by Optical instruments we including an aperture function instead of just integrating over the shape of the apperture. This results in:
 
 \begin{subequations}
-%  \label{eq:Master} % NO! impossible here
   \begin{align}
     \mathscr{A}(y,z) &= \mathscr{A}_0 (y,z)e^{i\upphi(y,z)}
   \end{align}
 \end{subequations}
 
-hecht 11.62
-here: expl vars.  
+Here the amplitude of the apperture function comes from $\mathscr{A}_0$ and the phase from $e^{i\upphi(y,z)}$.
 
 \begin{subequations}
-%  \label{eq:Master} % NO! impossible here
   \begin{align}
     E(Y,Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(Yy+Zz)/R} dydz
   \end{align}
 \end{subequations}
 
-hecht 11.63
-here: expl vars.  
+The expression for the E field at the point P (\autoref{eq:hecht10.41}) rewritten to make use of the apperture function.
 
-The above still depends on the distance from the screen R. We can rewrite it by subsututing Ky = kY/R and Kz = kZ/R for Y and Z. This gives the final form: 
+We can rewrite this to get rid of the dependence on the distance by subsututing Ky = kY/R and Kz = kZ/R for Y and Z. This gives the final form: 
 
 \begin{subequations}
 %  \label{eq:Master} % NO! impossible here
@@ -50,19 +56,20 @@ The above still depends on the distance from the screen R. We can rewrite it by 
     E(K_Y,K_Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(K_Yy+K_Zz)/R} dydz
   \end{align}
 \end{subequations}
-hecht 11.66
-with: expl vars
 
-Ignoring one of the dimensions this reduces to the Foerier transformation of the aperture function. Thus "the field distribution in the fraunhofer diffraction pattern is the Fourier transform of the field distrubution across the aperture (e.i., the aperture function" /cite{hecht}. 
+This is the 2 dimensional Foerier transformation of the aperture function. Thus "the field distribution in the fraunhofer diffraction pattern is the Fourier transform of the field distrubution across the aperture (e.i., the aperture function" \cite{hecht}). 
 
-This means we can calculate the PSF of the vApp by simply foerier transforming its apperture function. The apperture function is given by the phase modification and apperture shape of the vApp. These are given.
+For the psf we are interested in the intesity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the PSF of the vAPP by foerier transforming its apperture function and squaring the result. Note that the amplitude in the apperture function does not only have to depend on the shape of the apperture as there might be partially transparant material. The apperture function does not even have to be an apperture.
 
-Now we have the PSF we know how a single point source would look when imaged by the vApp. If we assume the vApp is a linear system where changing the location of the input only changes the location of the output. Thus disregarding possible abberations. We can use the superposision pinciple. To create an image of any extended source we simply sum over the PSF of the discrete sources that make up the extended source. More generally we convolve the PSF and the extended source.
+With the PSF we know how a single point source would look when imaged by an optical system. If we assume the system is linear system (****isnt it always*****?) we can use the superposition principle to image extended sources by convolving the psf with the extended source. 
 
-\subsection{Atmorphere and Specles}
+\subsection{Atmorphere}
 % how does the atmospere and AO influence the instrument psf
 
-Unfortunately using a PSF to simulate observed data neglects the effect of the atmosphere. These effects are an unwanted optical system in front of the instrument. With adaptive optics (AO) the effects can be reduced. However AO create theire own distortions, these are known as specles. As the light passes through the AO before hitting the vApp, the vApp PSF is applied to the AO PSF. As the atmosphere changes the AO PSF will change with it. This results in a total PSF that changes over time.
+The telescope or choronograph are the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. Each layer moves in a different direction at a different speed as winds are different at various altitudes. This changes the phase of the light. The complete psf changes all the time. The changes are smaller at smaller timescales. 
+
+\subsection{Adaptive Opics and spechles}
+Since the 1990 adaptive optics (AO) are used. These change shape to undo the phase change of the atmosphere. However as these effects are unpredictable they always lack behind slightly. Further more they have errors themself, the phase is never completly corrected. Both these effects cause small distortions in the final image, these are known as spechles. Thus even with AO the total psf for the atmosphere, the AO and the instrument will keep changing in time, however the magnitude of the change is severly reduced. Adaptive optics don not correct the entire field, generally each system has a radius of correction in which the AO works.
 
 %---------------------------------------------------------------------------------------
 
@@ -70,10 +77,15 @@ Unfortunately using a PSF to simulate observed data neglects the effect of the a
 
 -
 
-\section{vApp}
+\section{vAPP}
 
-The vApp /ref{papervApp} is a coronograph placed at the pupil of a telescope. It blocks part of the star light making it possible to observe faint objects close to a star. The vApp does this by modifing the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Thus any faint object next to the star in the now dark region becomes visible. This is done mirrored for 2 duplications of the image. Thus it does not matter where around the star the object is.
+As mentioned in the introduction the vector apodising phase plate is not a normal coronograph. The apodising phase plate (APP) is a coronograph that changes amplitude of phase in the pupil plane to create destructive interference in an erea of the psf. This creates a very dark area on the psf. Dim object imaged there can be resolved if the contrast between them and the star is smaller then the contrast between center peak of the psf and the dark zone. Because the coronograph works in the pupil plane it is insensitive to the effects of spechles, further more unresolved stars do not limit how close to a star the chronograph can function. %TODO is this last sentence correct, paper names tip tilt erros and unresolved stars? 
 
+The APP does this by introduces differences in the optical path length thereby changing the phase. These changes are designed to create the mentiond dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vAPP_vs_APP}. To do so opical the path length differences need to be different throughout the pupil, the design can be seen as a hightmap of path differences. The APP is manufactured by directly printing that heightmap using liquid-crystal technology. 
+
+The vAPP is an upgrade to the APP that applies a the path length 
+%FIXME vapp creates 2, left and right handed, mirrord copies that are then split based on handedness?
+%TODO write text
 %---------------------------------------------------------------------------------------
 
 
@@ -92,13 +104,13 @@ From it planets can form. The process of planat formation is not yet understoot.
 
 \subsection{Catogorisation}
 
-Roughly speaking disks seem to be ring or spiral shaped with some forms in between. /ref{garufi} classifies them into 6 catogories in \autoref{fig:sketch_garufi}. 
+Roughly speaking disks seem to be ring or spiral shaped with some forms in between. \cite{garufi} classifies them into 6 catogories in \autoref{fig:sketch_garufi}. 
 
 \begin{figure}[h]
-    \label{fig:sketch_garufi}
     \caption{Sketch summarizing the different classifications of protoplenatary disks proposed by /ref}
     \centering
-    \includegraphics[width=8cm]{gfx/catogories}
+    \includegraphics[width=\textwidth]{gfx/catogories}
+    \label{fig:sketch_garufi}
 \end{figure}
 
 They then conclude that: 
@@ -111,6 +123,8 @@ They then conclude that:
 \subsection{Challenging to Obeserve}
 
 It is challanging to observe a disk since its brightness is low compared to the star. To get an upper limit on the brightness of a disk assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exeeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. 
+
+%TODO something about contrast
 
 %Currently there is only one planet that has been detected with direct imaging within a 1 EU radius, however it orbits an ultracool dwarf /ref{http://exoplanet.eu/catalog/de0823-49_b/}.
 
