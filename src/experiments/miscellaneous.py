@@ -53,9 +53,9 @@ def run():
     difference2 = psf_cube[0]-psf_cube[9]
     difference3 = psf_cube[0]-psf_cube[49]
 
-    plotslow.saveImage(difference1, output_path+"psf_diff_007")
-    plotslow.saveImage(difference2, output_path+"psf_diff_070")
-    plotslow.saveImage(difference3, output_path+"psf_diff_140")
+    plotslow.saveImage_withCb(difference1, output_path+"psf_diff_007", 0.0015)
+    plotslow.saveImage_withCb(difference2, output_path+"psf_diff_070", 0.0015)
+    plotslow.saveImage_withCb(difference3, output_path+"psf_diff_140", 0.0015)
 
     #plotfast.image(np.array([difference1,difference3, difference2]))
 
@@ -91,10 +91,17 @@ def on_sky():
     difference2 = normalised[0]-normalised[9]
     difference3 = normalised[0]-normalised[49]
 
+    difference1 = np.rot90(difference1[15:-75, 40:-50])
+    difference2 = np.rot90(difference2)[20:205, :175]
+    difference3 = np.rot90(difference3)[20:205, :175]
+    print(difference1.shape)
+    print(difference2.shape)
+    print(difference3.shape)
+
     output_path = get_output_path("miscellaneous")
-    plotslow.saveImage(difference1, output_path+"on_sky_psf_diff_007")
-    plotslow.saveImage(difference2, output_path+"on_sky_psf_diff_070")
-    plotslow.saveImage(difference3, output_path+"on_sky_psf_diff_140")
+    plotslow.saveImage_withCb(difference1, output_path+"on_sky_psf_diff_007", 0.5)
+    plotslow.saveImage_withCb(difference2, output_path+"on_sky_psf_diff_070", 0.5)
+    plotslow.saveImage_withCb(difference3, output_path+"on_sky_psf_diff_140", 0.5)
 
 
 

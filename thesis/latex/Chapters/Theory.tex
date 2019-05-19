@@ -3,23 +3,23 @@
 \chapter{Theory} % Chapter title
 \label{ch:theory} % For referencing the chapter elsewhere, use \autoref{ch:name} 
 %intro
-Here we discuss what an psf is, how it helps us describe an optical system and how they natuarally apear from basic optics. Then we look at the different types of disks that have been observed and what contrasts we expect.
+Here we discuss what an \ac{PSF} is, how it helps us describe an optical system and how they naturally appear from basic optics. Then we look at the different types of disks that have been observed and what contrasts we expect.
 %------------------------------------------------
-\section{PSF}
+\section{Point spread function}
 \label{sec:PSF}
 
-We can describe what happens to light going through an optical system with its point spread function (PSF). It describes the light intensity on the focal plane (where the sensor is located) as a function of x and y when a single light ray is imaged on the center of the focal plane. 
+We can describe what happens to light going through an optical system with its \ac{PSF}. It describes the light intensity on the focal plane (where the sensor is located) as a function of x and y when a single light ray is imaged on the center of the focal plane. 
 
-We derive a way to find the PSF from the Hygens-Fresnel Principle. It states any part of a wave can be described as a front of inifinite point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
+We derive a way to find the \ac{PSF} from the Huygens-Fresnel Principle. It states any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
 
 \begin{figure}[h]
-    \caption{Fraunhofer diffraction from an arbitary aperture, r and R large compared to the size of the hole. Extracted from Optics 5th edition, by \cite{hecht}}
+    \caption{Fraunhofer diffraction from an arbitrary aperture, r and R large compared to the size of the hole. Extracted from Optics 5th edition, by \cite{hecht}}
     \centering
     \includegraphics[width=\textwidth]{gfx/hecht2}
     \label{fig:hecht}
 \end{figure}
 
-We find the electric field at a point P at distance R by summing up the fields of these infinite point sources taking into account the different distances to R. Writing the infinite sum as an integral we get \autoref{eq:hecht10.41} for the electric field at a point P some distance R from an apperture.
+We find the electric field at a point P at distance R by summing up the fields of these infinite point sources taking into account the different distances to R. Writing the infinite sum as an integral we get \autoref{eq:hecht10.41} for the electric field at a point P some distance R from an aperture.
 
 \begin{subequations}
     \begin{align}
@@ -28,9 +28,9 @@ We find the electric field at a point P at distance R by summing up the fields o
     \label{eq:hecht10.41}
 \end{subequations}
 
-Here capital Y, Z describe the position in the imaging plane in which P lies as seen in \autoref{fig:hecht}. Small letters y and z are the position in the apperture plane. The integral is over the apperture, only integrating over the transparent parts. 
+Here $Y$, $Z$ describe the position in the imaging plane in which $P$ lies as seen in \autoref{fig:hecht}. Small letters $y$ and $z$ are the position in the aperture plane. The integral is over the aperture, only integrating over the transparent parts. 
 
-To account for changes in phase and not only magnitude of the field caused by Optical instruments we including an aperture function instead of just integrating over the shape of the apperture. This results in:
+To account for changes in phase and not only magnitude of the field caused by Optical instruments we including an aperture function instead of just integrating over the shape of the aperture. This results in:
 
 \begin{subequations}
   \begin{align}
@@ -38,7 +38,7 @@ To account for changes in phase and not only magnitude of the field caused by Op
   \end{align}
 \end{subequations}
 
-Here the amplitude of the apperture function comes from $\mathscr{A}_0$ and the phase from $e^{i\upphi(y,z)}$.
+Here the amplitude of the aperture function comes from $\mathscr{A}_0$ and the phase from $e^{i\upphi(y,z)}$.
 
 \begin{subequations}
   \begin{align}
@@ -46,9 +46,9 @@ Here the amplitude of the apperture function comes from $\mathscr{A}_0$ and the 
   \end{align}
 \end{subequations}
 
-The expression for the E field at the point P (\autoref{eq:hecht10.41}) rewritten to make use of the apperture function.
+The expression for the E field at the point P (\autoref{eq:hecht10.41}) rewritten to make use of the aperture function.
 
-We can rewrite this to get rid of the dependence on the distance by subsututing Ky = kY/R and Kz = kZ/R for Y and Z. This gives the final form: 
+We can rewrite this to get rid of the dependence on the distance by substituting $Ky = kY/R$ and $Kz = kZ/R$ for $Y$ and $Z$. This gives the final form: 
 
 \begin{subequations}
 %  \label{eq:Master} % NO! impossible here
@@ -57,19 +57,21 @@ We can rewrite this to get rid of the dependence on the distance by subsututing 
   \end{align}
 \end{subequations}
 
-This is the 2 dimensional Foerier transformation of the aperture function. Thus "the field distribution in the fraunhofer diffraction pattern is the Fourier transform of the field distrubution across the aperture (e.i., the aperture function" \cite{hecht}). 
+This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (e.i., the aperture function)} \cite{hecht}. 
 
-For the psf we are interested in the intesity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the PSF of the vAPP by foerier transforming its apperture function and squaring the result. Note that the amplitude in the apperture function does not only have to depend on the shape of the apperture as there might be partially transparant material. The apperture function does not even have to be an apperture.
+For the \ac{PSF} we are interested in the intensity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the \ac{PSF} of an instrument by Fourier transforming its (complex) aperture function and squaring the result. Note that the amplitude in the aperture function does not only have to depend on the shape of the aperture as there might be partially transparent material. The aperture function does not even have to be an aperture.
 
-With the PSF we know how a single point source would look when imaged by an optical system. If we assume the system is linear system (****isnt it always*****?) we can use the superposition principle to image extended sources by convolving the psf with the extended source. 
+With the \ac{PSF} we know how a single point source would look when imaged by an optical system. If we assume the system is linear system we can use the superposition principle to image extended sources by convolving the \ac{PSF} with the extended source. 
+%TODO isnt an optical system always linear?
 
-\subsection{Atmorphere}
+\subsection{Atmosphere}
 % how does the atmospere and AO influence the instrument psf
 
-The telescope or choronograph are the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. Each layer moves in a different direction at a different speed as winds are different at various altitudes. This changes the phase of the light. The complete psf changes all the time. The changes are smaller at smaller timescales. 
+The telescope or chronograph are the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. Each layer moves in a different direction at a different speed as winds are different at various altitudes. This changes the phase of the light. The complete \ac{PSF} changes all the time. The changes are smaller at smaller timescales. 
 
-\subsection{Adaptive Opics and spechles}
-Since the 1990 adaptive optics (AO) are used. These change shape to undo the phase change of the atmosphere. However as these effects are unpredictable they always lack behind slightly. Further more they have errors themself, the phase is never completly corrected. Both these effects cause small distortions in the final image, these are known as spechles. Thus even with AO the total psf for the atmosphere, the AO and the instrument will keep changing in time, however the magnitude of the change is severly reduced. Adaptive optics don not correct the entire field, generally each system has a radius of correction in which the AO works.
+\subsection{Adaptive Optics and spechles}
+\label{sec:ao}
+Since the 1990 \ac{AO} are used. These change shape to undo the phase change of the atmosphere. However as these effects are unpredictable they always lack behind slightly. Further more they have errors them self, the phase is never completely corrected. Both these effects cause small distortions in the final image, these are known as spechles. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO} and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics don not correct the entire field, generally each system has a control radius in which the \ac{AO} can reduce the seeing.
 
 %---------------------------------------------------------------------------------------
 
@@ -77,15 +79,14 @@ Since the 1990 adaptive optics (AO) are used. These change shape to undo the pha
 
 -
 
-\section{vAPP}
+\section{Vector apodizing phase plate}
+\label{sec:vapp}
 
-As mentioned in the introduction the vector apodising phase plate is not a normal coronograph. The apodising phase plate (APP) is a coronograph that changes amplitude of phase in the pupil plane to create destructive interference in an erea of the psf. This creates a very dark area on the psf. Dim object imaged there can be resolved if the contrast between them and the star is smaller then the contrast between center peak of the psf and the dark zone. Because the coronograph works in the pupil plane it is insensitive to the effects of spechles, further more unresolved stars do not limit how close to a star the chronograph can function. %TODO is this last sentence correct, paper names tip tilt erros and unresolved stars? 
+As mentioned in the introduction the vector apodizing phase plate is not a normal chronograph. The \ac{APP} is a chronograph that changes amplitude of phase in the pupil plane to create destructive interference in an area of the \ac{PSF}. This creates a dark zone on the \ac{PSF}. Dim object imaged there can be resolved if the contrast between them and the star is smaller then the contrast between center peak of the \ac{PSF} and the dark zone. Because the chronograph works in the pupil plane it is insensitive to the effects of spechles, further more unresolved stars do not limit how close to a star the chronograph can function. %TODO is this last sentence correct, paper names tip tilt erros and unresolved stars? 
 
-The APP does this by introduces differences in the optical path length thereby changing the phase. These changes are designed to create the mentiond dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vAPP_vs_APP}. To do so opical the path length differences need to be different throughout the pupil, the design can be seen as a hightmap of path differences. The APP is manufactured by directly printing that heightmap using liquid-crystal technology. 
+The \ac{APP} does this by introduces differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vAPP_vs_APP}. To do so optical the path length differences need to be different throughout the pupil, the design can be seen as a heightmap of path differences. The \ac{APP} is manufactured by directly printing that heightmap using liquid-crystal technology. 
 
-The vAPP is an upgrade to the APP that applies a the path length 
-%FIXME vapp creates 2, left and right handed, mirrord copies that are then split based on handedness?
-%TODO write text
+The \ac{vAPP} is an upgrade to the \ac{APP} that applies the path length differently mirrored to right and left handedly polerised light. By then splitting the right and left handed light and imaging both seperated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP} at a cost of brightness. However there is ample enough light that this is a small price to pay.
 %---------------------------------------------------------------------------------------
 
 
@@ -96,36 +97,44 @@ The vAPP is an upgrade to the APP that applies a the path length
 \section{Disks} % Chapter title
 \label{sec:disks} % For referencing the chapter elsewhere, use \autoref{ch:name} 
 
-A newly formed star is enveloped in a disk of gass and dust, a protoplanatary disk.
+With the formation of a star it is inevitable a disk will form due to to the conservation of angular momentum. While initially material will orbit in various directions and planes these will slowly cancel out due to collisions and attraction leaving the average plane and direction as the final orientation of a disk around the star. It seems likely these disk will allow the formation of planets due to the high detection rate of exoplanets \cite{williams}.
 
---something about the components/dust/gass ref{williams}
+The formation of discs goes through 3 main stages\cite{williams} :
 
-From it planets can form. The process of planat formation is not yet understoot. Direct imaging of newly formed planets is hard. Objects inside a disk disturb the shape and create features in the disk. By observing the features of a disk we can learn more about planet formation.
+\begin{enumerate}
+  \item Right after the molecular core collapses, most mass is still in a cloud surrounding the disk and the star. Due to that it is not possible to see the disk in the near-IR  or optical regime.
+  \item Most mass moves into the star, the disk is obstructed by outflow of mass. The enveloping mass is about the same as the disks.
+  \item Central star becomes visible, the enveloping dust has cleared and the disk only contains a few percent of the total mass. It now is a protoplanetary disk.
+\end{enumerate}
 
-\subsection{Catogorisation}
+During the first two stages the star is still forming, the disk is obstructed by dust and they take a relatively short time. However at the third stage we should be able to study the disk. After this stage planets can form, their formation process is uncertain. 
 
-Roughly speaking disks seem to be ring or spiral shaped with some forms in between. \cite{garufi} classifies them into 6 catogories in \autoref{fig:sketch_garufi}. 
+It is suspected the disks features are linked to the formation of planets. Rings in a disk could indicate a planet embedded in the disk \cite{rings} however those planets can currently not be detected. There is also evidence that spirals in disks can be caused by planets in the disk \cite{garufi}. This means the morphology of disks can provide valuable insight in how planets form.
 
-\begin{figure}[h]
-    \caption{Sketch summarizing the different classifications of protoplenatary disks proposed by /ref}
+\subsection{Categorization and features}
+
+Disks seem to be ring or spiral shaped with some forms in between. They can be classified into 6 categories \cite{garufi} see \autoref{fig:sketch_garufi}. 
+
+\begin{figure}[H]
+    \caption{Sketch summarizing the different classifications of protoplanetary disks proposed in \cite{garufi}}
     \centering
     \includegraphics[width=\textwidth]{gfx/catogories}
     \label{fig:sketch_garufi}
 \end{figure}
 
-They then conclude that: 
--faint disks are young
--spiral disks are almost starting theire main sequence
--ring disk have no outer stellar companion (??)  
+With these definitions we can say: \cite{garufi}
+\begin{itemize}
+    \item faint disks are young
+    \item spiral disks are around stars that almost start their main sequence
+    \item ring disk have no outer stellar companion %TODO explain
+\end{itemize}
 
+Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in size and young faint disks structures remain undetected.
 %------------------------------------------------
 
-\subsection{Challenging to Obeserve}
+\subsection{Expected Contrast}
 
-It is challanging to observe a disk since its brightness is low compared to the star. To get an upper limit on the brightness of a disk assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exeeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. 
-
-%TODO something about contrast
-
-%Currently there is only one planet that has been detected with direct imaging within a 1 EU radius, however it orbits an ultracool dwarf /ref{http://exoplanet.eu/catalog/de0823-49_b/}.
+% TODO This does not seem to be observable???!!!
+To get an upper limit on the brightness of a disk we assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
 
 %----------------------------------------------------------------------------------------

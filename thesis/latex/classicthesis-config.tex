@@ -125,8 +125,8 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 %------------------------------------------------
 
-\PassOptionsToPackage{smaller}{acronym} % Include printonlyused in the first bracket to only show acronyms used in the text
-\usepackage{acronym} % Nice macros for handling all acronyms in the thesis
+\usepackage[nohyperlinks, smaller, withpage, printonlyused]{acronym} % Nice macros for handling all acronyms in the thesis
+\usepackage{float}
 
 %\renewcommand*{\acsfont}[1]{\textssc{#1}} % For MinionPro
 \renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
@@ -201,7 +201,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \captionsetup{font=small}
 \captionsetup[subfloat]{margin=0.5em}
 \usepackage{subcaption}  
-
+\usepackage{csquotes}
 %----------------------------------------------------------------------------------------
 %	CODE LISTINGS SETUP
 %----------------------------------------------------------------------------------------

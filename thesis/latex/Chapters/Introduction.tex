@@ -6,48 +6,50 @@
 
 %----------------------------------------------------------------------------------------
 
-A major and succesful topic in astronomy has been the discovery and characterization of exoplanets. This intrest has sparked great progress in the field of high contrast imaging resulting in new imaging techniques and instuments. Though as of writing 3,949 planets \cite{nasa} have been confirmed little is known about theire formation. Certain is that a so called protoplanatary disk is an importand stage in the formation of a planatary system. The disks can be observed best within the visable spectrum and infrared though ALMA has also had succes in observing disks in the radio spectrum. 
+A major and successful topic in astronomy has been the discovery and characterization of exoplanets. This interest has sparked great progress in the field of high contrast imaging resulting in new imaging techniques and instruments. Though as of writing $3,949$ planets have been confirmed little is known about their formation. Certain is that a so called protoplanetary disk is an important stage in the formation of a planetary system. The disks can be observed best within the visible spectrum and infrared though ALMA has also had success in observing disks in the radio spectrum. 
 
-It is however a great challenge to aquire observations of such a disk due to the high contrast with its star and the required angular resolution. ****explain why light from a star (dot) can hide planatary details in a normal telescope (is it only sys+atmosph psf for apparture?)****. To observe with sufficient resolution adaptive optics are used. This negates most of the atmospheric seeing.
+It is however a great challenge to acquire observations of such a disk due to the high contrast with its star and the required angular resolution. To observe with sufficient resolution adaptive optics are used. This negates most of the atmospheric seeing.
+%TODO ****explain why light from a star (dot) can hide planetary details in a normal telescope (is it only sys+atmosph psf for apparture?)****
 
-Reducing contrast is done with coronagraph, an instrument that blocks out the direct light from a star. The classic lyot coronograph (\autoref{fig:lyot_sketch}) blocks direct star light using two focusses. In the first focus an opaque mask blocks placed where thes star is diffuses and absorps the direct star light. Then between the focusses a ring shaped mask blocks most of the now diffused star light. Then at the second focus the image is made as usual.
+Reducing contrast is done with chronograph, an instrument that blocks out the direct light from a star. The classic Lyot chronograph (\autoref{fig:lyot_sketch}) blocks direct star light using two foci. In the first focus an opaque mask blocks placed where the star is diffuses and absorbs the direct star light. Then between the foci a ring shaped mask blocks most of the now diffused star light. Then at the second focus the image is made as usual.
 
 \begin{figure}
     \includegraphics[width= 1\textwidth]{gfx/lyot_sketch}
-    \caption{optical layout of a loyt coronograph, by Matthew Kenworthy, from https://home.strw.leidenuniv.nl/~kenworthy/app}
+    \caption{optical layout of a Lyot chronograph, by Matthew Kenworthy, from https://home.strw.leidenuniv.nl/~kenworthy/app}
     \label{fig:lyot_sketch}
 \end {figure}
 
-However a classical coronograph is not sufficient for observing disks. The vector Apodizing Phase Plate (vApp) \cite{papervApp} is a different type of coronograph placed at the pupil of a telescope. The vApp blocks starlight by modifing the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Any faint object next to the star in the now dark region becomes detectable. Compared to the classic lyot coronograph the vApp reduces the starlight to a greater degree, see \autoref{fig:vapp_vs_lyot}.  
+%TODO what paper to cite for vapp?
+However a classical chronograph is not sufficient for observing disks. The \ac{vAPP} \cite{papervApp} is a different type of chronograph placed at the pupil of a telescope. The \ac{vAPP} blocks starlight by modifying the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Any faint object next to the star in the now dark region becomes detectable. Compared to the classic Lyot chronograph the \ac{vAPP} reduces the starlight to a greater degree, see \autoref{fig:vapp_vs_lyot}.  
 
 \begin{figure}[h!]
       \begin{subfigure}[t]{0.5 \textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/plots/lyot/0_lyot_psf}
         \label{fig:lyot}
-        \caption{psf of a classical lyot coronograph}
+        \caption{PSF of a classical Lyot chronograph}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       \begin{subfigure}[t]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/plots/lyot/0_normal_psf}
-        \caption{psf of a telescope without coronograph}
+        \caption{PSF of a telescope without chronograph}
       \end{subfigure}
       
       \begin{subfigure}[]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/plots/miscellaneous/0_clean_vapp}
-        \caption{psf of the vApp}
+        \caption{PSF of the vAPP}
       \end{subfigure}
       
-  \caption{The point spread function (psf) is the image an instument produces when looking at a point source such as a star. Here we sees the psf of a instument without a coronograph, with the classical lyot coronograph and a one using the vApp }
+  \caption{The \ac{PSF} is the image an instrument produces when looking at a point source such as a star. Here we sees the \ac{PSF} of a instrument without a chronograph, with the classical Lyot chronograph and a one using the vAPP }
   \label{fig:vapp_vs_lyot}
 \end{figure}
 
-The vApp has been developed to detect rocky planets in the habitable zone of stars. However it could also allow us to resolve disk features and study disks in greater detail directly. However as the vApp changes the entire image it is challaging to differentiate disk features from vApp artefacts. 
+The \ac{vAPP} has been developed to detect rocky planets in the habitable zone of stars. However it could also allow us to resolve disk features and study disks in greater detail directly. However as the \ac{vAPP} changes the entire image it is chalking to differentiate disk features from \ac{vAPP} artifacts. 
 
 %improve
-Here we study what the effect is of both the vApp and reduction methods ADI and RDI on the apparent morphology of the disks. Here we try to characterise artificial disk observations with the vApp.
+Here we study what the effect is of both the \ac{vAPP} and \ac{ADI} on the apparent morphology of disks.
 %improve
 
 
-***TODO***
+%***TODO***
 overview thesis
 
 
