@@ -13,7 +13,7 @@ import code.plot.fast as plotfast
 
 def center(img, ref_img):
     offset_image = img
-    shift, error, diffphase = register_translation(ref_img, offset_image, 10)
+    shift, error, diffphase = register_translation(ref_img, offset_image, upsample_factor=10)
 
     img = ndimage.interpolation.shift(img, shift, order=3)
     return (img, shift)
@@ -51,6 +51,8 @@ def find_sub_psf_location(img):
 
     img_left[:, :int(height / 2)] = 0
     img_right[:, int(height / 2):] = 0
+
+    #plotfast.image(np.array([img_left, img_right]))
 
     # find maxima
     left_psf_loc = np.unravel_index(np.argmax(img_left), img.shape)

@@ -214,3 +214,51 @@ def clean_vapp():
     plt.show()
     output_path = get_output_path("miscellaneous")
     fig.savefig(output_path+"clean_vapp")
+    
+def plot_sub_psfs():
+    
+    
+    def gen_adi_star_controlset(time_between_exposures: float, fried_parameter: float, 
+        set_rotation: float, numb: int):
+        
+        angular_seperation = set_rotation / numb
+
+        star = np.zeros((200, 200))
+        star[int(star.shape[0] / 2), int(star.shape[1] / 2)] = 1
+        field_cube = [star.copy() for i in range(0,numb)]
+        field_params = [[angular_seperation * i] for i in range(0, numb)]
+
+        (psf_cube, psf_params) = psf.calc_cube(
+            numb, fried_parameter=fried_parameter, time_between=time_between_exposures)
+        (img_cube, img_params) = psf.convolve_cube(psf_cube, field_cube, psf_params, field_params)
+
+        return (img_cube, img_params)
+    
+    time_between_exposures: float = 0.7
+    fried_parameter: float = 4
+    set_rotation: float = 60
+    numb: int = 20
+    
+    output_path = get_output_path("miscellaneous")
+
+    (img_cube, img_params) = gen_adi_star_controlset(time_between_exposures,fried_parameter, set_rotation, numb)
+    write_metadata(output_path+"meta", time_between_exposures=time_between_exposures, fried_parameter=fried_parameter, 
+        set_rotation=set_rotation, numb=numb)
+
+    clean_psf = psf.get_clean()
+    (img_cube, _) = center_cube(img_cube, ref_img=clean_psf)
+
+    #(left, right) = find_sub_psf_location_from_cube(img_cube)
+    ##alternatively use coords from perfect psf
+    (left, right) = find_sub_psf_location(clean_psf)
+    
+    right_psfs = []
+    left_psfs = []
+    for img in img_cube:
+        (left_psf, right_psf) = extract_psfs(img, left, right)
+        left_psfs.append(left_psf)
+        right_psfs.append(right_psf)
+        
+    plotslow.saveImage(img_cube[0], output_path+"full_aligned", vmax = 0.001)
+    plotslow.saveImage(right_psfs[0], output_path+"right_subpsf", vmax = 0.001)
+    plotslow.saveImage(left_psfs[0], output_path+"left_subpsf", vmax = 0.001)

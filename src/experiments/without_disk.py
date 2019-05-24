@@ -1,4 +1,5 @@
 from code.adi import *
+import code.plot.slow as plotslow
 
 def gen_adi_star_controlset(time_between_exposures: float, fried_parameter: float, 
     set_rotation: float, numb: int):
@@ -58,3 +59,6 @@ def run():
 
     save_to_fits(output_path+"right_final",right_final)
     save_to_fits(output_path+"left_final",left_final)
+    
+    plotslow.saveImage(right_final, output_path+"right_final", vmax=0.0001)
+    plotslow.saveImage(left_final, output_path+"left_final", vmax=0.0001)

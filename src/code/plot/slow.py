@@ -7,11 +7,14 @@ def image(data):
     ax.imshow(data)
     plt.show()
 
-def saveImage(data, path):
+def saveImage(data, path, vmin=0.0000001, vmax=None):
     fig, ax = plt.subplots()
     cmap = plt.cm.OrRd
-    cmap.set_under(color='white')    
-    ax.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=0.0000001)
+    cmap.set_under(color='white')
+    if vmax == None:
+        ax.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=vmin)
+    else:
+        ax.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=vmin, vmax=vmax)
     plt.savefig(path)
 
 def saveImage_withCb(data, path, vmax):

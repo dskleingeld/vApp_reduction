@@ -2,11 +2,12 @@ from experiments import normal_disk, without_disk, without_disk_perfect_psf, wit
 
 if __name__ == "__main__":
     #normal_disk.run()
-    #without_disk.run()
+    without_disk.run()
     #without_disk_perfect_psf.run()
     #without_star.run()
     #without_star_perfect_psf.run()
     
-    miscellaneous.run()
-    miscellaneous.on_sky()
+    #miscellaneous.run()
+    #miscellaneous.on_sky()
     #miscellaneous.clean_vapp()
+    #miscellaneous.plot_sub_psfs()

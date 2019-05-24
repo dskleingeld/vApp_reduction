@@ -122,7 +122,7 @@ Disks seem to be ring or spiral shaped with some forms in between. They can be c
     \label{fig:sketch_garufi}
 \end{figure}
 
-With these definitions we can say: \cite{garufi}
+With this categorization they \cite{garufi} further conclude:
 \begin{itemize}
     \item faint disks are young
     \item spiral disks are around stars that almost start their main sequence
@@ -138,3 +138,15 @@ Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in si
 To get an upper limit on the brightness of a disk we assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
 
 %----------------------------------------------------------------------------------------
+
+\section{Angular differential Imaging}
+\ac{ADI} is a technique to remove stationary and slowly changing PSF structures from an exposure. It is a proven method for the detection of companions with classic \acp{PSF} such as the one in \autoref{fig:classic_psf}. %TODO something about vAPP?
+
+% theory adi 
+% TODO make the algoritme take the mean off all OTHER exposures!!!!
+% TODO look at Liu 2004 technique for circumstellar disks
+% TODO field of view as \ac{FOV} ?
+The basis of \ac{ADI} is to let the field of view rotate with respect to the coronograph and sensor during an observation. By then taking multiple short exposures anything off center will be rotated a bit in each exposure. If the mean of all other exposures is subtracted from an exposure we lose most of the stars \ac{PSF}. Once done for every exposure, rotating all the results so the field of view is aligned the median can be taken which gives the final image.
+
+% vAPP adi theory
+To use \ac{ADI} with the \ac{vAPP} we need to make sure the entire sequence fits in the dark hole.

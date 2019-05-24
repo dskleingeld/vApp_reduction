@@ -1,0 +1,4 @@
+% principle component analysis + adi on disks: https://arxiv.org/pdf/1905.01860.pdf
+\chapter{Discussion}
+
+Instead of taking the mean of all other exposures as reference \ac{PSF} another approch to use a few images close in time as possible as reference sequence \cite{Marois_2006}. As there is less time between the exposures the \ac{PSF} has changed less due to seeing  (see: \autoref{sec:ao}) giving a greater correlation between the features on the reference image and the individual image. The disadvantage is that pixel to pixel noise is rejected less as we now only take an median over a slightly rotated sample. Care must be taken that the reference sequence has enough field rotation to displace features of intrest by at least $1.5 \cdot$ \ac{PSF} \ac{FWHM}. This ensures we don not subtract the feature from itself. 

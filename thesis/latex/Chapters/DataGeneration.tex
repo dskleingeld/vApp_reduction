@@ -131,8 +131,6 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
         \caption{on sky psf: 1th - 50th, *** seconds difference}
       \end{subfigure}
 
-  %\end{minipage}\quad%
-
   \caption{Differences between the first psf of an observation and later psfs. Compared between simulated observations on the left and on sky data on the right. The psfs where aligned then normalised on the maximum of the leakage term, finally the absolute value of the diffrence between the first and n-th psf was taken. The second, 10th and 50th simulated psf are 0.7, 7 and 14 seconds apart in the simulation}
   \label{fig:psfs_evolving}
 \end{figure}
@@ -144,7 +142,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
 
 
 \section{Generating an observation}
-
+\label{sec:gen}
 To get a dataset that simulates an obeservation we create an orderd set of disk images each one rotated a bit to eachother. This accounts for the field rotation between exposures caused by observing with an alt azimuth telescope. The angle depends on the time between exposures and the field rotation rate.
 
 \begin{align}
@@ -159,6 +157,8 @@ Using variations on this method we create 3 different sets.
 
 \begin{enumerate}
 \item Place the star as a single pixel with value one in the center of the disk before going through the above procedure. This is our observation set.
-\item Swap the disk with the single pixel in the center representing the star. This set we use to check what artefacts are created by the reduction 
-\item Take the convolution of the n-th disk image with the first psf image of the psf set. This way we lose all atmospheric effects, since we havent placed a star in the center we see only te effect of the \ac{vAPP} on the disk image. 
+\item Leave out the disk, place only the single pixel in the center representing the star. This can be useful for checking if data reduction algoritmes work properly.
+\item Leave out the star, this way we see what the \ac{vAPP} does to the extended disk.
 \end{enumerate}
+
+For each of the sets we can generate an additional variant to look at what the best result attainable is by leaving out the psf distortions. We do this by taking the convolution of the n-th disk image with the first \ac{PSF} of the \ac{PSF} set instead of the n-th.

@@ -1,0 +1,76 @@
+% Chapter X
+
+\chapter{Data Reduction} % Chapter title
+\label{ch:data_red} % For referencing the chapter elsewhere, use \autoref{ch:name} 
+The generated exposures contain 2 mirrored dark zones and are shifted relative to eachoter by the changing \acp{PSF}, see \autoref{fig:psfs}. Before applying any post processing technique we create 2 aligned stacks of processed exposures. Then we apply the \ac{ADI} algoritme to remove most of the star light.
+
+% implementation
+\section{Pre-Processing}
+Before we extract the **psf kernals** we align the exposures. We find the shift relative to the \ac{vAPP} instrument \ac{PSF} for every exposure in the set by cross correlating the upsampled image. Then the images are shifted using spline interpolation\footnote{Here an image is interpolated by fitting multiple polynomials called splines}. For the implementation of both algoritmes we use the SciPy libarary\cite{scipy}.
+
+\begin{figure}[h!]
+  
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_full_aligned}
+        \caption{Exposure after aligment}
+      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
+      
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_left_subpsf}
+        \caption{left **psf kernal**}
+        \label{fig:slice_a}
+      \end{subfigure}      
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_right_subpsf}
+        \caption{right **psf kernal**}
+        \label{fig:slice_b}
+      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
+
+  \caption{A generated exposure through the Pre-processing process, first it is aligned and then its right and left **psf kernal** are extracted}
+  \label{fig:psfs_evolving}
+\end{figure}
+
+To find the center of the **psf kernals** an exposure is devided left right. Now for each half the brightest pixel gives the center, around it we copy out a square with sides of $30\%$ of the image width. Done for all exposures this gives the 2 aligned stacks, a slice of which we see in \autoref{fig:slice_a} and \autoref{fig:slice_b}.
+
+\section{Angular differential imaging}
+\subsection{Algoritme}
+Now there are two seperate stacks of exposures we apply the \ac{ADI} algoritme \cite{Marois_2006} to each. First the median is taken over the stack using the implemantion provided by the numby libarary \cite{numpy}. This is our reference \ac{PSF}. After subtracting the reference \ac{PSF} from each exposure we rotated it back so the fields of all exposures are aligned again (see \autoref{sec:gen}). Rotating a square inside a containing square here we lose information as the right angles rotate out of the containing square. The empty space that appears at the containing squares right angles is filled with value $0$. The pixel values are determined by spline interpolating. For the rotation algortime we use again the SciPy libarary \cite{scipy}.
+
+Finally we take the median over the processed exposures to get a the end result.
+
+\subsection{Control}
+Now we check if the algortime works applying it to an exposure set with only the star and no distortions applied. This results in a completely black image as expected. Next we apply \ac{ADI} to an exposure set with only the star and distortions applied, this results in a circular noise pattern on the left and right as seen in \autoref{fig:adi_star_only}).
+
+\begin{figure}[h!]
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=1.15\linewidth]{gfx/plots/without_disk/4_left_final}
+        \caption{Left region after \ac{ADI}}
+      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
+      \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[width=1.15\linewidth]{gfx/plots/without_disk/4_right_final}
+        \caption{right region after \ac{ADI}}
+      \end{subfigure}      
+
+  \caption{The right and left end result of \ac{ADI} applied to a generated exposure stack of a star. The stack contains 20 exposures, the field rotation over the entire stack is $60^{\circ}$. Note how derotating the fields leads to a circular result as we lose the angles.}
+  \label{fig:adi_star_only}
+\end{figure}
+
+\section{Paremater Study}
+%TODO explain grid of diff rings
+
+When observing disks we are most intersested in theire morphology. It could however be heavily affected by the \ac{vAPP} and \ac{ADI}. As the \ac{vAPP} by design redestributes licht in an uneven way and \ac{ADI} removes rotational symmetry while disks are by nature quit rotationally symmetrical. To see how the output morphology resembles the that of the input model we generate exposure stacks for a number of disks with different paramaters. We vary the number of rings, the width of the rings and the inclination. We keep the contrast between the disk and star unrealisticly low. For the best results of the paramater study the contrast is then returned to a realistic value. This allows us to easily compare results.
+
+For each model the following images are generated:
+
+\begin{enumerate}[I]
+\item An exposure of the model with a central star, using a distorted \ac{PSF}.
+\item The result of \ac{ADI} for the model with a central star using distorted \acp{PSF}.
+
+\item An exposure of the model without a central star, using the undistorted \ac{PSF}.
+\item The result of \ac{ADI} for the model without a central star using the undistorted \ac{PSF}. %TODO explain how we center without star
+\end{enumerate}
+
+These images help see how the model behaves as we could observe it (I and II) and how only model is imaged when we remove anything that would distort or distract from it (III and IV). The latter is done by removing the star and using a fixed \ac{PSF}. Using III and IV we can determine weather using the \ac{vAPP} and \ac{ADI} could give usable results.
+We expect the morphology of the post processed disks to differ from the models input. However we expect the the new morphology to be unique for the input model or some of its paramaters.
+
+
