@@ -64,72 +64,97 @@ We evaluate the model onto an image of 200 by 200 pixels. This not only speeds u
 
 \section{Atmospheric Distortions}
 
-To simulate an observation we do not use a single given psf. Since during an observation the combined psf of the atmosphere and instrument changes. However a complete simulation of these effects is outside the scope of the thesis. Instead try and approach a similar morphology to a on sky psf, with similar changes in time.
+To simulate an observation we do not use a single given psf. Since during an observation the combined psf of the atmosphere and instrument changes. However a complete simulation of these effects is outside the scope of the thesis. Instead try and approach a similar morphology to a on sky psf, with similar changes in time. We try two different methods, adding distortions on top of an existing \ac{vAPP} \ac{PSF} and adding an atmosphere simulation to the PSF generation. Finally we compare the result of each method to on sky observations.
 
 \subsection{Fourier method}
 First we tried modifying a give single \ac{vAPP} psf to get a set of disturbed psfs. To achieve this a pattern is added to the foerier transform of the psf before transforming it back from foerier space, see the equation below. The pattern is then shifted for every timestap.
 
 \begin{equation}
-\mathscr{F}_{2d}^{-1} \Big( intensity \cdot \mathscr{F}_{2d}(psf) \cdot pattern + (1-intensity) \cdot \mathscr{F}_{2d}(psf) \Big)
+I_{final} = \mathscr{F}_{2d}^{-1} \Big( intensity \cdot \mathscr{F}_{2d}(psf) \cdot pattern + (1-intensity) \cdot \mathscr{F}_{2d}(psf) \Big)
 \end{equation}
 
-The best results where achieved using a grid of blurred circles as pattern, see \autoref{fig:patterns}. Note the distortions to the psf are clusterd around the center of its peaks but not randomly spread. Clearly this will not do.
+The best results where achieved using a grid of blurred circles as pattern, see \autoref{fig:patterns}. Note the distortions to the \ac{PSF} are around the center of its peaks but not randomly spread. As Clearly this will not do.
 
 \begin{figure}[h!]
       \begin{subfigure}[t]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/0_old_psf_diff1}
-        \caption{difference between two psfs created using this method, the pattern has shifted 10 pixels}
+        \caption{difference between two \acp{PSF}  created using this method, between \acp{PSF} the pattern has shifted 10 pixels}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       \begin{subfigure}[t]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/0_old_psf_diff2}
-        \caption{difference between two psfs created using this method, the pattern has shifted 5 pixels}
+        \caption{difference between two \acp{PSF}  created using this method, between \acp{PSF} the pattern has shifted 5 pixels}
       \end{subfigure}
       
       \begin{subfigure}[]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/0_pattern}
-        \caption{pattern that is shifted and applied to the foerier space of a psf}
+        \caption{pattern that is shifted and applied to the foerier space of a \ac{PSF}}
       \end{subfigure}
       
-  \caption{Pattern (a) and the diffrences between psfs **distorted** with this pattern using the method described above}
+  \caption{The Pattern used and the differences between \acp{PSF} distorted with it using the method described above}
   \label{fig:patterns}
 \end{figure}
 
 \subsection{Using HCIPy}
 \label{sec:hcipy}
-Then we tried a simulation of the psfs using \ac{HCIPy}, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. The framework is used to generate PSFs with a very rough simulation. We use the provided methods in \ac{HCIPy} to create a multi-layer atmospheric model that changes in time. Then we use that model, the \ac{vAPP} amplitude and \ac{vAPP} phase screen to generate a series of psfs. Instead of modelling an active optics system we modified the fried parameter for the atmosphere to get similar morphological changes in time to the availible on sky images. This is sufficient as the disk will always lie within the control radius of the \ac{AO} which means the effect of an \ac{AO} system on the disk will mostly be a increase in resolution by reducing the seeing effect.
+Then we tried a simulation of the psfs using \ac{HCIPy}, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. The framework is used to generate \acp{PSF} with a very rough simulation. We use the provided methods in \ac{HCIPy} to create a multi-layer atmospheric model that changes in time. Then we use that model, the \ac{vAPP} amplitude and \ac{vAPP} phase screen to generate a series of \acp{PSF} using:
 
-We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for the generation. For a fried paramater of $4m$ we find quantativly similar psf morphologies to the on sky data. To put this into perspective: to simulate excellent seeing conditions we would use 20cm. With these setting we use \ac{HCIPy} to create an orderd set of psfs changing through time as the simulated atmosphere evolves. See \autoref{fig:psfs_evolving} for the diffrence between the first psf in a set and later psfs in the same set. Note that as time evolves the differences grow. 
+\begin{equation}
+I_vAPP = \mathscr{F}\Big( Ae^{i\theta}\Big) + \mathscr{F}\Big( Ae^{i\theta}\Big) + \mathscr{F}\Big( Ae \Big) \cdot C
+\end{equation}
+
+Here we use not one apperture function ($Ae^{i\theta}$) as in \autoref{sec:PSF} but combine three. The first two simulate the opposite phase the two circular polarisations receive from the \ac{vAPP} (see \autoref{sec:vapp}). The third factor, called the leakage term ************************************************
+%TODO refer to leakage term, explain leakage term in vAPP theory section.
+
+Instead of modelling an active optics system we modified the fried parameter for the atmosphere to get similar morphological changes in time to the availible on sky images. This is sufficient as the dark hole, where the we will observes the disk, will lie in the control radius of the \ac{AO} which means the effect of an \ac{AO} system on the disk will mostly be a increase in resolution by reducing the seeing effect.
+
+We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for the generation. For a fried paramater of $4m$ we find quantativly similar psf morphologies to the on sky data. To put this into perspective: to simulate excellent seeing conditions we would use 20cm. With these setting we use \ac{HCIPy} to create an ordered set of \acp{PSF} changing through time as the simulated atmosphere evolves. See \autoref{fig:psfs_evolving} for the difference between the first \ac{PSF} in a set and later \acp{PSF} in the same set, compared between on sky and generated \acp{PSF}. Note that as time evolves the differences between first and later \acp{PSF} grow. Qualitatively on sky and generated \acp{PSF} evolve similar in time. We decide to use this method to generate all \acp{PSF}.
 
 %https://tex.stackexchange.com/questions/169219/subcaption-third-figure-breaks-column
 %https://tex.stackexchange.com/questions/139214/how-to-make-a-subfigure-span-the-two-columns-in-ieeetrans-style
+
 \begin{figure}[h!]
+
+  %\begin{flushright}
   
-      \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/0_psf_diff_007}
+  %define (\edef) the variable \side to l or r depending if we are at an odd
+  %or even page
+  \checkoddpage 
+  \edef\side{\ifoddpage l\else r\fi}%
+  
+  %\hspace{-1\linewidth}%
+  \makebox[\textwidth][\side]{%
+  
+  \begin{minipage}[t]{1.3\textwidth}
+      \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_psf_diff_007}
         \caption{simulated psf: 1e - 2e, 0.7 seconds difference}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-      \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_007}
+      \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_007}
         \caption{on sky psf: 1th - 2th, *** seconds difference}
       \end{subfigure}      
       
-      \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/0_psf_diff_070}
+      \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_psf_diff_070}
         \caption{simulated psf: 1th - 10th, 7 seconds difference}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-      \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_070}
+      \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_070}
         \caption{on sky psf: 1th - 10th, *** seconds difference}
       \end{subfigure}
             
-      \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/0_psf_diff_140}
+      \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_psf_diff_140}
         \caption{simulated psf: 1th - 50th, 14 seconds difference}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-      \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_140}
+      \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_140}
         \caption{on sky psf: 1th - 50th, *** seconds difference}
       \end{subfigure}
+  
+  \end{minipage}
+  }%
+  %\end{flushright}
 
   \caption{Differences between the first psf of an observation and later psfs. Compared between simulated observations on the left and on sky data on the right. The psfs where aligned then normalised on the maximum of the leakage term, finally the absolute value of the diffrence between the first and n-th psf was taken. The second, 10th and 50th simulated psf are 0.7, 7 and 14 seconds apart in the simulation}
   \label{fig:psfs_evolving}
