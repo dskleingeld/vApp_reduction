@@ -3,7 +3,7 @@
 \chapter{Data generation} % Chapter title
 \label{ch:data_gen} % For referencing the chapter elsewhere, use \autoref{ch:name} 
 
-We choose not to use on sky data but create our own. This presents a number of advantages though the main reason is the lack of disk observations using the \ac{vAPP}. Generating the data from a model allows us to vary paramaters as we wish. We can try a reduction method on a simple slightly inclined disk or a near face on disk with many rings. By reducing images of morpholocally differing disks we can map out how well a reduction method works for each morphology. Most importantly we can clearly separate artifacts created during data reduction from disk features when we know what the disk looks like.
+There are no obeservations of disks with the \ac{vAPP} here we describe how we generate observations using a disk model and \acp{PSF}. This presents a number of advantages though the main reason is the lack of disk observations using the \ac{vAPP}. Generating the data from a model allows us to vary paramaters as we wish. We can try a reduction method on a simple slightly inclined disk or a near face on disk with many rings. By reducing images with varying disk morphology we can map how a reduction method performs for each disk morphology. Most importantly we can clearly separate artifacts created during data reduction from disk features when we know what the disk looks like.
 
 %------------------------------------------------
 
@@ -42,7 +42,7 @@ The disk is modeled as optically thick and does not emit light on its own. At a 
 B(r) = B_{star} \cdot {\left(\frac{r}{R_{star}}\right)}^2
 \end{equation}
 
-We evaluate the model onto an image of 200 by 200 pixels. This not only speeds up our calculations it is around the expected resolution of an observed dataset. The model behaves well for most disks however on this resolution features that are small in the observers plane are pixilated as we see in \autoref{fig:disk} below. This poses no problem as we do not expect to resolve such features.
+We evaluate the model onto an image of 200 by 200 pixels. This speeds up calculations and is similar to the resolution of observed \ac{vAPP} datasets. The model behaves well for most disks however on this resolution features that are small in the observers plane are pixilated as we see in \autoref{fig:disk} below. This poses no problem as we do not expect to resolve such features.
 
 \begin{figure}[h!]
   \begin{subfigure}[b]{0.5\textwidth}
@@ -166,9 +166,9 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
 
 
 
-\section{Generating an observation}
+\section{Generating observations}
 \label{sec:gen}
-To get a dataset that simulates an obeservation we create an orderd set of disk images each one rotated a bit to eachother. This accounts for the field rotation between exposures caused by observing with an alt azimuth telescope. The angle depends on the time between exposures and the field rotation rate.
+To get a dataset that simulates an obeservation we create an ordered set of disk images each one rotated a bit to eachother. This accounts for the field rotation between exposures caused by observing with an alt azimuth telescope. The angle depends on the time between exposures and the field rotation rate.
 
 \begin{align}
   \psi &= 0.2506 \cdot \frac{cos(A) cos \phi}{sin(z)} 
@@ -176,7 +176,7 @@ To get a dataset that simulates an obeservation we create an orderd set of disk 
 
 The field rotation $\psi$ in degrees per minute for a given target azimuth $A$, zenith distance $z$ and telescope latitude $\psi$ \cite[page 95]{Electronic_imaging}. If we would be observing from mauna kea (latitude 19.8) at a resonable 30 degrees from the zenith this gives a rotation rate between 0 and  14.74 degrees per minute.
 
-Now to get the simulated observation an orderd set is created by convolving each n-th image from the disk set with the n-th image of the psf set. These are the simulated observations through time. 
+Now to get the simulated observation an ordered set is created by convolving each n-th image from the disk set with the n-th image of the psf set. These are the simulated observations through time. 
 
 Using variations on this method we create 3 different sets.
 

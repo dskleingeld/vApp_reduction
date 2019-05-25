@@ -126,8 +126,8 @@ def run_loyt():
     aperture = circular_aperture(1)
     aperture = evaluate_supersampled(aperture, pupil_grid, 8)
 
-    mask = Field(circle((1024,1024), radius=0.5).ravel(), pupil_grid)
-    stop = Field((1-circle((1024,1024), radius=0.5)).ravel(), focal_grid)
+    mask = Field(circle((1024,1024), radius=0.2).ravel(), pupil_grid)
+    stop = Field((1-circle((1024,1024), radius=0.8)).ravel(), focal_grid)
     coro = LyotCoronagraph(pupil_grid, mask, stop)
 
     wf = Wavefront(aperture)
@@ -137,16 +137,26 @@ def run_loyt():
     img_ref = prop(wf)
 
 
-    output_path = get_output_path("lyot")
+    output_path = get_output_path("miscellaneous")
 
     fig = plt.figure()
-    imshow_field(np.log10(img.intensity / img_ref.intensity.max()), vmin=-12)
-    plt.colorbar()
+    imshow_field(np.log10(img.intensity / img.intensity.max()), vmin=-5, vmax=0)
+    plt.xlim(-25,25)
+    plt.ylim(-25,25)
+    cbar = plt.colorbar()
+    cbar.set_label(r"$^{10}\log(contrast)$")
+    plt.ylabel(r"$\lambda/D$")
+    plt.xlabel(r"$\lambda/D$")
     fig.savefig(output_path+"lyot_psf")
 
     fig = plt.figure()
-    imshow_field(np.log10(img_ref.intensity / img_ref.intensity.max()), vmin=-12)
-    plt.colorbar()
+    imshow_field(np.log10(img_ref.intensity / img_ref.intensity.max()), vmin=-5, vmax=0)
+    plt.xlim(-25,25)
+    plt.ylim(-25,25)
+    cbar = plt.colorbar()
+    cbar.set_label(r"$^{10}\log(contrast)$")
+    plt.ylabel(r"$\lambda/D$")
+    plt.xlabel(r"$\lambda/D$")
     fig.savefig(output_path+"normal_psf")
 
 def clean_vapp():
@@ -208,8 +218,11 @@ def clean_vapp():
     total_PSF /= np.sum(total_PSF)
 
     fig = plt.figure()
-    imshow_field(np.log10(total_PSF / total_PSF.max()), vmin=-5)
-    plt.colorbar()
+    imshow_field(np.log10(total_PSF / total_PSF.max()), vmin=-5, vmax=0)
+    cbar = plt.colorbar()
+    cbar.set_label(r"$^{10}\log(contrast)$")
+    plt.ylabel(r"$\lambda/D$")
+    plt.xlabel(r"$\lambda/D$")
 
     plt.show()
     output_path = get_output_path("miscellaneous")

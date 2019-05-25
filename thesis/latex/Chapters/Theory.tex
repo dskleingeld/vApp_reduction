@@ -8,9 +8,9 @@ Here we discuss what an \ac{PSF} is, how it helps us describe an optical system 
 \section{Point spread function}
 \label{sec:PSF}
 
-We can describe what happens to light going through an optical system with its \ac{PSF}. It describes the light intensity on the focal plane (where the sensor is located) as a function of x and y when a single light ray is imaged on the center of the focal plane. 
+We can describe what happens to light going through an optical system with its \ac{PSF}. It describes the light intensity on the focal-plane (where the science detector is) as a function of x and y when a single point source is imaged on the center of the focal-plane. 
 
-We derive a way to find the \ac{PSF} from the Huygens-Fresnel Principle. It states any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
+Light is an progagating electromagnatic wave. We derive how to find the \ac{PSF} from the Huygens-Fresnel Principle. It states any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
 
 \begin{figure}[h]
     \caption{Fraunhofer diffraction from an arbitrary aperture, r and R large compared to the size of the hole. Extracted from Optics 5th edition, by \cite{hecht}}
@@ -23,14 +23,14 @@ We find the electric field at a point P at distance R by summing up the fields o
 
 \begin{subequations}
     \begin{align}
-        E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{Aperture} e^{ik(Yy+Zz)/R} dS
+        E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{Aperture} e^{ik(Yy+Zz)/R} dydz
     \end{align}
     \label{eq:hecht10.41}
 \end{subequations}
 
 Here $Y$, $Z$ describe the position in the imaging plane in which $P$ lies as seen in \autoref{fig:hecht}. Small letters $y$ and $z$ are the position in the aperture plane. The integral is over the aperture, only integrating over the transparent parts. 
 
-To account for changes in phase and not only magnitude of the field caused by Optical instruments we including an aperture function instead of just integrating over the shape of the aperture. This results in:
+Here we integrate only over the apperture and assume all light is transmitted within and no light outside of it. To allow for changes in phase and magnitude caused by for example dirty glass, or a complicated Optical instrument we including an aperture function and integrate over all space.
 
 \begin{subequations}
   \begin{align}
@@ -38,7 +38,7 @@ To account for changes in phase and not only magnitude of the field caused by Op
   \end{align}
 \end{subequations}
 
-Here the amplitude of the aperture function comes from $\mathscr{A}_0$ and the phase from $e^{i\upphi(y,z)}$.
+Here the time changing electromagnatic wave $\varepsilon$ is averaged into a constant field of magnitude one. Then the transmission through the aperture changes the magnitude ($\mathscr{A}_0$) and the phase ($\upphi(y,z)$).
 
 \begin{subequations}
   \begin{align}
@@ -57,36 +57,44 @@ We can rewrite this to get rid of the dependence on the distance by substituting
   \end{align}
 \end{subequations}
 
-This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (e.i., the aperture function)} \cite{hecht}. 
+This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (e.i., the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.
 
-For the \ac{PSF} we are interested in the intensity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the \ac{PSF} of an instrument by Fourier transforming its (complex) aperture function and squaring the result. Note that the amplitude in the aperture function does not only have to depend on the shape of the aperture as there might be partially transparent material. The aperture function does not even have to be an aperture.
+For the \ac{PSF} we are interested in the intensity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the \ac{PSF} of an instrument by Fourier transforming its (complex) aperture function and squaring the result. Note that the amplitude in the aperture function does not only have to depend on the shape of the aperture as there might be partially transparent material. We can use it to simulate any optical instrument such as the \acf*{vAPP}.
 
 With the \ac{PSF} we know how a single point source would look when imaged by an optical system. If we assume the system is linear system we can use the superposition principle to image extended sources by convolving the \ac{PSF} with the extended source. 
-%TODO isnt an optical system always linear?
+%TODO above paragraph isnt correct see feedback, fix it!.
 
 \subsection{Atmosphere}
 % how does the atmospere and AO influence the instrument psf
 
-The telescope or chronograph are the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. Each layer moves in a different direction at a different speed as winds are different at various altitudes. This changes the phase of the light. The complete \ac{PSF} changes all the time. The changes are smaller at smaller timescales. 
+The telescope or coronagraph are the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. The varying temperature and humidity between and within layers changes the airs refractive index resulting in phase changes. Each layer moves in a different direction at a different speed as winds differ between altitudes. Combined this causes the complete \ac{PSF} to change continuesly. The changes are smaller at smaller timescales as the layers move less far and temperature and humidity change less. 
 
-\subsection{Adaptive Optics and spechles}
+\subsection{Adaptive Optics}
 \label{sec:ao}
-Since the 1990 \ac{AO} are used. These change shape to undo the phase change of the atmosphere. However as these effects are unpredictable they always lack behind slightly. Further more they have errors them self, the phase is never completely corrected. Both these effects cause small distortions in the final image, these are known as spechles. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO} and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics don not correct the entire field, generally each system has a control radius in which the \ac{AO} can reduce the seeing.
+Since the 1990‘s \ac{AO} are used. They change utilise an adaptive mirror that can change its shape to undo the phase change of the atmosphere, see \autoref{fig:ao}. To do this they first need to measure the errors in the wavefront. However as as a measurment costs some limited time the lag behind the actual shape of the wavefront. Further more they have errors them self, the phase is never completely corrected. Both these effects cause small distortions in the final image. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO} and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics do not correct the entire field, generally each system has a control radius around the star in which the \ac{AO} can reduce the seeing.
+
+\begin{figure}[H]
+    \caption{Sketch showing the basic principle of an \ac{AO} system, adapted from UC Berkeley science review: Into focus, Credit: Keith Cheveralls}
+    \centering
+    \includegraphics[width=\textwidth]{gfx/AO2}
+    \label{fig:ao}
+\end{figure}
 
 %---------------------------------------------------------------------------------------
 
 
 
--
 
-\section{Vector apodizing phase plate}
+\section{Vector Apodizing Phase Plate}
 \label{sec:vapp}
 
-As mentioned in the introduction the vector apodizing phase plate is not a normal chronograph. The \ac{APP} is a chronograph that changes amplitude of phase in the pupil plane to create destructive interference in an area of the \ac{PSF}. This creates a dark zone on the \ac{PSF}. Dim object imaged there can be resolved if the contrast between them and the star is smaller then the contrast between center peak of the \ac{PSF} and the dark zone. Because the chronograph works in the pupil plane it is insensitive to the effects of spechles, further more unresolved stars do not limit how close to a star the chronograph can function. %TODO is this last sentence correct, paper names tip tilt erros and unresolved stars? 
+As mentioned in the introduction, the vector apodizing phase plate is not a normal coronagraph. The \ac{APP} is a coronagraph that changes the phase in the pupil-plane to create destructive interference in an area of the \ac{PSF}. Imaged this creates a dark zone in the \ac{PSF}. Dim objects can be imaged if the contrast between them and the star is smaller than the contrast between center peak of the \ac{PSF} and the dark zone. The contrast can be higher if post processing techniques such as \ac*{ADI} are used (see \autoref{sec:adi}).
 
-The \ac{APP} does this by introduces differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vAPP_vs_APP}. To do so optical the path length differences need to be different throughout the pupil, the design can be seen as a heightmap of path differences. The \ac{APP} is manufactured by directly printing that heightmap using liquid-crystal technology. 
+As the coronagraph works in the pupil-plane it is insensitive to the effects of tip tilt errors, these are caused by vibrations in the telescope. Further more unresolved stars do not limit how close to a star the coronagraph can function.
 
-The \ac{vAPP} is an upgrade to the \ac{APP} that applies the path length differently mirrored to right and left handedly polerised light. By then splitting the right and left handed light and imaging both seperated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP} at a cost of brightness. However there is ample enough light that this is a small price to pay.
+The \ac{APP} does this by introduces differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vapp_doelman}. To do so optical the path length differences need to be different throughout the pupil, the design can be seen as a heightmap of path differences. The \ac{APP} is manufactured by diamond turning glass. 
+
+The \ac{vAPP} iterates on the the idea of the APP. Instead of modifying the optical path length, it introduces the phase using the geometrical properties of a liquid crystal plate. The two circular polarisations receive opposite phase and create dark holes at opposite sides of the \ac{PSF} \cite{vapp_snik} \cite{vapp_otten} \cite{vapp_doelman}. By then splitting the right and left handed light and imaging both seperated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP} at a cost of brightness. The \ac{vAPP} is manufactored with liquid crystals..
 %---------------------------------------------------------------------------------------
 
 
@@ -99,7 +107,7 @@ The \ac{vAPP} is an upgrade to the \ac{APP} that applies the path length differe
 
 With the formation of a star it is inevitable a disk will form due to to the conservation of angular momentum. While initially material will orbit in various directions and planes these will slowly cancel out due to collisions and attraction leaving the average plane and direction as the final orientation of a disk around the star. It seems likely these disk will allow the formation of planets due to the high detection rate of exoplanets \cite{williams}.
 
-The formation of discs goes through 3 main stages\cite{williams} :
+The formation of discs goes through 3 main stages\cite{williams}. Only the last stage allows direct imaging in the near-IR and optical bands though all are observable in Radio:
 
 \begin{enumerate}
   \item Right after the molecular core collapses, most mass is still in a cloud surrounding the disk and the star. Due to that it is not possible to see the disk in the near-IR  or optical regime.
@@ -109,9 +117,9 @@ The formation of discs goes through 3 main stages\cite{williams} :
 
 During the first two stages the star is still forming, the disk is obstructed by dust and they take a relatively short time. However at the third stage we should be able to study the disk. After this stage planets can form, their formation process is uncertain. 
 
-It is suspected the disks features are linked to the formation of planets. Rings in a disk could indicate a planet embedded in the disk \cite{rings} however those planets can currently not be detected. There is also evidence that spirals in disks can be caused by planets in the disk \cite{garufi}. This means the morphology of disks can provide valuable insight in how planets form.
-
 \subsection{Categorization and features}
+
+It is suspected the disks features are linked to the formation of planets. Rings in a disk could indicate a planet embedded in the disk \cite{rings} however those planets can currently not be detected. There is also evidence that spirals in disks can be caused by planets in the disk \cite{garufi}. This means the morphology of disks can provide valuable insight in how planets form.
 
 Disks seem to be ring or spiral shaped with some forms in between. They can be classified into 6 categories \cite{garufi} see \autoref{fig:sketch_garufi}. 
 
@@ -135,11 +143,12 @@ Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in si
 \subsection{Expected Contrast}
 
 % TODO This does not seem to be observable???!!!
-To get an upper limit on the brightness of a disk we assume all star light that hits the disk is reflected towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
+To get an upper limit on the brightness of a disk we assume all star light that hits the disk is scatterd towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
 
 %----------------------------------------------------------------------------------------
 
 \section{Angular differential Imaging}
+\label{sec:adi}
 \ac{ADI} is a technique to remove stationary and slowly changing PSF structures from an exposure. It is a proven method for the detection of companions with classic \acp{PSF} such as the one in \autoref{fig:classic_psf}. %TODO something about vAPP?
 
 % theory adi 
