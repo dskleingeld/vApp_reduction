@@ -2,15 +2,15 @@ from code.adi import *
 
 def gen_disk_dataset_without_star(time_between_exposures: float, fried_parameter: float, field_size: float, 
     inner_radius: float, outer_radius: float, rotation: float, inclination: float, 
-    set_rotation: float, numb: int
+    set_rotation: float, numb: int, rings=None
     ):
     # set disk properties
     disk_without_star = d.disk(field_size=field_size, with_star=False, inner_radius=inner_radius,
-                               outer_radius=outer_radius, rotation=rotation, inclination=inclination)
+                               outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings)
     # set disk properties //also need disk with star convolved with same psf for
     # alignment
     disk_with_star = d.disk(field_size=field_size, with_star=True, inner_radius=inner_radius,
-                            outer_radius=outer_radius, rotation=rotation, inclination=inclination)
+                            outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings)
 
     # create disk cube
     (disk_cube, disk_params) = d.gen_cube(
@@ -32,6 +32,7 @@ def gen_disk_dataset_without_star(time_between_exposures: float, fried_parameter
         ref_cube,
         img_cube,
         img_params)
+
 
 def run():
 

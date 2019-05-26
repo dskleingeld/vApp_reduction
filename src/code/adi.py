@@ -86,11 +86,11 @@ def extract_psfs(img, left_loc, right_loc, init_radius=0.15):
 
 def gen_disk_dataset(time_between_exposures: float, fried_parameter: float, field_size: float, 
     inner_radius: float, outer_radius: float, rotation: float, inclination: float, 
-    set_rotation: float, numb: int):
+    set_rotation: float, numb: int, rings=None):
 
     # set disk properties
     disk_with_star = d.disk(field_size=field_size, with_star=True, inner_radius=inner_radius,
-        outer_radius=outer_radius, rotation=rotation, inclination=inclination)
+        outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings)
 
     # process disk with center star
     # create disk cube

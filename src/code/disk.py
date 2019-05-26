@@ -8,7 +8,7 @@ def to_radians(deg):
 
 class disk:
     def __init__(self, field_size=8, steller_surface_flux=1., steller_radius=0.00465, inclination=30,
-    rotation=30, inner_radius=None, outer_radius=None, with_star=True):
+    rotation=30, inner_radius=None, outer_radius=None, with_star=True, rings=None):
         
         self.F_star = steller_surface_flux
         self.R_star = steller_radius
@@ -23,6 +23,7 @@ class disk:
         self.with_star= with_star
         self.resolution = 200
         self.field = None 
+        self.rings = rings
     
     def render(self):
         L = self.L
@@ -41,14 +42,24 @@ class disk:
         Rr = np.hypot(Xt, Yt)  # Real radius
         inverse_square_law = (Rr/self.R_star)**2
         #TODO hardcode brightness diff
-
-        field = np.zeros([self.resolution,self.resolution])
-        field[(Rr>R_inner) & (Rr<R_outer)] = np.divide(Star[(Rr>R_inner) & (Rr<R_outer)], 
-                     inverse_square_law[(Rr>R_inner) & (Rr<R_outer)],
-                     out = Star[(Rr>R_inner) & (Rr<R_outer)],
-                    #Intensity of 1/R**2, with inner_radius and outer_radius
-                     where = Rr[(Rr>R_inner) & (Rr<R_outer)] != 0)  
         
+        field = np.zeros([self.resolution,self.resolution])
+        if self.rings == None:
+            field[(Rr>R_inner) & (Rr<R_outer)] = np.divide(Star[(Rr>R_inner) & (Rr<R_outer)], 
+                        inverse_square_law[(Rr>R_inner) & (Rr<R_outer)],
+                        out = Star[(Rr>R_inner) & (Rr<R_outer)],
+                        #Intensity of 1/R**2, with inner_radius and outer_radius
+                        where = Rr[(Rr>R_inner) & (Rr<R_outer)] != 0)  
+        else:
+            for (start, stop) in self.rings:
+                R_inner = start*self.L;
+                R_outer = stop*self.L;
+                field[(Rr>R_inner) & (Rr<R_outer)] = np.divide(Star[(Rr>R_inner) & (Rr<R_outer)], 
+                        inverse_square_law[(Rr>R_inner) & (Rr<R_outer)],
+                        out = Star[(Rr>R_inner) & (Rr<R_outer)],
+                        #Intensity of 1/R**2, with inner_radius and outer_radius
+                        where = Rr[(Rr>R_inner) & (Rr<R_outer)] != 0)          
+
         field *= 100
 
         if R_inner == 0:
@@ -83,7 +94,6 @@ def rotate(clean_disk, theta):
     return rotated_disk.to_list()
 
 def gen_cube(num, clean_disk, angular_sep):
-    print("generating disk cube")
     params = clean_disk.paramslist()
     angles = np.linspace(0,angular_sep, num)
     func = partial(rotate, clean_disk)
@@ -103,7 +113,4 @@ def gen_cube(num, clean_disk, angular_sep):
     # print("rrrrrrrrrrrrrrrrrrr")
     return disk_cube, disk_cube_params
 
-if __name__ == "__main__":
-    print("DO NOT RUN THIS FILE DIRECTLY, USE MAIN.PY")
-    test = properties(10, inner_radius=4, outer_radius=9, with_star=False)
-    from_properties(test)
+
