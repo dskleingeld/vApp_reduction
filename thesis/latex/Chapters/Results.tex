@@ -1,46 +1,97 @@
 \chapter{Results}
 
-\begin{tabular}{lccc}
-Disk      & Number of rings & Width of rings & Inclination \\
-\hline
-Gnat      & 1               & 13.65          & 80          \\
-Gnu       & 1               & 92.50          & 70          \\
-Emu       & 2               & 33.33          & 60          \\
-Armadillo & 2               & 8.99           & 70          \\
-\hline
-\label{tab: param_study}
-\end{tabular}
+Here we present the results of the paramater study. We have varied the inclination, rotation and number of rings theire sizes. All the combinations presented here are listed in \autoref{tab:disks}. 
+
+For each of these disks we show with increased disk brightness: the disk model with, the end result after ADI and three more images discussed in \autoref{sec:paramstudy}. And we show the disk model at realistic brightness.
 \\
 
+\begin{table}
+    \begin{tabular}{cccccc}  
+    \toprule
+    \multicolumn{5}{c}{\thead{Rings}} \\
+    \cmidrule(r){3-4}
+    \thead{Disk}      & \thead{Figure Number}      & \thead{Number} & \thead{Inner and Outer\\radius} & \thead{Inclination\\ (degrees)} & \thead{Initial Rotation\\ (degrees)}\\
+    \midrule
+    A         & \ref{fig:A} &   1    & 2 - 4                        & 1           & 30\\
+              &             &        & 4 - 5\\
+    B         & \ref{fig:B} &   2    & 13.65                                 & 80          & 1\\
+    \bottomrule
+    \end{tabular}
+    \caption{An overview of all the disks we look at. If a disk has multiple rings their inner and outer dimensions are listed on different lines.}
+    \label{tab:disks}
+\end{table}
+
+
+%\begin{enumerate}[I]
+%\item An exposure of the model with a central star, using a distorted \ac{PSF}.
+%\item The result of \ac{ADI} for the model with a central star using distorted \acp{PSF}.
+
+%\item An exposure of the model without a central star, using the undistorted \ac{PSF}.
+%\item The result of \ac{ADI} for the model without a central star using the undistorted \ac{PSF}. %TODO explain how we center without star
+%\end{enumerate}
+
 \begin{figure}[h!]
-  
+  %TODO add end result after ADI at realistic brightness
+  \newcommand{\plotnumb}{0}
   \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/rings/0_psf_diff_007}
-    \caption{}
-  \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/rings/0_on_sky_psf_diff_007}
-    \caption{}
-  \end{subfigure}      
-  
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/rings/0_psf_diff_070}
-    \caption{}
-  \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/rings/0_on_sky_psf_diff_070}
-    \caption{}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
+    \caption{the disk model used}
   \end{subfigure}
-        
+  
   \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/rings/0_psf_diff_140}
-    \caption{}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_noReductin}
+    \caption{As it would be observed with the \ac{vAPP}}
+  \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
+  \begin{subfigure}[b]{0.6\textwidth}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI}
+    \caption{\ac{ADI} applied to the realistic disk model}
+  \end{subfigure}
+  
+  \begin{subfigure}[t]{0.6\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_noReductin}
+    \caption{Only the light of the disk}
   \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/rings/0_on_sky_psf_diff_140}
-    \caption{}
+  \begin{subfigure}[t]{0.6\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_ADI}
+    \caption{\ac{ADI} applied to only the light coming from the disk}
   \end{subfigure}
 
-  \caption{}
-  \label{fig:psfs_evolving}
+
+  \caption{Results of appying \ac{ADI} to disk model A}
+  \label{fig:A}
+\end{figure}
+
+\begin{figure}[h!]
+  %TODO add end result after ADI at realistic brightness
+  \newcommand{\plotnumb}{1}
+  \begin{subfigure}[b]{0.6\textwidth}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
+    \caption{the disk model used}
+  \end{subfigure}
+  
+  \begin{subfigure}[b]{0.6\textwidth}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_noReductin}
+    \caption{As it would be observed with the \ac{vAPP}}
+  \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
+  \begin{subfigure}[b]{0.6\textwidth}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI}
+    \caption{\ac{ADI} applied to the realistic disk model}
+  \end{subfigure}
+  
+  \begin{subfigure}[t]{0.6\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_noReductin}
+    \caption{Only the light of the disk}
+  \end{subfigure}% this comment sign needs to be here for the images to be on the same line
+  \begin{subfigure}[t]{0.6\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_ADI}
+    \caption{\ac{ADI} applied to only the light coming from the disk}
+  \end{subfigure}
+
+
+  \caption{Results of appying \ac{ADI} to disk model B}
+  \label{fig:B}
 \end{figure}

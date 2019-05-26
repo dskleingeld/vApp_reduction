@@ -39,7 +39,7 @@ We use a 2-dimensional disk model based on the work by \cite{Pieter_Okko}. The m
 The disk is modeled as optically thick and does not emit light on its own. At a certain radii between the inner and outer radii the disks brightness is given by:
 
 \begin{equation}
-B(r) = B_{star} \cdot {\left(\frac{r}{R_{star}}\right)}^2
+B(r) = B_{\text{star}} \cdot {\left(\frac{r}{R_{\text{star}}}\right)}^2
 \end{equation}
 
 We evaluate the model onto an image of 200 by 200 pixels. This speeds up calculations and is similar to the resolution of observed \ac{vAPP} datasets. The model behaves well for most disks however on this resolution features that are small in the observers plane are pixilated as we see in \autoref{fig:disk} below. This poses no problem as we do not expect to resolve such features.
@@ -70,7 +70,7 @@ To simulate an observation we do not use a single given psf. Since during an obs
 First we tried modifying a give single \ac{vAPP} psf to get a set of disturbed psfs. To achieve this a pattern is added to the foerier transform of the psf before transforming it back from foerier space, see the equation below. The pattern is then shifted for every timestap.
 
 \begin{equation}
-I_{final} = \mathscr{F}_{2d}^{-1} \Big( intensity \cdot \mathscr{F}_{2d}(psf) \cdot pattern + (1-intensity) \cdot \mathscr{F}_{2d}(psf) \Big)
+I_{\text{final}} = \mathscr{F}_{2d}^{-1} \Big( \text{intensity} \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \cdot \text{pattern} + \left(1-\text{intensity}\right) \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \Big)
 \end{equation}
 
 The best results where achieved using a grid of blurred circles as pattern, see \autoref{fig:patterns}. Note the distortions to the \ac{PSF} are around the center of its peaks but not randomly spread. As Clearly this will not do.
@@ -99,7 +99,7 @@ The best results where achieved using a grid of blurred circles as pattern, see 
 Then we tried a simulation of the psfs using \ac{HCIPy}, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. The framework is used to generate \acp{PSF} with a very rough simulation. We use the provided methods in \ac{HCIPy} to create a multi-layer atmospheric model that changes in time. Then we use that model, the \ac{vAPP} amplitude and \ac{vAPP} phase screen to generate a series of \acp{PSF} using:
 
 \begin{equation}
-I_vAPP = \mathscr{F}\Big( Ae^{i\theta}\Big) + \mathscr{F}\Big( Ae^{i\theta}\Big) + \mathscr{F}\Big( Ae \Big) \cdot C
+I_\text{\ac{vAPP}} = \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) + \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) + \mathscr{F}_{2d}\Big( Ae \Big) \cdot C
 \end{equation}
 
 Here we use not one apperture function ($Ae^{i\theta}$) as in \autoref{sec:PSF} but combine three. The first two simulate the opposite phase the two circular polarisations receive from the \ac{vAPP} (see \autoref{sec:vapp}). The third factor, called the leakage term ************************************************
@@ -166,7 +166,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
 To get a dataset that simulates an obeservation we create an ordered set of disk images each one rotated a bit to eachother. This accounts for the field rotation between exposures caused by observing with an alt azimuth telescope. The angle depends on the time between exposures and the field rotation rate.
 
 \begin{align}
-  \psi &= 0.2506 \cdot \frac{cos(A) cos \phi}{sin(z)} 
+  \psi &= 0.2506 \cdot \frac{\cos(A) \cos \phi}{\sin(z)} 
 \end{align}
 
 The field rotation $\psi$ in degrees per minute for a given target azimuth $A$, zenith distance $z$ and telescope latitude $\psi$ \cite[page 95]{Electronic_imaging}. If we would be observing from mauna kea (latitude 19.8) at a resonable 30 degrees from the zenith this gives a rotation rate between 0 and  14.74 degrees per minute.
