@@ -113,15 +113,11 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
 %https://tex.stackexchange.com/questions/139214/how-to-make-a-subfigure-span-the-two-columns-in-ieeetrans-style
 
 \begin{figure}[h!]
-
-  %\begin{flushright}
-  
   %define (\edef) the variable \side to l or r depending if we are at an odd
   %or even page
   \checkoddpage 
   \edef\side{\ifoddpage l\else r\fi}%
   
-  %\hspace{-1\linewidth}%
   \makebox[\textwidth][\side]{%
   
   \begin{minipage}[t]{1.3\textwidth}
@@ -154,7 +150,6 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
   
   \end{minipage}
   }%
-  %\end{flushright}
 
   \caption{Differences between the first psf of an observation and later psfs. Compared between simulated observations on the left and on sky data on the right. The psfs where aligned then normalised on the maximum of the leakage term, finally the absolute value of the diffrence between the first and n-th psf was taken. The second, 10th and 50th simulated psf are 0.7, 7 and 14 seconds apart in the simulation.}
   \label{fig:psfs_evolving}
