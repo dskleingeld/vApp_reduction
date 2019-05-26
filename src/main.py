@@ -1,4 +1,4 @@
-from experiments import normal_disk, without_disk, without_disk_perfect_psf, without_star, without_star_perfect_psf, miscellaneous, two_rings
+from experiments import normal_disk, without_disk, without_disk_perfect_psf, without_star, without_star_perfect_psf, miscellaneous, results
 
 if __name__ == "__main__":
     #normal_disk.run()
@@ -7,7 +7,7 @@ if __name__ == "__main__":
     #without_star.run()
     #without_star_perfect_psf.run()
     
-    two_rings.run()
+    results.run()
 
     #miscellaneous.run_loyt()
     #miscellaneous.on_sky()
