@@ -1,5 +1,6 @@
 from code.adi import *
 import code.plot.slow as plotslow
+import code.plot.fast as plotfast
 import code.disk as d
 
 time_between_exposures: float = 0.7
@@ -104,8 +105,8 @@ def noReduction(output_path):
         left_psfs.append(left_psf)
         right_psfs.append(right_psf)
 
-    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin")
-    plotslow.saveImage_withCb(right_psfs[0],output_path+"left_noReduction")
+    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin", log=True)
+    plotslow.saveImage_withCb(right_psfs[0],output_path+"left_noReduction", log=True)
 
 def withADI(output_path):
 
@@ -127,8 +128,9 @@ def withADI(output_path):
     right_final = simple_adi(right_psfs, img_params)
     left_final = simple_adi(left_psfs, img_params)
 
-    plotslow.saveImage_withCb(right_final,output_path+"right_ADI")
-    plotslow.saveImage_withCb(left_final,output_path+"left_ADI")
+    #plotfast.image(np.array([np.abs(right_final)]))
+    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmin=0, vmax=4e-5)
+    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmin=0, vmax=4e-5)
 
 def noStar_noReduction(output_path):
 
@@ -149,8 +151,8 @@ def noStar_noReduction(output_path):
         left_psfs.append(left_psf)
         right_psfs.append(right_psf)
 
-    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin")
-    plotslow.saveImage_withCb( right_psfs[0],output_path+"left_noReduction")
+    plotslow.saveImage_withCb(left_psfs[0],output_path+"no_star_right_noReductin", log=True)
+    plotslow.saveImage_withCb(right_psfs[0],output_path+"no_star_left_noReduction", log=True)
 
 def noStar_ADI(output_path):
    
@@ -173,8 +175,8 @@ def noStar_ADI(output_path):
     right_final = simple_adi(right_psfs, img_params)
     left_final = simple_adi(left_psfs, img_params)
 
-    plotslow.saveImage_withCb(right_final,output_path+"right_final")
-    plotslow.saveImage_withCb(left_final,output_path+"left_final")
+    plotslow.saveImage_withCb(right_final,output_path+"no_star_right_ADI", log=False)
+    plotslow.saveImage_withCb(left_final,output_path+"no_star_left_ADI", log=False)
 
 def plot_model(output_path):
     numb = 1
@@ -182,14 +184,14 @@ def plot_model(output_path):
                    outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings)
     (disk_cube, _disk_params) = d.gen_cube(numb, model, set_rotation)
 
-    plotslow.saveImage_withCb(disk_cube[0],output_path+"model")
+    plotslow.saveImage_withCb(disk_cube[0],output_path+"model", log=True)
 
 def run():
     
-    output_path = get_output_path("rings")
+    output_path = get_output_path("results")
     write_metadata(output_path+"meta", time_between_exposures=time_between_exposures, fried_parameter=fried_parameter, 
         field_size=field_size, inner_radius=inner_radius, outer_radius=outer_radius, rotation=rotation, inclination=inclination, 
-        set_rotation=set_rotation, numb=numb)
+        set_rotation=set_rotation, numb=numb, rings=rings)
 
     plot_model(output_path)
     noReduction(output_path)
