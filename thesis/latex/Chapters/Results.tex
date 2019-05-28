@@ -10,7 +10,7 @@ For each of these disks we show with increased disk brightness: the disk model w
     \toprule
     \multicolumn{5}{c}{\thead{Rings}} \\
     \cmidrule(r){3-4}
-    \thead{Disk}      & \thead{Figure Number}      & \thead{Number} & \thead{Inner and Outer\\radius} & \thead{Inclination\\ (degrees)} & \thead{Initial Rotation\\ (degrees)}\\
+    \thead{Disk}      & \thead{Figure Numbers}      & \thead{Number} & \thead{Inner and Outer\\radius} & \thead{Inclination\\ (degrees)} & \thead{Initial Rotation\\ (degrees)}\\
     \midrule
     A         & \ref{fig:A} &   1    & 2 - 4                        & 1           & 30\\
               &             &        & 4 - 5\\
@@ -30,39 +30,40 @@ For each of these disks we show with increased disk brightness: the disk model w
 %\item The result of \ac{ADI} for the model without a central star using the undistorted \ac{PSF}. %TODO explain how we center without star
 %\end{enumerate}
 
+
 \begin{figure}[h!]
   %TODO add end result after ADI at realistic brightness
   \newcommand{\plotnumb}{7}
   \begin{subfigure}[t]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
-    \caption{The realistic disk model with star, brightness relative to the star}
+    \caption{The disk model, the brighness is relative to the center star.}
   \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
   \begin{subfigure}[t]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI_rbri}
-    \caption{\ac{ADI} applied to the realistic disk model with star}
+    \caption{\ac{ADI} applied to the disk model, the disk can not be seen only the residuals of the post processing}
   \end{subfigure}
   
-  \begin{subfigure}[b]{0.6\textwidth}
+  \begin{subfigure}[t]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_noReductin}
-    \caption{A simulated observation of the brighter model. This models brightness is 100 times larger then the realistic model.}
+    \caption{A simulated exposure of the \textit{brighter} variant of the disk model. Due to its unrealistcily high disk brightness we can see where in the \ac{PSF} the disk lies.}
   \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
-  \begin{subfigure}[b]{0.6\textwidth}
+  \begin{subfigure}[t]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI}
-    \caption{\ac{ADI} applied to simulated observation with the brighter disk model where the brightness of the disk relative to the star has been increased by 100 times.}
+    \caption{\ac{ADI} applied simulated exoposure of the \textit{brighter} variant (left). It is hard to discern disk features from \ac{PSF} residuals.}
   \end{subfigure}
   
   \begin{subfigure}[t]{0.6\textwidth}
     \centering
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_noReductin}
-    \caption{Only the light of the disk}
+    \caption{A simulated exposure of the \textit{brighter} variant of the disk model. We see where the light of the disk gets spread by the PSF. The disks two rings can clearly be distinguished}
   \end{subfigure}% this comment sign needs to be here for the images to be on the same line
   \begin{subfigure}[t]{0.6\textwidth}
     \centering
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_ADI}
-    \caption{\ac{ADI} applied to only the light coming from the disk}
+    \caption{\ac{ADI} applied simulated exoposure of the \textit{starless} variant (left). The outer disk can still be recognised though varius gaps have appeared. The inner disk has become really thin and has two large blobs at opposite side on its semi major axis.}
   \end{subfigure}
 
 
-  \caption{Results of appying \ac{ADI} to disk model A}
+  \caption{On the left in decending order: the disk model and generated exposures of its \textit{brighter} and \textit{starless} variants. Then on the right the results of \ac{ADI} applied to the generated exposure sets of the left models.}
   \label{fig:A}
 \end{figure}
