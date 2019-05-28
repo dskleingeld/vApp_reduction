@@ -1,5 +1,56 @@
 % Chapter X
 
+\makeatletter
+\def\user@resume{resume}
+\def\user@intermezzo{intermezzo}
+%
+\newcounter{previousequation}
+\newcounter{lastsubequation}
+\newcounter{savedparentequation}
+\setcounter{savedparentequation}{1}
+% 
+\renewenvironment{subequations}[1][]{%
+      \def\user@decides{#1}%
+      \setcounter{previousequation}{\value{equation}}%
+      \ifx\user@decides\user@resume 
+           \setcounter{equation}{\value{savedparentequation}}%
+      \else  
+      \ifx\user@decides\user@intermezzo
+           \refstepcounter{equation}%
+      \else
+           \setcounter{lastsubequation}{0}%
+           \refstepcounter{equation}%
+      \fi\fi
+      \protected@edef\theHparentequation{%
+          \@ifundefined {theHequation}\theequation \theHequation}%
+      \protected@edef\theparentequation{\theequation}%
+      \setcounter{parentequation}{\value{equation}}%
+      \ifx\user@decides\user@resume 
+           \setcounter{equation}{\value{lastsubequation}}%
+         \else
+           \setcounter{equation}{0}%
+      \fi
+      \def\theequation  {\theparentequation  \alph{equation}}%
+      \def\theHequation {\theHparentequation \alph{equation}}%
+      \ignorespaces
+}{%
+%  \arabic{equation};\arabic{savedparentequation};\arabic{lastsubequation}
+  \ifx\user@decides\user@resume
+       \setcounter{lastsubequation}{\value{equation}}%
+       \setcounter{equation}{\value{previousequation}}%
+  \else
+  \ifx\user@decides\user@intermezzo
+       \setcounter{equation}{\value{parentequation}}%
+  \else
+       \setcounter{lastsubequation}{\value{equation}}%
+       \setcounter{savedparentequation}{\value{parentequation}}%
+       \setcounter{equation}{\value{parentequation}}%
+  \fi\fi
+%  \arabic{equation};\arabic{savedparentequation};\arabic{lastsubequation}
+  \ignorespacesafterend
+}
+\makeatother
+
 \chapter{Theory} % Chapter title
 \label{ch:theory} % For referencing the chapter elsewhere, use \autoref{ch:name} 
 %intro
@@ -25,36 +76,36 @@ We find the electric field at a point P at distance R by summing up the fields o
     \begin{align}
         E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{\text{Aperture}} e^{ik(Yy+Zz)/R} dydz
     \end{align}
-    \label{eq:hecht10.41}
+    \label{eq:hecht:10.41}
 \end{subequations}
 
 Here $Y$, $Z$ describe the position in the imaging plane in which $P$ lies as seen in \autoref{fig:hecht}. Small letters $y$ and $z$ are the position in the aperture plane. The integral is over the aperture, only integrating over the transparent parts. 
 
 Here we integrate only over the apperture and assume all light is transmitted within and no light outside of it. To allow for changes in phase and magnitude caused by for example dirty glass, or a complicated Optical instrument we including an aperture function and integrate over all space.
 
-\begin{subequations}
-  \begin{align}
-    \mathscr{A}(y,z) &= \mathscr{A}_0 (y,z)e^{i\upphi(y,z)}
-  \end{align}
-\end{subequations}
+\begin{align}
+\mathscr{A}(y,z) &= \mathscr{A}_0 (y,z)e^{i\upphi(y,z)}\label{eq:helper}
+\end{align}
 
 Here the time changing electromagnatic wave $\varepsilon$ is averaged into a constant field of magnitude one. Then the transmission through the aperture changes the magnitude ($\mathscr{A}_0$) and the phase ($\upphi(y,z)$).
 
-\begin{subequations}
+\begin{subequations}[resume]
   \begin{align}
     E(Y,Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(Yy+Zz)/R} dydz
   \end{align}
+  \label{eq:hecht:2}
 \end{subequations}
 
 The expression for the E field at the point P (\autoref{eq:hecht10.41}) rewritten to make use of the aperture function.
 
 We can rewrite this to get rid of the dependence on the distance by substituting $Ky = kY/R$ and $Kz = kZ/R$ for $Y$ and $Z$. This gives the final form: 
 
-\begin{subequations}
+\begin{subequations}[resume]
 %  \label{eq:Master} % NO! impossible here
   \begin{align}
     E(K_Y,K_Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(K_Yy+K_Zz)/R} dydz
   \end{align}
+  \label{eq:hecht:3}
 \end{subequations}
 
 This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (e.i., the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.

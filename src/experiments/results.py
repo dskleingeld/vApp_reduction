@@ -132,6 +132,30 @@ def withADI(output_path):
     plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmin=0, vmax=4e-5)
     plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmin=0, vmax=4e-5)
 
+def withADI_realistic_bri(output_path):
+
+    (img_cube, img_params) = gen_disk_dataset(time_between_exposures, fried_parameter, field_size, inner_radius, outer_radius, 
+        rotation, inclination, set_rotation, numb, rings=rings, amplification=1)
+
+    clean_psf = psf.get_clean()
+    (img_cube, _) = center_cube(img_cube, ref_img=clean_psf)
+
+    (left, right) = find_sub_psf_location(clean_psf)
+
+    right_psfs = []
+    left_psfs = []
+    for img in img_cube:
+        (left_psf, right_psf) = extract_psfs(img, left, right)
+        left_psfs.append(left_psf)
+        right_psfs.append(right_psf)
+
+    right_final = simple_adi(right_psfs, img_params)
+    left_final = simple_adi(left_psfs, img_params)
+
+    #plotfast.image(np.array([np.abs(right_final)]))
+    plotslow.saveImage_withCb(right_final,output_path+"right_ADI_rbri", log=False, vmin=0, vmax=4e-5)
+    plotslow.saveImage_withCb(left_final,output_path+"left_ADI_rbri", log=False, vmin=0, vmax=4e-5)
+
 def noStar_noReduction(output_path):
 
     numb=1
@@ -180,8 +204,8 @@ def noStar_ADI(output_path):
 
 def plot_model(output_path):
     numb = 1
-    model = d.disk(field_size=field_size, with_star=False, inner_radius=inner_radius,
-                   outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings)
+    model = d.disk(field_size=field_size, with_star=True, inner_radius=inner_radius,
+                   outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings, amplification=1)
     (disk_cube, _disk_params) = d.gen_cube(numb, model, set_rotation)
 
     plotslow.saveImage_withCb(disk_cube[0],output_path+"model", log=True)
@@ -196,5 +220,6 @@ def run():
     plot_model(output_path)
     noReduction(output_path)
     withADI(output_path)
+    withADI_realistic_bri(output_path)
     noStar_noReduction(output_path)
     noStar_ADI(output_path)

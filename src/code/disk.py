@@ -8,7 +8,7 @@ def to_radians(deg):
 
 class disk:
     def __init__(self, field_size=8, steller_surface_flux=1., steller_radius=0.00465, inclination=30,
-    rotation=30, inner_radius=None, outer_radius=None, with_star=True, rings=None):
+    rotation=30, inner_radius=None, outer_radius=None, with_star=True, rings=None, amplification=100):
         
         self.F_star = steller_surface_flux
         self.R_star = steller_radius
@@ -24,6 +24,7 @@ class disk:
         self.resolution = 200
         self.field = None 
         self.rings = rings
+        self.amplification = amplification
     
     def render(self):
         L = self.L
@@ -60,7 +61,7 @@ class disk:
                         #Intensity of 1/R**2, with inner_radius and outer_radius
                         where = Rr[(Rr>R_inner) & (Rr<R_outer)] != 0)          
 
-        field *= 100
+        field *= self.amplification
 
         if R_inner == 0:
             print("inner_rad is nul")

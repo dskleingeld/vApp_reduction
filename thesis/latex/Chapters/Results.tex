@@ -32,19 +32,23 @@ For each of these disks we show with increased disk brightness: the disk model w
 
 \begin{figure}[h!]
   %TODO add end result after ADI at realistic brightness
-  \newcommand{\plotnumb}{0}
-  \begin{subfigure}[b]{0.6\textwidth}
+  \newcommand{\plotnumb}{7}
+  \begin{subfigure}[t]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
-    \caption{the disk model used}
+    \caption{The realistic disk model with star, brightness relative to the star}
+  \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
+  \begin{subfigure}[t]{0.6\textwidth}
+    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI_rbri}
+    \caption{\ac{ADI} applied to the realistic disk model with star}
   \end{subfigure}
   
   \begin{subfigure}[b]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_noReductin}
-    \caption{As it would be observed with the \ac{vAPP}}
+    \caption{A simulated observation of the brighter model. This models brightness is 100 times larger then the realistic model.}
   \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
   \begin{subfigure}[b]{0.6\textwidth}
     \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI}
-    \caption{\ac{ADI} applied to the realistic disk model}
+    \caption{\ac{ADI} applied to simulated observation with the brighter disk model where the brightness of the disk relative to the star has been increased by 100 times.}
   \end{subfigure}
   
   \begin{subfigure}[t]{0.6\textwidth}
@@ -61,37 +65,4 @@ For each of these disks we show with increased disk brightness: the disk model w
 
   \caption{Results of appying \ac{ADI} to disk model A}
   \label{fig:A}
-\end{figure}
-
-\begin{figure}[h!]
-  %TODO add end result after ADI at realistic brightness
-  \newcommand{\plotnumb}{1}
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
-    \caption{the disk model used}
-  \end{subfigure}
-  
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_noReductin}
-    \caption{As it would be observed with the \ac{vAPP}}
-  \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
-  \begin{subfigure}[b]{0.6\textwidth}
-    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_right_ADI}
-    \caption{\ac{ADI} applied to the realistic disk model}
-  \end{subfigure}
-  
-  \begin{subfigure}[t]{0.6\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_noReductin}
-    \caption{Only the light of the disk}
-  \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-  \begin{subfigure}[t]{0.6\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_no_star_right_ADI}
-    \caption{\ac{ADI} applied to only the light coming from the disk}
-  \end{subfigure}
-
-
-  \caption{Results of appying \ac{ADI} to disk model B}
-  \label{fig:B}
 \end{figure}

@@ -14,9 +14,10 @@ def saveImage(data, path, vmin=0.0000001, vmax=None):
     ax.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=vmin, vmax=vmax)
     plt.savefig(path)
 
-def saveImage_withCb(data, path, vmax=None, log=False, vmin=None, lim=None):
+def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None):
     fig, ax = plt.subplots()
     cmap = plt.cm.OrRd
+    #cmap = plt.cm.RdBu
     cmap.set_under(color='white')
     
     #divider = make_axes_locatable(ax)
