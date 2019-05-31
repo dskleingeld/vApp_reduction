@@ -17,7 +17,7 @@ We use a 2-dimensional disk model based on the work by \cite{Pieter_Okko}. The m
 \begin{description}
 \item[Inclination] The angle the disk is tilted towards the observer. A 0 degrees inclination gives a face on disk and 90 degrees a horizontal line being an edge on disk. As illustrated in \autoref{fig:inclination}
 \item[Position angle] After inclination the disk can be rotated around the line of sight from the observer, rotation to the left is positive. See \autoref{fig:pos_angle}
-\item[Inner and Outer radius] Many disks start and stop at some radius from star. The inner and outer radius are relative to the field size that defaults to 10. An Inner radius of 2 gives a hole in the disk with a diameter 20\% of the image width. 
+\item[Inner and Outer radius] Many disks start and stop at some radius from star. The inner and outer radius are relative to the field size that defaults to 10. An Inner radius of 2 gives a hole in the disk with a diameter 20\% of the image width. %TODO expand with rings, and explain center star is included in model
 \end{description}
 
 \begin{figure}[h!]
@@ -163,7 +163,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
 
 \section{Generating observations}
 \label{sec:gen}
-To get a dataset that simulates an obeservation we create an ordered set of disk images each one rotated a bit to eachother. This accounts for the field rotation between exposures caused by observing with an alt azimuth telescope. The angle depends on the time between exposures and the field rotation rate.
+To get a dataset that simulates an obeservation we create an ordered set of disk images each one rotated a bit to eachother. This accounts for the field rotation between images caused by observing with an alt azimuth telescope. The angle depends on the time between images and the field rotation rate.
 
 \begin{align}
   \psi &= 0.2506 \cdot \frac{\cos(A) \cos \phi}{\sin(z)} 
@@ -182,3 +182,5 @@ Using variations on this method we create 3 different sets.
 \end{enumerate}
 
 For each of the sets we can generate an additional variant to look at what the best result attainable is by leaving out the psf distortions. We do this by taking the convolution of the n-th disk image with the first \ac{PSF} of the \ac{PSF} set instead of the n-th.
+
+We do not try to simulate noise sources as detector or photon noise. These will not affect the disks morphology and the techniques for handeling them are the same between disks and other objects.

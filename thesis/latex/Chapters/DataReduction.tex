@@ -2,44 +2,45 @@
 
 \chapter{Data Reduction} % Chapter title
 \label{ch:data_red} % For referencing the chapter elsewhere, use \autoref{ch:name} 
-The generated exposures contain 2 mirrored dark zones and are shifted relative to eachoter by the changing \acp{PSF}, see \autoref{fig:psfs}. Before applying any post processing technique we create 2 aligned stacks of processed exposures. Then we apply the \ac{ADI} algoritme to remove most of the star light.
+The generated images contain 2 mirrored dark zones and are shifted relative to each other by the changing \acp{PSF}. Part of \ac{ADI} is removing the light from a star by subtracting a reference \ac{PSF}. This does not work if the reference \ac{PSF} is shifted relative to the \ac{PSF} of the image. To solve this we create 2 aligned stacks of processed images before applying any post processing technique. Then we use the \ac{ADI} algorithm to remove star light.
 
 % implementation
 \section{Pre-Processing}
-Before we extract the **psf kernals** we align the exposures. We find the shift relative to the \ac{vAPP} instrument \ac{PSF} for every exposure in the set by cross correlating the upsampled image. Then the images are shifted using spline interpolation\footnote{Here an image is interpolated by fitting multiple polynomials called splines}. For the implementation of both algoritmes we use the SciPy libarary\cite{scipy}.
+Before we extract the coronographic \acp{PSF} we align the images. We find the shift relative to the \ac{vAPP} instrument \ac{PSF} for every image in the set by cross correlating an up-sampled image. Then the images are shifted using spline interpolation\footnote{Here an image is interpolated by fitting multiple polynomials called splines}. For the implementation of both algorithms we use the SciPy library\cite{scipy}.
 
 \begin{figure}[h!]
   
       \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_full_aligned}
-        \caption{Exposure after aligment.}
+        \caption{Exposure after alignment.}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       
       \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_left_subpsf}
-        \caption{Left **psf kernal**.}
+        \caption{Left coronographic \ac{PSF}.}
         \label{fig:slice_a}
       \end{subfigure}      
       \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_right_subpsf}
-        \caption{Right **psf kernal**.}
+        \caption{Right coronographic \ac{PSF}.}
         \label{fig:slice_b}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
 
-  \caption{A generated exposure through the Pre-processing process, first it is aligned and then its right and left **psf kernal** are extracted.}
+  \caption{A generated image through the Pre-processing process, first it is aligned and then its right and left coronographic \ac{PSF} are extracted.}
   \label{fig:psfs_evolving}
 \end{figure}
 
-To find the center of the **psf kernals** an exposure is devided left right. Now for each half the brightest pixel gives the center, around it we copy out a square with sides of $30\%$ of the image width. Done for all exposures this gives the 2 aligned stacks, a slice of which we see in \autoref{fig:slice_a} and \autoref{fig:slice_b}.
+We find the center of the coronographic \acp{PSF} by dividing the image into a left and right half. For each half the brightest pixel gives the center. Then we create two images by extracting the coronographic \acp{PSF}. To do this we copy a square with sides of $30\%$ of the origional image width around the centers found. These copies are the extracted coronographic \acp{PSF}. This procedure is repeated for all images this gives 2 aligned stacks, a slice of which can see in \autoref{fig:slice_a} and \autoref{fig:slice_b}.
 
 \section{Angular differential imaging}
-\subsection{Algoritme}
-Now there are two seperate stacks of exposures we apply the \ac{ADI} algoritme \cite{Marois_2006} to each. First the median is taken over the stack using the implemantion provided by the numby libarary \cite{numpy}. This is our reference \ac{PSF}. After subtracting the reference \ac{PSF} from each exposure we rotated it back so the fields of all exposures are aligned again (see \autoref{sec:gen}). Rotating a square inside a containing square here we lose information as the right angles rotate out of the containing square. The empty space that appears at the containing squares right angles is filled with value $0$. The pixel values are determined by spline interpolating. For the rotation algortime we use again the SciPy libarary \cite{scipy}.
+\subsection{Algorithm}
+Now there are two separate stacks of images we apply the \ac{ADI} algorithm \cite{Marois_2006} to each. First the median is taken over the stack using the implementation provided by the numpy library \cite{numpy}. This is our reference \ac{PSF}. After subtracting the reference \ac{PSF} from each image we rotated it back so the fields of all images are aligned again (see \autoref{sec:gen}). Rotating a square inside a containing square here we lose information as the right angles rotate out of the containing square. The empty space that appears at the containing squares right angles is filled with value $0$. The pixel values are determined by spline interpolating. For the rotation algorithm we use again the SciPy library \cite{scipy}.
 
-Finally we take the median over the processed exposures to get a the end result.
+Finally we take the median over the processed images to get a the end result.
 
-\subsection{Control}
-Now we check if the algortime works applying it to an exposure set with only the star and no distortions applied. This results in a completely black image as expected. Next we apply \ac{ADI} to an exposure set with only the star and distortions applied, this results in a circular noise pattern on the left and right as seen in \autoref{fig:adi_star_only}).
+\subsection{Control} %TODO feedback asks to explain blank image, I dont see why. ask feedback giver to explain
+Now we check if the algorithm works applying it to an image set with only the star and no distortions applied. This results in a completely blank image as expected. Next we apply \ac{ADI} to an image set with only the star and distortions applied. We expect \ac{ADI} to remove the static part of the \ac{vAPP} \ac{PSF}, however the dynamic distortions caused by seeing will rotate during derotation. The median of the image will then be a median of the rotated distortions. This wil be a circular noise pattern that decreases in intensity towards the edges following the intensity curve of the bright side of the \ac{vAPP} \ac{PSF}. The seen circular noise pattern seen in the result (see \autoref{fig:adi_star_only}) confirms our expectation and demonstrates the \ac{ADI} implementation works.
+
 
 \begin{figure}[h!]
       \begin{subfigure}[b]{0.5\textwidth}
@@ -51,27 +52,25 @@ Now we check if the algortime works applying it to an exposure set with only the
         \caption{Right region after \ac{ADI}.}
       \end{subfigure}      
 
-  \caption{The right and left end result of \ac{ADI} applied to a generated exposure stack of a star. The stack contains 20 exposures, the field rotation over the entire stack is $60^{\circ}$. Note how derotating the fields leads to a circular result as we lose the angles.}
+  \caption{The right and left end result of \ac{ADI} applied to a generated image stack of a star. The stack contains 20 images, the field rotation over the entire stack is $60^{\circ}$. Note how de-rotating the fields leads to a circular result as we lose the angles.}
   \label{fig:adi_star_only}
 \end{figure}
 
-\section{Paremater Study}
+\section{Parameter Study}
 \label{sec:paramstudy}
-%TODO explain grid of diff rings
+When observing disks we are most interested in their morphology. It could however be heavily affected by the \ac{vAPP} and \ac{ADI}. The uneven redistribution of light by the \ac{vAPP} will smear the light of the disk changing its apperent morphology. \ac{ADI} removes rotational symmetry and disks are by nature quit rationally symmetrical thus again the disks apperent morphology will change. To see how the output morphology resembles the that of the input model we generate image stacks for a number of disks with different parameters. We vary the number of rings, the width of the rings and the inclination.
 
-When observing disks we are most intersested in theire morphology. It could however be heavily affected by the \ac{vAPP} and \ac{ADI}. As the \ac{vAPP} by design redestributes licht in an uneven way and \ac{ADI} removes rotational symmetry while disks are by nature quit rotationally symmetrical. To see how the output morphology resembles the that of the input model we generate exposure stacks for a number of disks with different paramaters. We vary the number of rings, the width of the rings and the inclination. We keep the contrast between the disk and star unrealisticly low. For the best results of the paramater study the contrast is then returned to a realistic value. This allows us to easily compare results.
-
-For each model the following images are generated:
+For each model we introduce 2 variants:
 
 \begin{enumerate}[I]
-\item An exposure of the model with a central star, using a distorted \ac{PSF}.
-\item The result of \ac{ADI} for the model with a central star using distorted \acp{PSF}.
-
-\item An exposure of the model without a central star, using the undistorted \ac{PSF}.
-\item The result of \ac{ADI} for the model without a central star using the undistorted \ac{PSF}. %TODO explain how we center without star
+\item The \textit{brighter} variant has its disk brightness relative to the star increased by a factor 100.
+\item the \textit{starless} variant has the star in the center of the disk removed. We also generate it using only the instrument \ac{PSF}.
 \end{enumerate}
 
-These images help see how the model behaves as we could observe it (I and II) and how only model is imaged when we remove anything that would distort or distract from it (III and IV). The latter is done by removing the star and using a fixed \ac{PSF}. Using III and IV we can determine weather using the \ac{vAPP} and \ac{ADI} could give usable results.
-We expect the morphology of the post processed disks to differ from the models input. However we expect the the new morphology to be unique for the input model or some of its paramaters.
+ %TODO explain how we center without star
+
+The \textit{brighter} variant helps recognize the disk in a generated image, we use it to check if the disk fits the dark hole of the \ac{PSF} and how its oriented. It can also help recognize the disk after \ac{ADI} if it gets distorted or its surface brightness is to low relative to the noise. With the \textit{starless} variant we see help how the \ac{vAPP} \ac{PSF} smears the disk over the image. After applying \ac{ADI} to it we can see how the disk morphology is changed by the process and what features we can still recognize.
+
+We expect the morphology of the post processed disks to differ from the models input. However we expect the the new morphology to be unique for the input model or some of its parameters.
 
 

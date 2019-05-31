@@ -74,14 +74,14 @@ We find the electric field at a point P at distance R by summing up the fields o
 
 \begin{subequations}
     \begin{align}
-        E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{\text{Aperture}} e^{ik(Yy+Zz)/R} dydz
+        E &= \frac{\varepsilon_A e^{i(wt-kR)}}{R} \iint_{\text{Aperture}} e^{ik(Yy+Zz)/R} dydz%
+        \label{eq:hecht10.41}
     \end{align}
-    \label{eq:hecht:10.41}
 \end{subequations}
 
 Here $Y$, $Z$ describe the position in the imaging plane in which $P$ lies as seen in \autoref{fig:hecht}. Small letters $y$ and $z$ are the position in the aperture plane. The integral is over the aperture, only integrating over the transparent parts. 
 
-Here we integrate only over the apperture and assume all light is transmitted within and no light outside of it. To allow for changes in phase and magnitude caused by for example dirty glass, or a complicated Optical instrument we including an aperture function and integrate over all space.
+Here we integrate only over the apperture and assume all light is transmitted within and no light outside of it. To allow for changes in phase and magnitude caused by for example dirty glass, or a complicated optical instrument don not integrate over only an apperture but use an aperture function and integrate over all space.
 
 \begin{align}
 \mathscr{A}(y,z) &= \mathscr{A}_0 (y,z)e^{i\upphi(y,z)}\label{eq:helper}
@@ -91,24 +91,24 @@ Here the time changing electromagnatic wave $\varepsilon$ is averaged into a con
 
 \begin{subequations}[resume]
   \begin{align}
-    E(Y,Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(Yy+Zz)/R} dydz
+    E(Y,Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(Yy+Zz)/R} dydz%
+    \label{eq:hecht:2}
   \end{align}
-  \label{eq:hecht:2}
 \end{subequations}
 
 The expression for the E field at the point P (\autoref{eq:hecht10.41}) rewritten to make use of the aperture function.
 
-We can rewrite this to get rid of the dependence on the distance by substituting $Ky = kY/R$ and $Kz = kZ/R$ for $Y$ and $Z$. This gives the final form: 
+We can rewrite this to get rid of the dependence on the distance by substituting $K_y = kY/R$ and $K_z = kZ/R$ for $Y$ and $Z$. This gives the final form: 
 
 \begin{subequations}[resume]
 %  \label{eq:Master} % NO! impossible here
   \begin{align}
-    E(K_Y,K_Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{ik(K_Yy+K_Zz)/R} dydz
+    E(K_Y,K_Z) &= \iint_{-\infty}^{\infty} \mathscr{A}(y,z) e^{i(K_Yy+K_Zz)} dydz%
+    \label{eq:hecht:3}
   \end{align}
-  \label{eq:hecht:3}
 \end{subequations}
 
-This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (e.i., the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.
+This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.
 
 For the \ac{PSF} we are interested in the intensity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the \ac{PSF} of an instrument by Fourier transforming its (complex) aperture function and squaring the result. Note that the amplitude in the aperture function does not only have to depend on the shape of the aperture as there might be partially transparent material. We can use it to simulate any optical instrument such as the \acf*{vAPP}.
 
@@ -118,11 +118,11 @@ With the \ac{PSF} we know how a single point source would look when imaged by an
 \subsection{Atmosphere}
 % how does the atmospere and AO influence the instrument psf
 
-The telescope or coronagraph are the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. The varying temperature and humidity between and within layers changes the airs refractive index resulting in phase changes. Each layer moves in a different direction at a different speed as winds differ between altitudes. Combined this causes the complete \ac{PSF} to change continuesly. The changes are smaller at smaller timescales as the layers move less far and temperature and humidity change less. 
+The telescope or coronagraph are not the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. The varying temperature and humidity between and within layers changes the refractive index resulting in phase changes. Each layer moves in a different direction at a different speed as winds differ between altitudes. Combined this causes the complete \ac{PSF} to change continuously. The changes are smaller at smaller timescales as the layers move less far and temperature and humidity change less. 
 
 \subsection{Adaptive Optics}
 \label{sec:ao}
-Since the 1990‘s \ac{AO} are used. They change utilise an adaptive mirror that can change its shape to undo the phase change of the atmosphere, see \autoref{fig:ao}. To do this they first need to measure the errors in the wavefront. However as as a measurment costs some limited time the lag behind the actual shape of the wavefront. Further more they have errors them self, the phase is never completely corrected. Both these effects cause small distortions in the final image. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO} and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics do not correct the entire field, generally each system has a control radius around the star in which the \ac{AO} can reduce the seeing.
+Since the 1990‘s \ac{AO} are used. They utilise an adaptive mirror that can change its shape to undo the phase changing of the atmosphere, see \autoref{fig:ao}. To do this they first need to measure the errors in the wavefront. However as these measurement are not instant the shape of the mirror can never match the current wavefront. There are also some errors in positioning the mirror will always match the required shape. Both these effects cause small distortions in the final image. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO}, the telescope and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics do not correct the entire field. Each system has a control radius around the star in which the \ac{AO} can reduce the seeing.
 
 \begin{figure}[H]
     \caption{Sketch showing the basic principle of an \ac{AO} system, adapted from UC Berkeley science review: Into focus, Credit: Keith Cheveralls.}
@@ -139,13 +139,13 @@ Since the 1990‘s \ac{AO} are used. They change utilise an adaptive mirror that
 \section{Vector Apodizing Phase Plate}
 \label{sec:vapp}
 
-As mentioned in the introduction, the vector apodizing phase plate is not a normal coronagraph. The \ac{APP} is a coronagraph that changes the phase in the pupil-plane to create destructive interference in an area of the \ac{PSF}. Imaged this creates a dark zone in the \ac{PSF}. Dim objects can be imaged if the contrast between them and the star is smaller than the contrast between center peak of the \ac{PSF} and the dark zone. The contrast can be higher if post processing techniques such as \ac*{ADI} are used (see \autoref{sec:adi}).
+As mentioned in the introduction, the \ac{vAPP} is not a conventional coronagraph that blocks light. It is a coronagraph that changes the phase in the pupil-plane to create destructive interference in an area of the \ac{PSF}. This creates a dark zone in the \ac{PSF}. Dim objects can be imaged if the contrast between them and the star is smaller than the contrast between center peak of the \ac{PSF} and the dark zone. The contrast can be higher if post processing techniques such as \ac*{ADI} are used (see \autoref{sec:adi}).
 
-As the coronagraph works in the pupil-plane it is insensitive to the effects of tip tilt errors, these are caused by vibrations in the telescope. Further more unresolved stars do not limit how close to a star the coronagraph can function.
+As the coronagraph works in the pupil-plane it is insensitive to the effects of tip tilt errors, caused by vibrations in the telescope or imperfectly corrected atmospheric tip tilt effects. Further more unresolved stars do not limit how close to a star the coronagraph can function.
 
-The \ac{APP} does this by introduces differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vapp_doelman}. To do so optical the path length differences need to be different throughout the pupil, the design can be seen as a heightmap of path differences. The \ac{APP} is manufactured by diamond turning glass. 
+The \ac{vAPP} iterates on the \ac{APP}, it creates its destructive interference by introducing differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vapp_doelman}. To achieve these phase changes the path length differences need to change throughout the pupil. The design is stored as a heightmap of the required path differences. It is then manufactured by diamond turning glass. 
 
-The \ac{vAPP} iterates on the the idea of the APP. Instead of modifying the optical path length, it introduces the phase using the geometrical properties of a liquid crystal plate. The two circular polarisations receive opposite phase and create dark holes at opposite sides of the \ac{PSF} \cite{vapp_snik} \cite{vapp_otten} \cite{vapp_doelman}. By then splitting the right and left handed light and imaging both seperated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP} at a cost of brightness. The \ac{vAPP} is manufactored with liquid crystals..
+Instead of modifying the optical path length, the \ac{vAPP} introduces the phase changes using the geometrical properties of a liquid crystal plate. The two circular polarisations receive opposite phase and create dark holes at opposite sides of the \ac{PSF} \cite{vapp_snik} \cite{vapp_otten} \cite{vapp_doelman}. By then splitting the right and left handed light and imaging both seperated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP}.
 %---------------------------------------------------------------------------------------
 
 
@@ -158,15 +158,15 @@ The \ac{vAPP} iterates on the the idea of the APP. Instead of modifying the opti
 
 With the formation of a star it is inevitable a disk will form due to to the conservation of angular momentum. While initially material will orbit in various directions and planes these will slowly cancel out due to collisions and attraction leaving the average plane and direction as the final orientation of a disk around the star. It seems likely these disk will allow the formation of planets due to the high detection rate of exoplanets \cite{williams}.
 
-The formation of discs goes through 3 main stages\cite{williams}. Only the last stage allows direct imaging in the near-IR and optical bands though all are observable in Radio:
+The formation of disks goes through 3 main stages\cite{williams}. Only the last stage allows direct imaging in the near-IR and optical bands though all are observable in Radio:
 
 \begin{enumerate}
   \item Right after the molecular core collapses, most mass is still in a cloud surrounding the disk and the star. Due to that it is not possible to see the disk in the near-IR  or optical regime.
-  \item Most mass moves into the star, the disk is obstructed by outflow of mass. The enveloping mass is about the same as the disks.
-  \item Central star becomes visible, the enveloping dust has cleared and the disk only contains a few percent of the total mass. It now is a protoplanetary disk.
+  \item Most mass has moved into the star, the disk is partially obstructed by outflow of mass from the star. The enveloping mass is about the same as the disks.
+  \item Central star becomes visible, the enveloping dust has cleared or accreted onto the disk and the disk only contains a few percent of the total mass of the system. It now is a protoplanetary disk.
 \end{enumerate}
 
-During the first two stages the star is still forming, the disk is obstructed by dust and they take a relatively short time. However at the third stage we should be able to study the disk. After this stage planets can form, their formation process is uncertain. 
+During the first two stages the disk is obstructed by dust. These stages take a relatively short time. However at the third stage we should be able to study the disk. This stage planets can form. Their formation process is uncertain. 
 
 \subsection{Categorization and features}
 
@@ -181,32 +181,31 @@ Disks seem to be ring or spiral shaped with some forms in between. They can be c
     \label{fig:sketch_garufi}
 \end{figure}
 
-With this categorization they \cite{garufi} further conclude:
+With this categorization which is still topic of much debate they \cite{garufi} further conclude:
 \begin{itemize}
     \item faint disks are young
     \item spiral disks are around stars that almost start their main sequence
     \item ring disk have no outer stellar companion %TODO explain
 \end{itemize}
 
-Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in size and young faint disks structures remain undetected.
+Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in size and young faint disks structures remain undetected. Observing disks using the \acp{vAPP} which aims to allow imaging at few $\lambda/D$ could allow us to detect these structures.
 %------------------------------------------------
 
+% TODO This entire subsection is scrapped until we fix the contrast equations
 \subsection{Expected Contrast}
-
-% TODO This does not seem to be observable???!!!
-To get an upper limit on the brightness of a disk we assume all star light that hits the disk is scatterd towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an run like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
+To get an upper limit on the brightness of a disk we assume all star light that hits the disk is scatterd towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an sun like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
 
 %----------------------------------------------------------------------------------------
 
 \section{Angular differential Imaging}
 \label{sec:adi}
-\ac{ADI} is a technique to remove stationary and slowly changing PSF structures from an exposure. It is a proven method for the detection of companions with classic \acp{PSF} such as the one in \autoref{fig:classic_psf}. %TODO something about vAPP?
+\ac{ADI} \cite{marois_2005} is a technique to remove stationary and slowly changing PSF structures from an image. It is a proven method for the detection of companions with classic \acp{PSF} such as the one in \autoref{fig:classic_psf}. %TODO something about vAPP?
 
 % theory adi 
-% TODO make the algoritme take the mean off all OTHER exposures!!!!
+% TODO make the algoritme take the mean off all OTHER images!!!!
 % TODO look at Liu 2004 technique for circumstellar disks
 % TODO field of view as \ac{FOV} ?
-The basis of \ac{ADI} is to let the field of view rotate with respect to the coronograph and sensor during an observation. By then taking multiple short exposures anything off center will be rotated a bit in each exposure. If the mean of all other exposures is subtracted from an exposure we lose most of the stars \ac{PSF}. Once done for every exposure, rotating all the results so the field of view is aligned the median can be taken which gives the final image.
+The basis of \ac{ADI} is to let the field of view rotate with respect to the coronograph and detector during an observation. By then taking multiple short images anything off center will be rotated a bit in each image. If the mean of all other images is subtracted from an image we lose most of the stellar \ac{PSF}. Once done for every image, rotating all the results so the field of view is aligned the median can be taken which gives the final image.
 
 % vAPP adi theory
-To use \ac{ADI} with the \ac{vAPP} we need to make sure the entire sequence fits in the dark hole.
+To use \ac{ADI} with the \ac{vAPP} we make sure the entire sequence fits in one of the two dark holes. This makes post processing easier as we do not need to worry about merging the two dark holes.
