@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt #matplotlib 3.0
+import matplotlib.colors as colors
+
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 def image(data):
@@ -14,7 +16,7 @@ def saveImage(data, path, vmin=0.0000001, vmax=None):
     ax.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=vmin, vmax=vmax)
     plt.savefig(path)
 
-def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None):
+def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None, labels=None):
     fig, ax = plt.subplots()
     cmap = plt.cm.OrRd
     #cmap = plt.cm.RdBu
@@ -22,12 +24,12 @@ def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None):
     
     #divider = make_axes_locatable(ax)
     #cax = divider.append_axes("right", size="5%", pad=0.05)
+    
+    data = np.abs(data)
     if log == False: 
-        plt.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=0.0000001, vmax=vmax)
-        cbar_label = r"$(contrast)$"
+        plt.imshow(data/data.max(), interpolation='none', cmap=cmap, vmin=0.1e-7, vmax=vmax)
     else:
-        plt.imshow(np.log10(data)/data.max(), interpolation='none', cmap=cmap, vmin=vmin, vmax=vmax)
-        cbar_label = r"$^{10}\log(contrast)$"
+        plt.imshow(data/data.max(), interpolation='none', cmap=cmap, norm=colors.LogNorm())
 
     if lim != None:
         plt.xlim(lim[0][0],lim[0][1])
@@ -35,9 +37,14 @@ def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None):
 
     #cbar = fig.colorbar(im, cax=cax, orientation="vertical")
     cbar = plt.colorbar()
-    cbar.set_label(cbar_label)
+    cbar.set_label("contrast (brightness relative to brightest spot")
 
-    plt.xlabel(r"x position (pixels)")
-    plt.ylabel(r"y position (pixels)")
+    if labels == None:
+        plt.xlabel(r"x position (pixels)")
+        plt.ylabel(r"y position (pixels)")
+    else:
+        plt.xlabel(labels[0])
+        plt.ylabel(labels[1])   
 
     fig.savefig(path)
+    #plt.show()

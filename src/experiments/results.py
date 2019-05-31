@@ -105,8 +105,36 @@ def noReduction(output_path):
         left_psfs.append(left_psf)
         right_psfs.append(right_psf)
 
-    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin", log=True)
+    #plotfast.image(np.array(left_psfs[0]))
+
+    plotslow.saveImage_withCb(np.abs(left_psfs[0]),output_path+"right_noReductin", log=True)
     plotslow.saveImage_withCb(right_psfs[0],output_path+"left_noReduction", log=True)
+
+def noReduction_rbri(output_path):
+
+    numb = 1
+    (img_cube, _img_params) = gen_disk_dataset(time_between_exposures, fried_parameter, field_size, inner_radius, outer_radius, 
+        rotation, inclination, set_rotation, numb, rings=rings, amplification=10)
+
+    clean_psf = psf.get_clean()
+    (img_cube, _) = center_cube(img_cube, ref_img=clean_psf)
+
+    (left, right) = find_sub_psf_location(clean_psf)
+
+    right_psfs = []
+    left_psfs = []
+    for img in img_cube:
+        (left_psf, right_psf) = extract_psfs(img, left, right)
+        left_psfs.append(left_psf)
+        right_psfs.append(right_psf)
+
+    #plotfast.image(np.array(left_psfs[0]))
+    data = np.abs(left_psfs[0])
+    clipped = (data/data.max()).clip(min=1e-60)
+    plotfast.image(np.array([np.log10(clipped)]))
+
+    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin_rbri", log=True)
+    plotslow.saveImage_withCb(right_psfs[0],output_path+"left_noReduction_rbri", log=True)
 
 def withADI(output_path):
 
@@ -128,9 +156,11 @@ def withADI(output_path):
     right_final = simple_adi(right_psfs, img_params)
     left_final = simple_adi(left_psfs, img_params)
 
-    #plotfast.image(np.array([np.abs(right_final)]))
-    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmin=0, vmax=4e-5)
-    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmin=0, vmax=4e-5)
+    #data = np.abs(right_final)
+    #plotfast.image(np.array([np.log10(data/data.max())]))
+
+    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmax=.1)
+    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmax=.1)
 
 def withADI_realistic_bri(output_path):
 
@@ -152,9 +182,16 @@ def withADI_realistic_bri(output_path):
     right_final = simple_adi(right_psfs, img_params)
     left_final = simple_adi(left_psfs, img_params)
 
+    #data = np.abs(right_final)
+    #plotfast.image(np.array([data/data.max()]))
+
+    #data = np.abs(right_final)
+    #clipped = (data/data.max()).clip(min=1e-60)
+    #plotfast.image(np.array([np.log10(clipped)]))
+
     #plotfast.image(np.array([np.abs(right_final)]))
-    plotslow.saveImage_withCb(right_final,output_path+"right_ADI_rbri", log=False, vmin=0, vmax=4e-5)
-    plotslow.saveImage_withCb(left_final,output_path+"left_ADI_rbri", log=False, vmin=0, vmax=4e-5)
+    plotslow.saveImage_withCb(right_final,output_path+"right_ADI_rbri", log=False, vmin=.1)
+    plotslow.saveImage_withCb(left_final,output_path+"left_ADI_rbri", log=False, vmin=.1)
 
 def noStar_noReduction(output_path):
 
@@ -208,7 +245,7 @@ def plot_model(output_path):
                    outer_radius=outer_radius, rotation=rotation, inclination=inclination, rings=rings, amplification=1)
     (disk_cube, _disk_params) = d.gen_cube(numb, model, set_rotation)
 
-    plotslow.saveImage_withCb(disk_cube[0],output_path+"model", log=True)
+    plotslow.saveImage_withCb(disk_cube[0],output_path+"model", log=True, lim=[[50,150],[50,150]])
 
 def run():
     
@@ -223,3 +260,4 @@ def run():
     withADI_realistic_bri(output_path)
     noStar_noReduction(output_path)
     noStar_ADI(output_path)
+    #noReduction_rbri(output_path)

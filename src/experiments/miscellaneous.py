@@ -109,25 +109,16 @@ def run_loyt():
     from hcipy import make_pupil_grid, make_focal_grid, FraunhoferPropagator, circular_aperture, evaluate_supersampled, imshow_field, imsave_field, Field, LyotCoronagraph, Wavefront
     import numpy as np
     import matplotlib.pyplot as plt
-    import skimage.draw as sk
 
-    def circle(shape, radius=0.5):
-        A = np.zeros(shape,dtype=float)
-        
-        rr, cc = sk.circle(shape[0]/2, shape[1]/2, radius*min(shape[0]/2,shape[1]/2) )
-        A[rr,cc] = 1
-        
-        return A
-
-    pupil_grid = make_pupil_grid(1024)
+    pupil_grid = make_pupil_grid(256)
     focal_grid = make_focal_grid(pupil_grid, 8, 32)
     prop = FraunhoferPropagator(pupil_grid, focal_grid)
 
     aperture = circular_aperture(1)
     aperture = evaluate_supersampled(aperture, pupil_grid, 8)
 
-    mask = Field(circle((1024,1024), radius=0.2).ravel(), pupil_grid)
-    stop = Field((1-circle((1024,1024), radius=0.8)).ravel(), focal_grid)
+    mask = 1 - circular_aperture(3)(focal_grid)
+    stop = circular_aperture(0.7)(pupil_grid)
     coro = LyotCoronagraph(pupil_grid, mask, stop)
 
     wf = Wavefront(aperture)
@@ -136,11 +127,10 @@ def run_loyt():
     img = prop(lyot)
     img_ref = prop(wf)
 
-
     output_path = get_output_path("miscellaneous")
 
     fig = plt.figure()
-    imshow_field(np.log10(img.intensity / img.intensity.max()), vmin=-5, vmax=0)
+    imshow_field(np.log10(img.power / img_ref.power.max()), vmin=-6, vmax=0)
     plt.xlim(-25,25)
     plt.ylim(-25,25)
     cbar = plt.colorbar()
@@ -150,7 +140,7 @@ def run_loyt():
     fig.savefig(output_path+"lyot_psf")
 
     fig = plt.figure()
-    imshow_field(np.log10(img_ref.intensity / img_ref.intensity.max()), vmin=-5, vmax=0)
+    imshow_field(np.log10(img_ref.power / img_ref.power.max()), vmin=-6, vmax=0)
     plt.xlim(-25,25)
     plt.ylim(-25,25)
     cbar = plt.colorbar()

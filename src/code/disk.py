@@ -7,6 +7,7 @@ def to_radians(deg):
     return deg *np.pi/180
 
 class disk:
+    #all distances in AU
     def __init__(self, field_size=8, steller_surface_flux=1., steller_radius=0.00465, inclination=30,
     rotation=30, inner_radius=None, outer_radius=None, with_star=True, rings=None, amplification=100):
         
