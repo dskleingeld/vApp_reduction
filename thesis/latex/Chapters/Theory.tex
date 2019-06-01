@@ -61,7 +61,7 @@ Here we discuss what an \ac{PSF} is, how it helps us describe an optical system 
 
 We can describe what happens to light going through an optical system with its \ac{PSF}. It describes the light intensity on the focal-plane (where the science detector is) as a function of x and y when a single point source is imaged on the center of the focal-plane. 
 
-Light is an progagating electromagnatic wave. We derive how to find the \ac{PSF} from the Huygens-Fresnel Principle. It states any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
+Light is an progagating electromagnatic wave. We derive how to find the \ac{PSF} from the Huygens-Fresnel Principle. It states that any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
 
 \begin{figure}[h]
     \caption{Fraunhofer diffraction from an arbitrary aperture, r and R large compared to the size of the hole. Extracted from Optics 5th edition, by \cite{hecht}.}
@@ -108,7 +108,7 @@ We can rewrite this to get rid of the dependence on the distance by substituting
   \end{align}
 \end{subequations}
 
-This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.
+This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (i.e. the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.
 
 For the \ac{PSF} we are interested in the intensity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the \ac{PSF} of an instrument by Fourier transforming its (complex) aperture function and squaring the result. Note that the amplitude in the aperture function does not only have to depend on the shape of the aperture as there might be partially transparent material. We can use it to simulate any optical instrument such as the \acf*{vAPP}.
 
@@ -118,7 +118,7 @@ With the \ac{PSF} we know how a single point source would look when imaged by an
 \subsection{Atmosphere}
 % how does the atmospere and AO influence the instrument psf
 
-The telescope or coronagraph are not the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. The varying temperature and humidity between and within layers changes the refractive index resulting in phase changes. Each layer moves in a different direction at a different speed as winds differ between altitudes. Combined this causes the complete \ac{PSF} to change continuously. The changes are smaller at smaller timescales as the layers move less far and temperature and humidity change less. 
+The telescope or coronagraph are not the only optical system at play. There are many differently moving layers of air between the telescope and space. These work as independent optical systems that change in time. The varying temperature and humidity between and within layers changes the air's refractive index resulting in phase changes. Each layer moves in a different direction at a different speed as winds differ between altitudes. Combined this causes the complete \ac{PSF} to change continuously. The changes are smaller at smaller timescales as the layers move less far and temperature and humidity change less. 
 
 \subsection{Adaptive Optics}
 \label{sec:ao}
@@ -139,9 +139,9 @@ Since the 1990‘s \ac{AO} are used. They utilise an adaptive mirror that can ch
 \section{Vector Apodizing Phase Plate}
 \label{sec:vapp}
 
-As mentioned in the introduction, the \ac{vAPP} is not a conventional coronagraph that blocks light. It is a coronagraph that changes the phase in the pupil-plane to create destructive interference in an area of the \ac{PSF}. This creates a dark zone in the \ac{PSF}. Dim objects can be imaged if the contrast between them and the star is smaller than the contrast between center peak of the \ac{PSF} and the dark zone. The contrast can be higher if post processing techniques such as \ac*{ADI} are used (see \autoref{sec:adi}).
+As mentioned in the introduction, the \ac{vAPP} is not a conventional coronagraph that blocks light. It is a coronagraph that changes the phase in the pupil-plane to create destructive interference in an area of the \ac{PSF}. This creates a dark zone in the \ac{PSF}. Dim objects can be imaged if the contrast between them and the star is smaller than the contrast between center peak of the \ac{PSF} and the noise in the dark zone. The contrast can be higher if post processing techniques such as \ac*{ADI} are used (see \autoref{sec:adi}).
 
-As the coronagraph works in the pupil-plane it is insensitive to the effects of tip tilt errors, caused by vibrations in the telescope or imperfectly corrected atmospheric tip tilt effects. Further more unresolved stars do not limit how close to a star the coronagraph can function.
+As the coronagraph works in the pupil-plane it is insensitive to the effects of tip tilt errors, which are caused by vibrations in the telescope or imperfectly corrected atmospheric tip tilt effects. Further more unresolved stars do not limit how close to a star the coronagraph can function.
 
 The \ac{vAPP} iterates on the \ac{APP}, it creates its destructive interference by introducing differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vapp_doelman}. To achieve these phase changes the path length differences need to change throughout the pupil. The design is stored as a heightmap of the required path differences. It is then manufactured by diamond turning glass. 
 
@@ -166,7 +166,7 @@ The formation of disks goes through 3 main stages\cite{williams}. Only the last 
   \item Central star becomes visible, the enveloping dust has cleared or accreted onto the disk and the disk only contains a few percent of the total mass of the system. It now is a protoplanetary disk.
 \end{enumerate}
 
-During the first two stages the disk is obstructed by dust. These stages take a relatively short time. However at the third stage we should be able to study the disk. This stage planets can form. Their formation process is uncertain. 
+During the first two stages the disk is obstructed by dust. These stages take a relatively short time. However at the third stage we should be able to study the disk. During this stage planets can form. Their formation process is uncertain. 
 
 \subsection{Categorization and features}
 
@@ -192,8 +192,8 @@ Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in si
 %------------------------------------------------
 
 % TODO This entire subsection is scrapped until we fix the contrast equations
-\subsection{Expected Contrast}
-To get an upper limit on the brightness of a disk we assume all star light that hits the disk is scatterd towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an sun like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
+%\subsection{Expected Contrast}
+%To get an upper limit on the brightness of a disk we assume all star light that hits the disk is scatterd towards us. The light from a star drops quadratically as it gets farther away. Thus we will never have a disk brightness exceeding $1/R^2$. A disk at $1$ AU from an sun like star will have a brightness \num{2.1e-5} of the star. At $5$ AU this drops to \num{8.6e-7}. This is the minimal contrast we can expect, as the density of the disk might make it less the optically thick.
 
 %----------------------------------------------------------------------------------------
 
