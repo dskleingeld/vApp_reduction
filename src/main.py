@@ -7,8 +7,9 @@ if __name__ == "__main__":
     #without_star.run()
     #without_star_perfect_psf.run()
     
-    #results.run()
+    results.run()
 
+    #miscellaneous.run()
     #miscellaneous.run_loyt()
     #miscellaneous.on_sky()
     #miscellaneous.clean_vapp()

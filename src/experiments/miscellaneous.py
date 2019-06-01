@@ -20,7 +20,7 @@ def run():
 
     # set disk properties
     disk_with_star = d.disk(field_size=field_size, with_star=False, inner_radius=inner_radius,
-        outer_radius=outer_radius, rotation=45, inclination=60)
+        outer_radius=outer_radius, rotation=45, inclination=60, rings = [(0.2,0.5)])
 
     # create disk cube
     (disk_cube, disk_params) = d.gen_cube(
@@ -30,7 +30,7 @@ def run():
 
     # set disk properties
     disk_with_star = d.disk(field_size=field_size, with_star=False, inner_radius=2.2,
-        outer_radius=2.3, rotation=45, inclination=80)
+        outer_radius=2.3, rotation=45, inclination=80, rings = [(1.0,1.3),(0.3,0.8)] )
 
     # create disk cube
     (disk_cube, disk_params) = d.gen_cube(

@@ -29,7 +29,7 @@ def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None, labe
     if log == False: 
         plt.imshow(data/data.max(), interpolation='none', cmap=cmap, vmin=0.1e-7, vmax=vmax)
     else:
-        plt.imshow(data/data.max(), interpolation='none', cmap=cmap, norm=colors.LogNorm())
+        plt.imshow(data/data.max(), interpolation='none', cmap=cmap, norm=colors.LogNorm(), vmax=vmax)
 
     if lim != None:
         plt.xlim(lim[0][0],lim[0][1])
