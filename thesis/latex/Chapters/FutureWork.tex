@@ -1,3 +1,11 @@
+\section{Future work}
+\label{chap:future}
 combine left and right side.
 
 correlation/fit of model without star and output
+
+Instead of taking the mean of all other images as reference \ac{PSF} another approch to use a few images close in time as possible as reference sequence \cite{Marois_2006}. As there is less time between the images the \ac{PSF} has changed less due to seeing  (see: \autoref{sec:ao}) giving a greater correlation between the features on the reference image and the individual image. The disadvantage is that pixel to pixel noise is rejected less as we now only take an median over a slightly rotated sample. Care must be taken that the reference sequence has enough field rotation to displace features of intrest by at least $1.5 \cdot$ \ac{PSF} \ac{FWHM}. This ensures we don not subtract the feature from itself. 
+
+check dimensions ring_gap model vs adi
+
+fit of disk only light with adi result

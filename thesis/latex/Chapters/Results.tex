@@ -51,12 +51,12 @@ First we present a detailed look at a disk with two rings and a disk with only o
 
     B         & \ref{fig:disk0_0} \ref{fig:disk0_1} \ref{fig:disk0_2} \ref{fig:disk0_3}  & 2 & \makecell[t]{10\% - 20\% \\ 
                                                                                            30\% - 40\%} & 60             & 120 \\
-    C         & \ref{fig:disk8_1} \ref{fig:disk8_2} \ref{fig:disk8_3} & 1 & 30\% - 50\%                 & 60             & 120 & \autoref{fig:apd8} & contrast halved \\
-    E         & \ref{fig:disk1_1} \ref{fig:disk1_2} \ref{fig:disk1_3} & 1 & 30\% - 40\%                 & 60             & 120 & \autoref{fig:apd1}\\
-    D         & \ref{fig:disk2_1} \ref{fig:disk2_2} \ref{fig:disk2_3} & 1 & 10\% - 80\%                 & 60             & 120 & \autoref{fig:apd2}\\
-    F         & \ref{fig:disk3_1} \ref{fig:disk3_2} \ref{fig:disk3_3} & 1 & 10\% - 20\%                 & 60             & 60  & \autoref{fig:apd3}\\
-    G         & \ref{fig:disk5_1} \ref{fig:disk5_2} \ref{fig:disk5_3} & 1 & 30\% - 50\%                 & 60             & 0   & \autoref{fig:apd5}\\
-    H         & \ref{fig:disk6_1} \ref{fig:disk6_2} \ref{fig:disk6_3} & 1 & 30\% - 50\%                 & 40             & 120 & \autoref{fig:apd6}\\
+    C         & \ref{fig:disk8_1} \ref{fig:disk8_2} \ref{fig:disk8_3} & 1 & 30\% - 50\%                 & 60             & 120 & \autoref{fig:left:apdC} \autoref{fig:right:apdC} & contrast halved \\
+    D         & \ref{fig:disk1_1} \ref{fig:disk1_2} \ref{fig:disk1_3} & 1 & 30\% - 40\%                 & 60             & 120 & \autoref{fig:left:apdD} \autoref{fig:right:apdD}\\
+    E         & \ref{fig:disk2_1} \ref{fig:disk2_2} \ref{fig:disk2_3} & 1 & 10\% - 80\%                 & 60             & 120 & \autoref{fig:left:apdE} \autoref{fig:right:apdE}\\
+    F         & \ref{fig:disk3_1} \ref{fig:disk3_2} \ref{fig:disk3_3} & 1 & 10\% - 20\%                 & 60             & 120  & \autoref{fig:left:apdF} \autoref{fig:right:apdF}\\
+    G         & \ref{fig:disk5_1} \ref{fig:disk5_2} \ref{fig:disk5_3} & 1 & 30\% - 50\%                 & 60             & 0   & \autoref{fig:left:apdG} \autoref{fig:right:apdG}\\
+    H         & \ref{fig:disk6_1} \ref{fig:disk6_2} \ref{fig:disk6_3} & 1 & 30\% - 50\%                 & 40             & 120 & \autoref{fig:left:apdH} \autoref{fig:right:apdH}\\
     \bottomrule
     \end{tabular}
 }
@@ -64,7 +64,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
 \end{table}
 
 \begin{figure}[h!]
-  \newcommand{\plotnumb}{0}
+  \newcommand{\diskId}{A}
   \newcommand{\plotside}{right}
   %define (\edef) the variable \side to l or r depending if we are at an odd
   %or even page
@@ -75,78 +75,36 @@ First we present a detailed look at a disk with two rings and a disk with only o
   
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_coro_psf}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_coro_psf}
         \caption{The coronografic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/model}
         \caption{The disk model, the brightness is relative to the center star.}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_noReductin}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_noReductin}
         \caption{A simulated image of the disk model. We can see directly in the image where the disk lies.}
+        \label{fig:disk4_simulated}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_ADI}
         \caption{\ac{ADI} applied simulated image (left). It is hard to discern disk features from \ac{PSF} residuals.}
+        \label{fig:disk4_adi}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_no_star_noReductin}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_no_star_noReductin}
         \caption{A simulated image of the \textit{starless} variant of the disk model. We see where the light of the disk gets spread by the PSF. The disks two rings can clearly be distinguished}
+        \label{fig:disk4_nostar}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       \begin{subfigure}[t]{0.6\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied simulated image of the \textit{starless} variant (left). The outer disk can still be recognized though various gaps have appeared. The inner disk has become really thin and has two large blobs at opposite side on its semi major axis.}
-      \end{subfigure}
-  \end{minipage}
-  }%
-
-  \caption{A detailed look at a disk with two rings. On the top row: the \ac{PSF} and the disk model used to generate the other images. Then generated images of the disk model en its \textit{starless} variant (left) and results of \ac{ADI} applied to them (right).}
-  \label{fig:disk0_0}
-\end{figure}
-
-\begin{figure}[h!]
-  \newcommand{\plotnumb}{4}
-  \newcommand{\plotside}{right}
-  %define (\edef) the variable \side to l or r depending if we are at an odd
-  %or even page
-  \checkoddpage 
-  \edef\side{\ifoddpage l\else r\fi}%
-  
-  \makebox[\textwidth][\side]{%
-  
-  \begin{minipage}[t]{1.2\textwidth}
-      \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_coro_psf}
-        \caption{The coronografic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
-      \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
-      \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_model}
-        \caption{The disk model, the brightness is relative to the center star.}
-      \end{subfigure}
-      
-      \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_noReductin}
-        \caption{A simulated image of the disk model. We can see directly in the image where the disk lies.}
-      \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
-      \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_ADI}
-        \caption{\ac{ADI} applied simulated image (left). It is hard to discern disk features from \ac{PSF} residuals.}
-      \end{subfigure}
-      
-      \begin{subfigure}[t]{0.6\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_no_star_noReductin}
-        \caption{A simulated image of the \textit{starless} variant of the disk model. We see where the light of the disk gets spread by the PSF. The disks two rings can clearly be distinguished}
-      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-      \begin{subfigure}[t]{0.6\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{gfx/plots/results/\plotnumb_\plotside_no_star_ADI}
-        \caption{\ac{ADI} applied simulated image of the \textit{starless} variant (left). The outer disk can still be recognized though various gaps have appeared. The inner disk has become really thin and has two large blobs at opposite side on its semi major axis.}
+        \label{fig:disk4_nostar_adi}
       \end{subfigure}
   \end{minipage}
   }%
@@ -156,6 +114,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
 \end{figure}
 
 \begin{figure}[h!]
+  \newcommand{\diskId}{B}
   \newcommand{\plotside}{right}
   %define (\edef) the variable \side to l or r depending if we are at an odd
   %or even page
@@ -166,38 +125,87 @@ First we present a detailed look at a disk with two rings and a disk with only o
   
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_coro_psf}
+        \caption{The coronografic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
+      \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
+      \begin{subfigure}[t]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/model}
+        \caption{The disk model, the brightness is relative to the center star.}
+      \end{subfigure}
+      
+      \begin{subfigure}[t]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_noReductin}
+        \caption{A simulated image of the disk model. We can see directly in the image where the disk lies.}
+        \label{fig:disk0_simulated}
+      \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
+      \begin{subfigure}[t]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_ADI}
+        \caption{\ac{ADI} applied simulated image (left). It is hard to discern disk features from \ac{PSF} residuals.}
+        \label{fig:disk0_adi}
+      \end{subfigure}
+      
+      \begin{subfigure}[t]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_no_star_noReductin}
+        \caption{A simulated image of the \textit{starless} variant of the disk model. We see where the light of the disk gets spread by the PSF. The disks two rings can clearly be distinguished}
+        \label{fig:disk0_nostar_simulated}
+      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
+      \begin{subfigure}[t]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_no_star_ADI}
+        \caption{\ac{ADI} applied simulated image of the \textit{starless} variant (left). The outer disk can still be recognized though various gaps have appeared. The inner disk has become really thin and has two large blobs at opposite side on its semi major axis.}
+        \label{fig:disk0_nostar_adi}
+      \end{subfigure}
+  \end{minipage}
+  }%
+
+  \caption{A detailed look at a disk with two rings. On the top row: the \ac{PSF} and the disk model used to generate the other images. Then generated images of the disk model en its \textit{starless} variant (left) and results of \ac{ADI} applied to them (right).}
+  \label{fig:disk0_0}
+\end{figure}
+
+\begin{figure}[h!]
+  \newcommand{\plotside}{right}
+  %define (\edef) the variable \side to l or r depending if we are at an odd
+  %or even page
+  \checkoddpage 
+  \edef\side{\ifoddpage l\else r\fi}%
+  
+  \makebox[\textwidth][\side]{%
+  
+  \begin{minipage}[t]{1.2\textwidth}
+      \begin{subfigure}[t]{0.6\textwidth}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/model}
         \caption{The standard disk model. The images straight below are generated using this model.}
         \label{fig:std_model}
         \label{fig:disk4_1}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/8_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/C/model}
         \caption{A lower contrast standard disk model. Here the contast between star and disk has been halved by doubling the disks surface brightness. The images straight below are generated using this model.}
         \label{fig:C1}
         \label{fig:disk8_1}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_\plotside_noReductin}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/\plotside_noReductin}
         \caption{The image generated using the model above (a).}
         \label{fig:disk4_2}
         \label{fig:disk_fits_psf}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/8_\plotside_noReductin}
+        \includegraphics[width=\linewidth]{gfx/plots/results/B/\plotside_noReductin}
         \caption{The image generated using the brighter model above (b).}
         \label{fig:C2}
         \label{fig:disk8_2}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/\plotside_ADI}
         \caption{The result of \ac{ADI} applied on the generated image (c).}
         \label{fig:disk4_3}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/8_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/C/\plotside_ADI}
         \caption{The result of \ac{ADI} applied on the generated brighter image (d).}
         \label{fig:disk8_3}
       \end{subfigure}
@@ -219,34 +227,34 @@ First we present a detailed look at a disk with two rings and a disk with only o
   
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/0_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/B/model}
         \caption{Disk model with two rings, the inner from 10\% to 20\% the outer from 30\% to 40\%. The images straight below are generated using this model.}
         \label{fig:disk0_1}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/1_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/D/model}
         \caption{Disk model with a single ring starting at 30\% and stopping at 40\%. The images straight below are generated using this model.}
         \label{fig:disk1_1}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/0_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/B/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (a).}
         \label{fig:disk0_2}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/1_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/D/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (b).}
         \label{fig:disk1_2}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/0_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/B/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the model above (a)}
         \label{fig:disk0_3}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/1_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/D/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the model above (b)}
         \label{fig:disk1_3}
       \end{subfigure}
@@ -268,34 +276,34 @@ First we present a detailed look at a disk with two rings and a disk with only o
   
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/2_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/E/model}
         \caption{Disk model with one large ring. The images straight below are generated using this model.}
         \label{fig:disk2_1}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/3_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/F/model}
         \caption{Disk model with one small ring. The images straight below are generated using this model.}
         \label{fig:disk3_1}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/2_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/E/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (a).}
         \label{fig:disk2_2}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/3_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/F/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (b).}
         \label{fig:disk3_2}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/2_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/E/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the model above (a)}
         \label{fig:disk2_3}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/3_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/F/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the model above (b)}
         \label{fig:disk3_3}
       \end{subfigure}
@@ -317,34 +325,34 @@ First we present a detailed look at a disk with two rings and a disk with only o
   
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/model}
         \caption{The standard disk model as seen in \autoref{fig:std_model}}
         \label{fig:disk4_4}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/5_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/G/model}
         \caption{A rotated version of the standard disk model seen left.}
         \label{fig:disk5_1}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (a).}
         \label{fig:disk4_5}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/5_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/G/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (b).}
         \label{fig:disk5_2}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the above model (a).}
         \label{fig:disk4_6}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/5_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/G/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the above model (b).}
         \label{fig:disk5_3}
       \end{subfigure}
@@ -366,34 +374,34 @@ First we present a detailed look at a disk with two rings and a disk with only o
   
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/model}
         \caption{The standard disk model as detailed in \autoref{fig:std_model}}
         \label{fig:disk4_7}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/6_model}
+        \includegraphics[width=\linewidth]{gfx/plots/results/H/model}
         \caption{The standard disk model with inclination of 40 degrees instead of 60}
         \label{fig:disk6_1}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (a).}
         \label{fig:disk4_8}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/6_\plotside_no_star_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/H/\plotside_no_star_ADI}
         \caption{\ac{ADI} applied to an image generated of the \textit{starless} variant of the above model (b).}
         \label{fig:disk6_2}
       \end{subfigure}
       
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/4_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/A/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the above model (a).}
         \label{fig:disk4_9}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
-        \includegraphics[width=\linewidth]{gfx/plots/results/6_\plotside_ADI}
+        \includegraphics[width=\linewidth]{gfx/plots/results/H/\plotside_ADI}
         \caption{\ac{ADI} applied to an image generated of the above model (b).}
         \label{fig:disk6_3}
       \end{subfigure}
