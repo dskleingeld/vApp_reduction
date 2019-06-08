@@ -87,7 +87,7 @@ class disk:
         
     def paramslist(self):
         return [self.F_star, self.R_star, self.L, self.inclination, self.inner_radius, 
-                self.outer_radius, self.with_star, self.resolution]
+                self.outer_radius, self.with_star, self.resolution, self.rings, self.amplification]
 
 def rotate(clean_disk, theta):
     rotated_disk = deepcopy(clean_disk)

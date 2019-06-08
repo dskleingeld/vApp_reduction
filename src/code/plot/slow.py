@@ -47,4 +47,5 @@ def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None, labe
         plt.ylabel(labels[1])   
 
     fig.savefig(path)
+    plt.close()
     #plt.show()
