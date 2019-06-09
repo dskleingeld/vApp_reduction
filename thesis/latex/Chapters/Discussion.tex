@@ -4,45 +4,35 @@
 Here we discuss the results and conclude wheter looking at disks reduced with \ac{ADI} from \ac{vAPP} data shows promise. We first take a look at what the \ac{vAPP} and \ac{ADI} do to the disk, see the first two figures in \autoref{chap:results}. Then we compare different disk models and the result after \ac{ADI}. We see if we can recognise the original morphology and or we can clearly seperate the different models based on the results. 
 
 \section{ADI disk results in depth}
-Two disks \textit{A} and \textit{B} (see \autoref{tab:disks}) are presented in depth, they are identical except one has two rings and the other only one. Looking at the results for the first disk we can just make out the disk in the simulated image in \autoref{fig:disk4_simulated}. If we look at \autoref{fig:disk4_nostar} showing only the light reflected by the disk we see that the \ac{vAPP} has smeared out the light reflected by the disk, the morphology has not been distorted. When \ac{ADI} is applied we see how the disk morphology is changed. We see (\autoref{fig:disk4_nostar_adi}) that the morphology is radically changed quite, a number of features appear. When \ac{ADI} is applied to the simulated image (see \autoref{fig:disk4_adi}) we see residuals from the \ac{PSF} overlaying the morphologically changed disk in the dark hole. Note that the changed disk is slightly smeared out and faded compared to \autoref{fig:disk4_nostar_adi}. This is caused by the atmosphere changing the \acp{PSF} and by the \ac{ADI} process.
-    Moving on to the second disk (\textit{B}), we find the same as for the first disk. However this disk has a small inner ring, if we look at \autoref{fig:disk0_simulated} we see that only a small portion of the inner disk lies in the dark zone. We see in \autoref{fig:disk0_nostar_adi} that the light of the inner ring is concentrated into blobs at opposing sides of the rings semi major axis. When we look at the result of \ac{ADI} on the simulated image of disk \textit{B} (see \autoref{fig:disk0_adi}) we can recognise the blob. 
-    We conclude that \ac{ADI} can help us differentiate different disk. 
+\label{sec:adi_res}
+Two disks \textit{A} and \textit{B} (see \autoref{tab:disks}) are presented in depth, they are identical except one has two rings and the other only one. Looking at the results for the first disk we can just make out the disk in the simulated image in \autoref{fig:disk4_simulated}. If we look at \autoref{fig:disk4_nostar} showing only the light reflected by the disk we see that the \ac{vAPP} has smeared out the light reflected by the disk, the morphology has not been distorted. 
+
+When \ac{ADI} is applied we see how the disk morphology is changed. We see (\autoref{fig:disk4_nostar_adi}) that the morphology is radically changed, quite a number of features appear. Most notably bright blobs in the shape of an eigth of a circle appear just outside the disk where the rings semi-major axis intersects the ring. Less bright similarly shaped blobs appear where the rings semi-minor axis intersects the ring.
+
+When \ac{ADI} is applied to the simulated image (see \autoref{fig:disk4_adi}) we see residuals from the \ac{PSF} overlaying the morphologically changed disk in the dark hole. Note that the changed disk is slightly smeared out and faded compared to \autoref{fig:disk4_nostar_adi}. This is caused by the atmosphere changing the \acp{PSF} and by the \ac{ADI} process.
+
+Moving on to the second disk (\textit{B}), we find the same as for the first disk. However this disk has a small inner ring, if we look at \autoref{fig:disk0_simulated} we see that only a small portion of the inner disk lies in the dark zone. We see in \autoref{fig:disk0_nostar_adi} that the light of the inner ring is concentrated into bright blobs at opposing sides of the rings semi major axis. When we look at the result of \ac{ADI} on the simulated image of disk \textit{B} (see \autoref{fig:disk0_adi}) we can recognise the blob. 
+
+\section{ADI for dim disks}
+To see whether \ac{ADI} applied to \ac{vAPP} images can help recognise dim disk features, that would otherwise remain hidden in the \ac{vAPP} darkzones, we compare two identically shaped disks. The first the standard disk model at the same contrast as the other disks, the second has its brightness reduced by a factor 6. While the disk is still clearly visible in the \ac{vAPP} darkzone in \autoref{fig:disk8_2} it is hardly above the \ac{PSF} residuals in \autoref{fig:disk8_3}. \ac{ADI} does not help us see dim disks.
 
 \section{Characterising paramaters in ADI results}
-The distortions to the disks morphology created by \ac{ADI} might allow characterisation of the disks paramaters.
+The distortions to the disks morphology created by \ac{ADI} might allow characterisation of the disks paramaters. Here are the results of the four comparisons in \autoref{chap:results}.
 
+\begin{description}
+\item[One ring vs two]{
+We note again the blobs on the semi major axis described in \autoref{sec:adi_res}. When we compare the result of \ac{ADI} applied to the simulated images (see \autoref{fig:disk0_3} \ref{fig:disk1_3}) we see a blob for both the disk with one rings and the one with two. However the can clearly recognise the disk with two rings as for it the blob is brighter then the outer ring. We conclude that an inner ring can be recognised by a brighter blob on the semi major axis of a distorted ring.}
+\item[small vs large disk]{
+Here two disks are compared with radius to the inner ring, however the outer ring is further out on the large disk. We first compare the \ac{ADI} result of the light reflected by the disk in \autoref{fig:disk2_2} and \autoref{fig:disk3_2}. The features inside the small ring change very little, these come from the inner ring. Further out we see a large difference. The blobs on the semi-major axis get blurred and have a gradiant outwards. We see the same outwards gradiant eminating from the semi-minor axis. When we move on to \ac{ADI} applied to simulated images (\autoref{fig:disk2_3} and \autoref{fig:disk3_2}) we clearly recognise the outwards gradient coming from the semi-major axis. We can also see the blob is spread blurred more for the large disk.
+}
+\item[60 degrees inclination vs 90 degrees]{
+With a lower inclination we expect worse \ac{ADI} performence as there is more radial symmetry increasing self subtraction. The shape of the ring in the \ac{ADI} result of only the disks light reflects the inclination, it is more circular for the less inclined disk (see \autoref{fig:disk4_8}, \autoref{fig:disk6_2}). We see the difference between the blobs on the semi-major and minor axis reduce. In the \ac{ADI} result on the simulated images in \autoref{fig:disk4_9} and \autoref{fig:disk6_3} we notice the intensity of the disk drops as the inclination is reduced. This is caused by self subtraction. 
+}
+\item[disk inside dark hole vs outside]{
+Here we do not look at a paramater of the disk itself but the way it was observed. For all other disks an initial field rotation of 120 degrees was used to make sure the disks semi major axis was aligned with the straight inside edge of the dark hole. Here we compare a rotated to an unrotated disk. Looking at \ac{ADI} on only the light reflected by the disk we note the intensity of the lower half is lower for the unrotated disk (\autoref{fig:disk5_2}) compared to the rotated disk (\autoref{fig:disk4_5}). Now looking at the result of \ac{ADI} applied to the simulated image we see a larger portion of the disk result lies amid the residuals of the \ac{PSF} obscuring more of the disk.
+}
+\end{description}
 
-
-%The single ring of disk \textit{A} can be recognised easily in \autoref{fig:disk4_simulated} while the result after \ac{ADI} in \autoref{fig:disk4_adi} ****TODO improve plot \ make it logplot, add histogram of pixels along semi major axis*****. 
-
-%We see that the morphology of the disks is heavily impacted by the \ac{ADI} process when looking at the images of the \textit{starless} model variants. While for disk A the morphology can be recognised in the dark zone of the \ac{vAPP}. 
-
-%When we look at disk \textit{B} which features 2 rings we notice the seperation between the rings can be recognised from the blob we see on its semi-major axis.  
-
-%However the distortions to the disks morphology created by \ac{ADI} might allow easy characterisation of the disks paramaters. And \ac{ADI} results might still be improved with different techniques, see \autoref{chap:future}.
-
-%conclusions from the direct comparisions
-%-lowering contrast does not impact the view of the disk in the dark hole a lot
-%-lowering contrast does impact the ADI result significantly
-
-\section{Characterising features in ADI results}
-
-Besides the already dicussed brightness comparision we have looked at the effect of adding a ring, scaling the disk size, the orientation of the disk and lowering the inclination. We will be comparing the \ac{ADI} results, these are the simuleted images for a model and its \textit{starless} variant after processing with our \ac{ADI} implementation.
-
-Adding an extra ring to \textit{disk E} turns it into \textit{disk B}. Comparing the results of both we see no changes to the outer ring, it is still present in both models and in the result of both models. **** TODO we expect this because: refer back to earlier part of thesis about liniarity****. The innner ring of \textit{disk E} in \autoref{fig:comp_numb_rings} can be identified in the \ac{ADI} results. Hoever not as a circular ring, though that is present, but by two mirrored blobs on its semi major axis. If we look at \textit{disk F} (see: \autoref{fig:disk3_1}, \autoref{fig:disk3_2}) which has a similarly sized inner ring we see the same blobs at the same place. The blobs are not a distortion from the double rings but from the tight inner ring. 
-
-conclusions from the in depth look
--closer to the center of disk => more side blobs on semi major axis
-
--a ring is detectable in the adi result as a gap peak to the left of the coronografic \ac{PSF}, easiest to see between bulb and outer disk on disk major axis
-
--placeholder for large vs small disk (need to check if the disk does not rotate out of the frame
-
--a disk that rotates out of the drak hole during \ac{ADI} loses contrast on one side (check which with the appendix)
-
--lower inclination gives a rounder disk
-
-from above subconclutions to conclusion:
-
-
+\section{Conclusion}
+In general \ac{ADI} is not helpfull for disks observed with the \ac{vAPP}. This might change if the \ac{ADI} performance can be tuned to lower the noise in the dark zone result. It could be useful for disks with tight inner radii that place disk features in the dark zone but close to the the coronographic \ac{PSF} peak. While using \ac{ADI} we can recognise second rings, differences in disk size and inclination. 
 

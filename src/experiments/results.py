@@ -103,8 +103,8 @@ def noReduction(params, output_path):
 
     #plotfast.image(np.array(left_psfs[0]))
 
-    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin", log=True, vmin=1e-9)
-    plotslow.saveImage_withCb(right_psfs[0],output_path+"left_noReduction", log=True, vmax=1e-2)
+    plotslow.saveImage_withCb(left_psfs[0],output_path+"right_noReductin", log=True, vmin=1e-9, vmax=1e-2)
+    plotslow.saveImage_withCb(right_psfs[0],output_path+"left_noReduction", log=True, vmin=1e-9, vmax=1e-2)
 
 def withADI(params, output_path):
 
@@ -123,14 +123,13 @@ def withADI(params, output_path):
         left_psfs.append(left_psf)
         right_psfs.append(right_psf)
 
+    #plotfast.image(np.array(right_psfs))
+
     right_final = simple_adi(right_psfs, img_params)
     left_final = simple_adi(left_psfs, img_params)
 
-    #data = np.abs(right_final)
-    #plotfast.image(np.array([np.log10(data/data.max())]))
-
-    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmax=.015)
-    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmax=.015)
+    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmax=.0004*params.amplification)
+    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmax=.0004*params.amplification) #vmin=.005 at ampl = 10
 
 def coro_psf(params, output_path):
 
@@ -218,21 +217,21 @@ def run():
     default_params = Params()
     disks = []
 
-    disks.append(("A", default_params))
-    disks.append(("B", deepcopy(default_params)))
-    disks[-1][1].rings = [(0.1,0.2),(0.3,0.4)]
+    # disks.append(("A", default_params))
+    # disks.append(("B", deepcopy(default_params)))
+    # disks[-1][1].rings = [(0.1,0.2),(0.3,0.4)]
     disks.append(("C", deepcopy(default_params)))
-    disks[-1][1].amplification *= 2
-    disks.append(("D", deepcopy(default_params)))
-    disks[-1][1].rings = [(0.3,0.4)]   
-    disks.append(("E", deepcopy(default_params)))
-    disks[-1][1].rings = [(0.1,0.8)]   
-    disks.append(("F", deepcopy(default_params)))
-    disks[-1][1].rings = [(0.1,0.2)]   
-    disks.append(("G", deepcopy(default_params)))
-    disks[-1][1].rotation = 0
-    disks.append(("H", deepcopy(default_params)))
-    disks[-1][1].inclination = 40
+    disks[-1][1].amplification /= 6
+    # disks.append(("D", deepcopy(default_params)))
+    # disks[-1][1].rings = [(0.3,0.4)]   
+    # disks.append(("E", deepcopy(default_params)))
+    # disks[-1][1].rings = [(0.1,0.8)]   
+    # disks.append(("F", deepcopy(default_params)))
+    # disks[-1][1].rings = [(0.1,0.2)]   
+    # disks.append(("G", deepcopy(default_params)))
+    # disks[-1][1].rotation = 0
+    # disks.append(("H", deepcopy(default_params)))
+    # disks[-1][1].inclination = 40
 
     for img_name, params in disks:
         script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]

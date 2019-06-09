@@ -51,7 +51,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
 
     B         & \ref{fig:disk0_0} \ref{fig:disk0_1} \ref{fig:disk0_2} \ref{fig:disk0_3}  & 2 & \makecell[t]{10\% - 20\% \\ 
                                                                                            30\% - 40\%} & 60             & 120 \\
-    C         & \ref{fig:disk8_1} \ref{fig:disk8_2} \ref{fig:disk8_3} & 1 & 30\% - 50\%                 & 60             & 120 & \autoref{fig:left:apdC} \autoref{fig:right:apdC} & contrast halved \\
+    C         & \ref{fig:disk8_1} \ref{fig:disk8_2} \ref{fig:disk8_3} & 1 & 30\% - 50\%                 & 60             & 120 & \autoref{fig:left:apdC} \autoref{fig:right:apdC} & \makecell[t]{$\sfrac{1}{6}$-th normal\\ disk brightness}\\ 
     D         & \ref{fig:disk1_1} \ref{fig:disk1_2} \ref{fig:disk1_3} & 1 & 30\% - 40\%                 & 60             & 120 & \autoref{fig:left:apdD} \autoref{fig:right:apdD}\\
     E         & \ref{fig:disk2_1} \ref{fig:disk2_2} \ref{fig:disk2_3} & 1 & 10\% - 80\%                 & 60             & 120 & \autoref{fig:left:apdE} \autoref{fig:right:apdE}\\
     F         & \ref{fig:disk3_1} \ref{fig:disk3_2} \ref{fig:disk3_3} & 1 & 10\% - 20\%                 & 60             & 120  & \autoref{fig:left:apdF} \autoref{fig:right:apdF}\\
@@ -194,7 +194,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/B/\plotside_noReductin}
-        \caption{The image generated using the brighter model above (b).}
+        \caption{The image generated using the dimmer model above (b).}
         \label{fig:C2}
         \label{fig:disk8_2}
       \end{subfigure}
@@ -206,7 +206,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/C/\plotside_ADI}
-        \caption{The result of \ac{ADI} applied on the generated brighter image (d).}
+        \caption{The result of \ac{ADI} applied on the generated dimmer image (d).}
         \label{fig:disk8_3}
       \end{subfigure}
   \end{minipage}
@@ -353,7 +353,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/G/\plotside_ADI}
-        \caption{\ac{ADI} applied to an image generated of the above model (b).}
+        \caption{\ac{ADI} applied to an image generated of the above model (b). As it had a lower initial field rotation the coronograpic \ac{PSF} was rotated back less then normally during \ac{ADI} which causes the difference in orentation compared to \ref{fig:disk4_6}}
         \label{fig:disk5_3}
       \end{subfigure}
   \end{minipage}
