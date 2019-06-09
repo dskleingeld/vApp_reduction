@@ -1,16 +1,16 @@
 \chapter{Results}
 \label{chap:results}
-Here we present the results of the parameter study. We have varied the inclination, rotation, number of rings and the sizes of the ring(s). Most disks are variants on the standard disk, its paramaters are listed in \autoref{tab:params}. All combinations studied are presented in \autoref{tab:disks}.
+Here we present the results of the parameter study. We have varied the inclination, rotation, number of rings and the sizes of the ring(s). Most disks are variants on the standard disk, its parameters are listed in \autoref{tab:params}. All combinations studied are presented in \autoref{tab:disks}.
 
-Throughout this section we show images and \ac{ADI} results of both various disk models and theire \textit{starless} variant see \autoref{sec:paramstudy}. 
+Throughout this section we show images and \ac{ADI} results of both various disk models and their \textit{starless} variant see \autoref{sec:paramstudy}. 
 
 \begin{table}[H]
     \begin{tabular}{llc}
     \toprule
-    \thead{Paramater name}      & \thead{value} & \thead{description}\\
+    \thead{Parameter name}      & \thead{value} & \thead{description}\\
     \midrule
         Time between simulated exposures & 0.7 seconds\\
-        Fried Paramater                  & 4\\
+        Fried Parameter                  & 4\\
         Field Rotation                         & 120 degrees\\
         Inclination                      & 60 degrees\\
         Number of images in set          & 20\\
@@ -22,7 +22,7 @@ Throughout this section we show images and \ac{ADI} results of both various disk
         %TODO [optional] Highest contrast with star       &
     \bottomrule
     \end{tabular}
-    \caption{The paramaters of the standard disk model. Note the field rotation of 120 degrees is needed to maximise the part of the inclined disk that fits in the drak hole.}
+    \caption{The parameters of the standard disk model. Note the field rotation of 120 degrees is needed to maximize the part of the inclined disk that fits in the dark hole.}
     \label{tab:params}
 \end{table}
 
@@ -76,7 +76,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_coro_psf}
-        \caption{The coronografic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
+        \caption{The coronographic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/model}
@@ -126,7 +126,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_coro_psf}
-        \caption{The coronografic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
+        \caption{The coronographic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/model}
@@ -181,7 +181,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/C/model}
-        \caption{A lower contrast standard disk model. Here the contast between star and disk has been halved by doubling the disks surface brightness. The images straight below are generated using this model.}
+        \caption{A lower contrast standard disk model. Here the contrast between star and disk has been halved by doubling the disks surface brightness. The images straight below are generated using this model.}
         \label{fig:C1}
         \label{fig:disk8_1}
       \end{subfigure}
@@ -261,7 +261,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \end{minipage}
   }%
 
-  \caption{Comparing a disk with two rings with one that has only one ring. Both columns from top to bottem: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
+  \caption{Comparing a disk with two rings with one that has only one ring. Both columns from top to bottom: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
   \label{fig:comp_numb_rings}
 \end{figure}
 
@@ -310,7 +310,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \end{minipage}
   }%
 
-  \caption{Comparing a large and small disk. Both columns from top to bottem: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
+  \caption{Comparing a large and small disk. Both columns from top to bottom: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
   \label{fig:comp_disk_size}
 \end{figure}
 
@@ -353,13 +353,13 @@ First we present a detailed look at a disk with two rings and a disk with only o
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/G/\plotside_ADI}
-        \caption{\ac{ADI} applied to an image generated of the above model (b). As it had a lower initial field rotation the coronograpic \ac{PSF} was rotated back less then normally during \ac{ADI} which causes the difference in orentation compared to \ref{fig:disk4_6}}
+        \caption{\ac{ADI} applied to an image generated of the above model (b). As it had a lower initial field rotation the coronograpic \ac{PSF} was rotated back less then normally during \ac{ADI} which causes the difference in orientation compared to \ref{fig:disk4_6}}
         \label{fig:disk5_3}
       \end{subfigure}
   \end{minipage}
   }%
 
-  \caption{Comparing two disks with different initial field rotation. Both columns from top to bottem: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
+  \caption{Comparing two disks with different initial field rotation. Both columns from top to bottom: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
   \label{fig:comp_incl}
 \end{figure}
 
@@ -408,6 +408,6 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \end{minipage}
   }%
 
-  \caption{Comparing the standard disk model at 60 and 40 degrees inclination. Both columns from top to bottem: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
+  \caption{Comparing the standard disk model at 60 and 40 degrees inclination. Both columns from top to bottom: the disk, \ac{ADI} applied to a simulated image of only disk and not the star, \ac{ADI} applied to a simulated image of the disk and star.}
   \label{fig:comp_rot}
 \end{figure}
