@@ -36,13 +36,13 @@ We use a 2-dimensional thin disk model based on the work by \cite{Pieter_Okko}. 
   \label{fig:1}
 \end{figure}
 
-The disk is modeled as optically thick and does not emit light on its own. At a certain radii between the inner and outer radii ($r$) the disks brightness is given by:
+The disk is modeled as optically thick and does not emit light on its own. At a certain radii between the inner and outer radii ($r$) the disks brightness profile is given by:
 
 \begin{equation}
-B(r) = B_{\text{star}} \cdot {\left(\frac{R_{\text{star}}}{r}\right)}^2
+B(r) = 1 \cdot {\left(\frac{R_{\text{star}}}{r}\right)}^2
 \end{equation}
 
-%TODO fix contrast calculation!!!
+Here $B(r)$ is the value of a disk pixel at distance $r$ in AU and $R_\text{sun}$ is the suns radius. The disk pixel values are increased until the required contrast between star and disk is reached. For all disks discussed here except otherwise noted this factor is $50$.
 
 We evaluate the model onto an image of 200 by 200 pixels. This speeds up calculations and is similar to the resolution of observed \ac{vAPP} datasets. The model behaves well for most disks however on this resolution features that are small in the observers plane are pixilated. We can make disks larger then the full image width if they are inclined and rotated as we see in \autoref{fig:disk} below..
 
@@ -107,15 +107,16 @@ I_\text{\ac{vAPP}} = \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) + \mathscr{F}_{2d}\
 \end{equation}
 With $I_\text{\ac{vAPP}}$ the \ac{vAPP} \ac{PSF}, $\mathscr{F}_{2d}$ the 2 dimensional fourier transformation. $A$ and $e^{i\theta}$ represent an amplitude and phase change imparted on the light by the \ac{vAPP}.\\
 
-Here we use not one apperture function as in \autoref{sec:PSF} but combine three. The first two ($Ae^{\pm i\theta}$) simulate the opposing phases the circular polarisations receive from the \ac{vAPP} (see \autoref{sec:vapp}). The third factor, is called the leakage term.
-%TODO [optional] annotated version of vapp psf ipv clean vapp psf
+Here we use not one apperture function as in \autoref{sec:PSF} but combine three. The first two ($Ae^{\pm i\theta}$) simulate the opposing phases the circular polarisations receive from the \ac{vAPP} (see \autoref{fig:into_vapp_annotated}). The third factor, is called the leakage term.
 %TODO [optional] refer to leakage term, explain leakage term in vAPP theory section.
 
 Instead of modelling an adaptive optics system we modified the Fried parameter for the atmosphere to get similar morphological changes in time to the availible on-sky images. This is sufficient as the dark hole, where we will observes the disk, will lie in the control radius of the \ac{AO} which means the effect of an \ac{AO} system on the disk will mostly be a increase in resolution by reducing the seeing effect.
 %TODO check the above sentence with Steven
 
 %TODO check with steven what dataset I got from him, ask how to cite datasets then cite the dataset
-We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for the generation. For a Fried paramater of $4m$ we find quantitatively similar \ac{PSF}  morphologies to the on-sky data. To put this into perspective: to simulate excellent seeing conditions we would use a Fried paramater of 20cm. With these setting we use \ac{HCIPy} to create an ordered set of \acp{PSF} changing through time as the simulated atmosphere evolves. See \autoref{fig:psfs_evolving} for the difference between the first \ac{PSF} in a set and later \acp{PSF} in the same set, compared between on-sky and simulated \acp{PSF}. Note that as time evolves the differences between first and later \acp{PSF} grow. Qualitatively on-sky and generated \acp{PSF} evolve similar in time. We decide to use this method to generate all \acp{PSF}.
+We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for the generation. For a Fried paramater of $4m$ and exposure time of $0.7$ seconds we find quantitatively similar \ac{PSF} morphologies to the on-sky data\footnote{Unpublished data taken with the SCExAO instrument on the Subaru telescope during an engineering night in the summer of 2017.}. To put this into perspective: to simulate excellent seeing conditions we would use a Fried paramater of 20cm. With these setting we use \ac{HCIPy} to create an ordered set of \acp{PSF} changing through time as the simulated atmosphere evolves. See \autoref{fig:psfs_evolving} for the difference between the first \ac{PSF} in a set and later \acp{PSF} in the same set, compared between on-sky and simulated \acp{PSF}. Note that as time evolves the differences between first and later \acp{PSF} grow. Qualitatively on-sky and generated \acp{PSF} evolve similar in time. We decide to use this method to generate all \acp{PSF}.
+
+%TODO [critical] add that we use unrealistic exposure time throughout the thesis to simulate correct morphology, also add staturation explanation for wierd values on colorbar
 
 %https://tex.stackexchange.com/questions/169219/subcaption-third-figure-breaks-column
 %https://tex.stackexchange.com/questions/139214/how-to-make-a-subfigure-span-the-two-columns-in-ieeetrans-style
@@ -135,7 +136,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       \begin{subfigure}[b]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_007}
-        \caption{On sky \ac{PSF}: 1th - 2th, *** seconds difference.}
+        \caption{On sky \ac{PSF}: 1th - 2th, 0.0014 seconds difference.}
       \end{subfigure}      
       
       \begin{subfigure}[b]{0.6\textwidth}
@@ -144,7 +145,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       \begin{subfigure}[b]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_070}
-        \caption{On sky \ac{PSF}: 1th - 10th, *** seconds difference.}
+        \caption{On sky \ac{PSF}: 1th - 10th, 0.014 seconds difference.}
       \end{subfigure}
             
       \begin{subfigure}[b]{0.6\textwidth}
@@ -153,13 +154,13 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       \begin{subfigure}[b]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/miscellaneous/0_on_sky_psf_diff_140}
-        \caption{On sky \ac{PSF}: 1th - 50th, *** seconds difference.}
+        \caption{On sky \ac{PSF}: 1th - 50th, 0.07 seconds difference.}
       \end{subfigure}
   
   \end{minipage}
   }%
 
-  \caption{Differences between the first  \ac{PSF}  of an observation and later psfs. Compared between simulated observations on the left and on-sky data on the right. The  \acp{PSF}  where aligned then normalised on the maximum of the leakage term, finally the absolute value of the difference between the first and n-th  \ac{PSF}  was taken. The second, 10th and 50th simulated  \ac{PSF}  are 0.7, 7 and 14 seconds apart in the simulation.}
+  \caption{Differences between the first  \ac{PSF}  of an observation and later psfs. Compared between simulated observations on the left and on-sky data on the right. The  \acp{PSF}  where aligned then normalised on the maximum of the leakage term, finally the absolute value of the difference between the first and n-th  \ac{PSF}  was taken. The second, 10th and 50th simulated  \ac{PSF} are 0.7, 7 and 14 seconds apart in simulation time. These give similar morphology to the on sky differences that are 0.0014, 0.014 and 0.07 seconds apart.}
   \label{fig:psfs_evolving}
 \end{figure}
 %TODO [optional] add unaltered psfs in appendix

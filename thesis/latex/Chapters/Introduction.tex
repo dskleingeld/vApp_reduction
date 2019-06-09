@@ -19,7 +19,7 @@ Reducing contrast is done with a coronagraph, an instrument that blocks the ligh
     \label{fig:lyot_sketch}
 \end {figure}
 
-A Lyot coronagraph it not able to observe disks close to stars because it blocks all the light at small separations from the star. The \ac{vAPP} \cite{vapp_snik} is a type of coronagraph placed at the pupil of a telescope. The \ac{vAPP} removes the star light close to the star by modifying the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Any faint object next to the star in the now dark region becomes detectable. Compared to the classic Lyot coronagraph the \ac{vAPP} can reduces starlight to a greater degree, see \autoref{fig:vapp_vs_lyot}.  
+A Lyot coronagraph it not able to observe disks close to stars because it blocks all the light at small separations from the star. The \ac{vAPP} \cite{vapp_snik} is a type of coronagraph placed at the pupil of a telescope. The \ac{vAPP} removes the star light close to the star by modifying the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Any faint object next to the star in the now dark region becomes detectable. Before the \ac{vAPP} does this it creates two copies, here we call these coronographic \acp{PSF}, see the red cicles in \autoref{fig:into_vapp_annotated}. The two copies of the star. Compared to the classic Lyot coronagraph the \ac{vAPP} can reduces starlight very close to a star to a greater degree, see \autoref{fig:vapp_vs_lyot}.  
 
 \begin{figure}[h!]
       \begin{subfigure}[t]{0.5\textwidth}
@@ -29,17 +29,21 @@ A Lyot coronagraph it not able to observe disks close to stars because it blocks
       \end{subfigure}
       \begin{subfigure}[t]{0.5 \textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/plots/miscellaneous/8_lyot_psf}
-        \label{fig:lyot}
         \caption{\ac{PSF} of a classical Lyot coronagraph.}
+        \label{fig:lyot}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
       
-      \begin{subfigure}[]{0.5\textwidth}
+      \begin{subfigure}[t]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/plots/miscellaneous/8_clean_vapp}
         \caption{\ac{PSF} of the \ac{vAPP}.}
         \label{fig:into_vapp}
       \end{subfigure}
-      
-  \caption{The \ac{PSF} is the image an instrument produces when looking at a point source such as a star. Here we see the \ac{PSF} of a instrument without a coronagraph, with the classical Lyot coronagraph and a one using the \ac{vAPP} .}
+      \begin{subfigure}[t]{0.5\textwidth}
+        \includegraphics[width=1.2\linewidth]{gfx/plots/miscellaneous/8_clean_vapp_annotated}
+        \caption{Annotated \ac{PSF} of the \ac{vAPP}, the two red circles indicate the coronographic \acp{PSF} containing the dark zones. the white cicles show the leakage terms.}
+        \label{fig:into_vapp_annotated}
+      \end{subfigure}      
+  \caption{The \ac{PSF} is the image an instrument produces when looking at a point source such as a star. Here we see the \ac{PSF} of a instrument without a coronagraph, with the classical Lyot coronagraph and a one using the \ac{vAPP}.}
   \label{fig:vapp_vs_lyot}
 \end{figure}
 
