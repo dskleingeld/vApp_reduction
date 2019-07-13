@@ -195,9 +195,23 @@ Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in si
 \label{sec:adi}
 \ac{ADI} \cite{marois_2005} is a technique to remove stationary and slowly changing PSF structures from an image. It is a proven method for the detection of companions with classic \acp{PSF} such as the one in \autoref{fig:classic_psf}. %TODO something about vAPP?
 
-% theory adi 
-% TODO [trivial] field of view as \ac{FOV} ?
-The basis of \ac{ADI} is to let the field of view rotate with respect to the coronagraph and detector during an observation. By then taking multiple short images anything off center will be rotated a bit in each image. If the mean of all other images is subtracted from an image we lose most of the stellar \ac{PSF}. Once done for every image, rotating all the results so the field of view is aligned the median can be taken which gives the final image.
+\begin{figure}[H]
+    \includegraphics[width=0.8\linewidth]{gfx/ADI}
+    \caption{An overview of \ac{ADI} for detecting exoplanets, the exoplanet location is indicated with a red dot. From the leftmost column to the right: the input images with field rotation, the median of the input, the input with median subtracted from it, the median subtracted input de-rotated and finally the median of the last step. The rightmost column gives the result of ADI. Credit: M. Kenworthy.}
+    \label{fig:ADI_schematic}
+\end{figure}
 
+\ac{ADI} is a 4 step process. It is easiest to explain for an exoplanet observed using a normal telescope with symmetrical \ac{PSF}. We follow the illustration in \autoref{fig:ADI_schematic}. The input is a collection of noisy images with one hidden exoplanet (indicated by the red dot). The input was made with field rotation enabled, each is slightly rotated to the previous one. The exoplanet can not be seen in the input and a number of bright noise spots caused by the instrument are present, these naively seem exoplanets. The bright noise spots do not rotate as the telescopes field does, they are in the same place for every image in the input.
+
+\begin{enumerate}
+    \item First we create a median of all the images. The exoplanet appears in the median multiple times but dramatically dimmer while the bright noise spots are at around the same brightness.
+    \item Now we subtract the median from each of the input images. As the noise spots are about as bright in the median as in the input images they get mostly removed while the exoplanet only drops slightly in brightness. 
+    \item Then the input is de-rotated. For each input in the image we make sure the image of the sky lines up by rotating back the rotation that appeared during observing. The exoplanet is now at the same spot on the image while the noise is spread out.
+    \item Finally we combine the images from the previous step. The light of the exoplanet in all the images gets added while the noise is spread out stays the same.
+\end{enumerate}
+
+% theory adi 
 % vAPP adi theory
-To use \ac{ADI} with the \ac{vAPP} we make sure the entire sequence fits in one of the two dark holes. This makes post processing easier as we do not need to worry about merging the two dark holes.
+To use \ac{ADI} with the \ac{vAPP} we make sure the entire sequence fits in one of the two dark holes. This makes post processing easier as we do not need to worry about merging data from the two dark holes. 
+
+Applying \ac{ADI} to disk images might however have adverse effects. For a circular disk the field rotation will change little to the image. The median created in the first step will just be an image of the disk. When we subtract the median from the input the disk will disappear from the input. This is called self subtraction. The less symmetrical a disk is, due to high inclination for example, the less self subtraction we will have.
