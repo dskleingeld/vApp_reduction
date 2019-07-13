@@ -6,7 +6,7 @@ The generated images contain 2 mirrored dark zones and are shifted relative to e
 
 % implementation
 \section{Pre-Processing}
-Before we extract the coronographic \acp{PSF} we align the images. We find the shift relative to the \ac{vAPP} instrument \ac{PSF} for every image in the set by cross correlating an up-sampled image. Then the images are shifted using spline interpolation\footnote{Here an image is interpolated by fitting multiple polynomials called splines}. For the implementation of both algorithms we use the SciPy library\cite{scipy}.
+Before we extract the coronagraphic \acp{PSF} we align the images. We find the shift relative to the \ac{vAPP} instrument \ac{PSF} for every image in the set by cross correlating an up-sampled image. Then the images are shifted using spline interpolation\footnote{Here an image is interpolated by fitting multiple polynomials called splines}. For the implementation of both algorithms we use the SciPy library\cite{scipy}.
 
 \begin{figure}[h!]
   
@@ -22,24 +22,24 @@ Before we extract the coronographic \acp{PSF} we align the images. We find the s
       \end{subfigure}      
       \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[width=1.15\linewidth]{gfx/plots/miscellaneous/7_right_subpsf}
-        \caption{Right coronographic \ac{PSF}.}
+        \caption{Right coronagraphic \ac{PSF}.}
         \label{fig:slice_b}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line
 
-  \caption{A simulated image after the Pre-processing process, first it was aligned and then its right and left coronographic \ac{PSF} were extracted.}
+  \caption{A simulated image after the Pre-processing process, first it was aligned and then its right and left coronagraphic \ac{PSF} were extracted.}
   \label{fig:psf_kernals}
 \end{figure}
 
-We find the center of the coronographic \acp{PSF} by splitting the image into a left and right half. For each half the brightest pixel gives the center. Then we create two images by extracting the coronographic \acp{PSF}. To do this we copy a square with sides of $30\%$ of the origional image width around the centers found. These copies are the extracted coronographic \acp{PSF}. This procedure is repeated for all images this gives 2 aligned stacks, a slice of which can see in \autoref{fig:slice_a} and \autoref{fig:slice_b}.
+We find the center of the coronagraphic \acp{PSF} by splitting the image into a left and right half. For each half the brightest pixel gives the center. Then we create two images by extracting the coronagraphic \acp{PSF}. To do this we copy a square with sides of $30\%$ of the original image width around the centers found. These copies are the extracted coronagraphic \acp{PSF}. This procedure is repeated for all images this gives 2 aligned stacks, a slice of which can see in \autoref{fig:slice_a} and \autoref{fig:slice_b}.
 
 \section{Angular differential imaging}
 \subsection{Algorithm}
-Now there are two separate stacks of images we apply the \ac{ADI} algorithm \cite{Marois_2006} to each. First the median is taken over the stack using the implementation provided by the numpy library \cite{numpy}. This is our reference \ac{PSF}. After subtracting the reference \ac{PSF} from each image we rotated it back so the fields of all images are aligned with respect to the disks major axis (see \autoref{sec:gen}). As this means rotating square inside a equally sized square here we lose parts as the right angles of the rotating square rotate out of the equally sized square. The empty space that appears at the right angles is filled with value $0$. The pixel values are determined by spline interpolating. For the rotation algorithm we use again the SciPy library \cite{scipy}.
+Now there are two separate stacks of images we apply the \ac{ADI} algorithm \cite{Marois_2006} to each. First the median is taken over the stack using the implementation provided by the Numpy library \cite{numpy}. This is our reference \ac{PSF}. After subtracting the reference \ac{PSF} from each image we rotated it back so the fields of all images are aligned with respect to the disks major axis (see \autoref{sec:gen}). As this means rotating square inside a equally sized square here we lose parts as the right angles of the rotating square rotate out of the equally sized square. The empty space that appears at the right angles is filled with value $0$. The pixel values are determined by spline interpolating. For the rotation algorithm we use again the SciPy library \cite{scipy}.
 
 Finally we take the median over the processed images to get a the end result.
 
 \subsection{Control} %TODO feedback asks to explain blank image, I dont see why. ask feedback giver to explain
-We check if the algorithm works applying it to an image set with only the star and no distortions applied. This results in a completely blank image as expected. Next we apply \ac{ADI} to an image set with only the star and distortions applied. We expect \ac{ADI} to remove the static part of the \ac{vAPP} \ac{PSF}, however the dynamic distortions caused by seeing will rotate during derotation. The median of the image will then be a median of the rotated distortions. This wil be a circular noise pattern that decreases in intensity towards the edges following the intensity curve of the bright side of the \ac{vAPP} \ac{PSF}. The seen circular noise pattern seen in the result (see \autoref{fig:adi_star_only}) confirms our expectation and demonstrates the \ac{ADI} implementation works.
+We check if the algorithm works applying it to an image set with only the star and no distortions applied. This results in a completely blank image as expected. Next we apply \ac{ADI} to an image set with only the star and distortions applied. We expect \ac{ADI} to remove the static part of the \ac{vAPP} \ac{PSF}, however the dynamic distortions caused by seeing will rotate during de-rotation. The median of the image will then be a median of the rotated distortions. This will be a circular noise pattern that decreases in intensity towards the edges following the intensity curve of the bright side of the \ac{vAPP} \ac{PSF}. The seen circular noise pattern seen in the result (see \autoref{fig:adi_star_only}) confirms our expectation and demonstrates the \ac{ADI} implementation works.
 
 
 \begin{figure}[h!]
@@ -58,7 +58,7 @@ We check if the algorithm works applying it to an image set with only the star a
 
 \section{Parameter Study}
 \label{sec:paramstudy}
-When observing disks we are most interested in their morphology. It will however be heavily affected by the \ac{vAPP} and \ac{ADI}. The uneven redistribution of light by the \ac{vAPP} will smear the light of the disk changing its apperent morphology. \ac{ADI} removes rotational symmetry and disks are by nature quit rationally symmetrical thus again the disks apperent morphology will change. To see how the output morphology resembles that of the input model we generate image stacks for a number of disks with different parameters. We vary the number of rings, the width of the rings and the inclination.
+When observing disks we are most interested in their morphology. It will however be heavily affected by the \ac{vAPP} and \ac{ADI}. The uneven redistribution of light by the \ac{vAPP} will smear the light of the disk changing its apparent morphology. \ac{ADI} removes rotational symmetry and disks are by nature quit rationally symmetrical thus again the disks apparent morphology will change. To see how the output morphology resembles that of the input model we generate image stacks for a number of disks with different parameters. We vary the number of rings, the width of the rings and the inclination.
 
 For each model we have an additional variant: the \textit{starless} variant has the star in the center of the disk removed. We generate it only using the instrument \ac{PSF}. It shows what imaging with the \ac{vAPP} and data reduction using \ac{ADI} do to the light reflected by the disk. The result of \ac{ADI} applied to this model indicates what are disk features and what are not on the \ac{ADI} result of the normal model.
 

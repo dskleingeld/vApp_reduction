@@ -5,9 +5,9 @@ Here we present the results of the parameter study. We have varied the inclinati
 Throughout this section we show images and \ac{ADI} results of both various disk models and their \textit{starless} variant see \autoref{sec:paramstudy}. 
 
 \begin{table}[H]
-    \begin{tabular}{llc}
+    \begin{tabular}{ll}
     \toprule
-    \thead{Parameter name}      & \thead{value} & \thead{description}\\
+    \thead{Parameter name}      & \thead{value} \\
     \midrule
         Time between simulated exposures & 0.7 seconds\\
         Fried Parameter                  & 4\\
@@ -26,7 +26,7 @@ Throughout this section we show images and \ac{ADI} results of both various disk
     \label{tab:params}
 \end{table}
 
-First we present a detailed look at a disk with two rings and a disk with only one, see \autoref{fig:A} and \autoref{fig:B}. Then we present the effect of lowering contrast between the star and disk on the generated image and \ac{ADI} result, see \autoref{fig:comp_contrast}. Finally we present 4 comparisons, studying the \ac{ADI} results for images generated from models with and without star. We compare:
+First we present a detailed look at a disk with two rings and a disk with only one, see \autoref{fig:disk4_0} and \autoref{fig:disk0_0}. Then we present the effect of lowering contrast between the star and disk on the generated image and \ac{ADI} result, see \autoref{fig:comp_contrast}. Finally we present 4 comparisons, studying the \ac{ADI} results for images generated from models with and without star. We compare:
 
 \begin{enumerate}
 \item A disk with one ring to one with two, see \autoref{fig:comp_numb_rings}.
@@ -75,7 +75,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_coro_psf}
-        \caption{The coronographic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
+        \caption{The coronagraphic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/model}
@@ -125,7 +125,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
   \begin{minipage}[t]{1.2\textwidth}
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/\plotside_coro_psf}
-        \caption{The coronographic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
+        \caption{The coronagraphic \ac{PSF} used to create c d e and f, the brightness is relative to the center star}
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/\diskId/model}
@@ -352,7 +352,7 @@ First we present a detailed look at a disk with two rings and a disk with only o
       \end{subfigure}% this comment sign needs to be here for the images to be on the same line      
       \begin{subfigure}[t]{0.6\textwidth}
         \includegraphics[width=\linewidth]{gfx/plots/results/G/\plotside_ADI}
-        \caption{\ac{ADI} applied to an image generated of the above model (b). As it had a lower initial field rotation the coronograpic \ac{PSF} was rotated back less then normally during \ac{ADI} which causes the difference in orientation compared to \ref{fig:disk4_6}}
+        \caption{\ac{ADI} applied to an image generated of the above model (b). As it had a lower initial field rotation the coronagraphic \ac{PSF} was rotated back less then normally during \ac{ADI} which causes the difference in orientation compared to \ref{fig:disk4_6}}
         \label{fig:disk5_3}
       \end{subfigure}
   \end{minipage}

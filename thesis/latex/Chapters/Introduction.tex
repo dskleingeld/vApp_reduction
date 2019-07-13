@@ -6,9 +6,11 @@
 
 %----------------------------------------------------------------------------------------
 
-A major and successful topic in astronomy has been the discovery and characterization of exoplanets. This interest has sparked great progress in the field of high contrast imaging resulting in new imaging techniques and instruments. At the time of writing $3,949$ planets have been confirmed though little is known about their formation. Certain is that a so called protoplanetary disk is an important stage in the formation of a planetary system. The disks can be observed within the visible spectrum, near infrared and radio. Each wavelength probes different molecules materials and processes. ALMA has been succesfull in mapping emissions from molecules while optical and near infrared map the scattert light from the disk.
+A major and successful topic in astronomy has been the discovery and characterization of exoplanets, planets orbitting another star. This allows us to refine planatary physics, basing it on planets outside the solar system, understand how typical our solar system is and quantify how rare life is. The interest in exoplanets has sparked great progress in the field of high contrast imaging resulting in new imaging techniques and instruments. At the time of writing $3,949$ planets have been confirmed though little is known about their formation. 
 
-It is however a great challenge to observe a disk in the optical and infrared due to the high contrast between the disk and its star at the required angular resolution. For ground-based observations adaptive optics are used. This negates most of the atmospheric seeing.
+However large questions still exist around the formation of planets. Certain is that a so called protoplanetary disk is an important stage in the formation of a planetary system. These flat disks of dust and gas extend up to hundeds of AU. They generally persist for millions of years. There exact morphology, especially at small radii is a topic of much debate. The disks can be observed within the visible spectrum, near infrared and radio. Each wavelength probes different molecules materials and processes. ALMA has been succesfull in mapping emissions from molecules while optical and near infrared map the scattert light from the disk.
+
+To observe a disk in the optical and infrared is however a great challenge due to the high contrast between the disk and its star at the required angular resolution. For ground-based observations adaptive optics are used. This negates most of the atmospheric seeing.
 %TODO [optional] ****explain why light from a star (dot) can hide planetary details in a normal telescope (is it only sys+atmosph  \ac{PSF}  for apparture?)****
 
 Reducing contrast is done with a coronagraph, an instrument that blocks the light from a star. The classic Lyot coronagraph blocks the star light in the focal-plane (see: \autoref{fig:lyot_sketch}). In the focus an opaque mask is placed, it scatters the starlight. Then in the pupil-plane a ring shaped mask blocks most of the now scatterd star light. Then at the second focus the image is recorded on the detector.
@@ -47,16 +49,11 @@ A Lyot coronagraph it not able to observe disks close to stars because it blocks
   \label{fig:vapp_vs_lyot}
 \end{figure}
 
-%TODO [optional] annotated version of vapp psf ipv clean vapp psf (coronographic psf noemen)
-
 The \ac{vAPP} has mainly been developed to detect exoplanets. However it could also allow us to resolve disk features and study disks in greater detail directly. However as the \ac{vAPP} has a peculier \ac{PSF} (ee \autoref{fig:into_vapp} and the entire disk will never lie within one of the dark zones it might proof challanging to differentiate disk features from the \acp{PSF} features. 
 
 \ac{ADI} is a technique to remove stationary and slowly changing \ac{PSF} structures from an image. It does so by rotating the field of view while keeping the \ac{PSF} stil. It has been well proven for the detection of companions such as exoplanets however it suffers from self subtraction when applied to disks \cite{self_sub1} \cite{self_sub2}. \ac{ADI} removes rotational symmetrie, therefore it might create large scale distortions in the result.
 
-%improve
-Here we study what the effect is of both the \ac{vAPP} and \ac{ADI} on the apparent morphology of disks.
-%improve
+Here we see if we can use the \ac{vAPP} instrument to observe disks and if the \ac{ADI} technique can improve the results. We simulate disk observations for different disks using a simple disk model and simulated \acp{PSF}. Then we apply \ac{ADI} to the observations.
 
-%***TODO***
-overview thesis
+We begin with an overview of the theory behind simultating observations, disks and \ac{ADI}. Then we focus on how we have generated the observations. This is followed by a chapter detailing data reduction and then the results are shown, detailing the disks, simulated observations and how they change after data reduction. Finally we discuss the results and give our conclusion. 
 

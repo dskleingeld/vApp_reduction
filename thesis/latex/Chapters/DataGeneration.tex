@@ -3,7 +3,7 @@
 \chapter{Data generation} % Chapter title
 \label{ch:data_gen} % For referencing the chapter elsewhere, use \autoref{ch:name} 
 
-There are no obeservations of disks with the \ac{vAPP}. Here we describe how we simulate observations using a disk model and \acp{PSF}. This presents a number of advantages though the main reason is the lack of disk observations using the \ac{vAPP}. Generating the data from a model allows us to vary paramaters as we wish. We can try a reduction method on a simple slightly inclined disk or a near face-on disk with many rings. By reducing images with varying disk morphology we can map how a reduction method performs for each disk morphology. Most importantly we can clearly separate artifacts created during data reduction from disk features when we know what the disk looks like.
+There are no observations of disks with the \ac{vAPP}. Here we describe how we simulate observations using a disk model and \acp{PSF}. This presents a number of advantages though the main reason is the lack of disk observations using the \ac{vAPP}. Generating the data from a model allows us to vary parameters as we wish. We can try a reduction method on a simple slightly inclined disk or a near face-on disk with many rings. By reducing images with varying disk morphology we can map how a reduction method performs for each disk morphology. Most importantly we can clearly separate artifacts created during data reduction from disk features when we know what the disk looks like.
 
 %------------------------------------------------
 
@@ -42,7 +42,7 @@ B(r) = 1 \cdot {\left(\frac{R_{\text{star}}}{r}\right)}^2
 
 Here $B(r)$ is the value of a disk pixel at distance $r$ in AU and $R_\text{sun}$ is the suns radius. The disk pixel values are increased until the required contrast between star and disk is reached. For all disks discussed here except otherwise noted this factor is $50$.
 
-We evaluate the model onto an image of 200 by 200 pixels. This speeds up calculations and is similar to the resolution of observed \ac{vAPP} datasets. The model behaves well for most disks however on this resolution features that are small in the observers plane are pixilated. We can make disks larger then the full image width if they are inclined and rotated as we see in \autoref{fig:disk} below..
+We evaluate the model onto an image of 200 by 200 pixels. This speeds up calculations and is similar to the resolution of observed \ac{vAPP} data-sets. The model behaves well for most disks however on this resolution features that are small in the observers plane are pixelated. We can make disks larger then the full image width if they are inclined and rotated as we see in \autoref{fig:disk} below..
 
 \begin{figure}[h!]
   \begin{subfigure}[t]{0.5\textwidth}
@@ -67,12 +67,12 @@ We evaluate the model onto an image of 200 by 200 pixels. This speeds up calcula
 To simulate an observation we do not use a single given \ac{PSF}. Since during an observation the combined \ac{PSF}  of the atmosphere and instrument changes. However a complete simulation of these effects is outside the scope of the thesis. Instead we try to approach a similar morphology to an on-sky-\ac{PSF}, with similar changes in time. We try two different methods, adding distortions on top of an existing \ac{vAPP} \ac{PSF} and adding an atmosphere simulation to the PSF generation. Finally we compare the result of each method to on-sky observations.
 
 \subsection{Fourier method}
-First we tried modifying a single given \ac{vAPP} \ac{PSF} to get a set of disturbed \acp{PSF}. To achieve this a pattern is added to the fourier transform of the \ac{PSF} before transforming it back from fourier space, see \autoref{eq:Ifinal} below. The pattern is then shifted for every timestap.
+First we tried modifying a single given \ac{vAPP} \ac{PSF} to get a set of disturbed \acp{PSF}. To achieve this a pattern is added to the Fourier transform of the \ac{PSF} before transforming it back from Fourier space, see \autoref{eq:Ifinal} below. The pattern is then shifted for every timestamp.
 
 \begin{equation}
 I_{\text{final}} = \mathscr{F}_{2d}^{-1} \Big( \text{intensity} \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \cdot \text{pattern} + \left(1-\text{intensity}\right) \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \Big) \label{eq:Ifinal}
 \end{equation}
-Here "intensity" is a number between $0$ and $1$, $\mathscr{F}_{2d}^{-1}$ the inverted 2d fourier transform and $\mathscr{F}_{2d}$ the normal 2d fourier transform.\\
+Here "intensity" is a number between $0$ and $1$, $\mathscr{F}_{2d}^{-1}$ the inverted 2d Fourier transform and $\mathscr{F}_{2d}$ the normal 2d Fourier transform.\\
 
 The best results where achieved using a grid of blurred circles as pattern, see \autoref{fig:patterns}. Note the distortions to the \ac{PSF} are around the center of its peaks but not randomly spread. As clearly this clearly does not suffice to simulate realistic distortions.
 
@@ -88,7 +88,7 @@ The best results where achieved using a grid of blurred circles as pattern, see 
       
       \begin{subfigure}[]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/0_pattern}
-        \caption{Pattern that is shifted and applied to the fourier space of a \ac{PSF}.}
+        \caption{Pattern that is shifted and applied to the Fourier space of a \ac{PSF}.}
       \end{subfigure}
       
   \caption{The Pattern used and the differences between \acp{PSF} distorted with it using the method described above.}
@@ -103,16 +103,16 @@ Then we tried a simulation of the  \acp{PSF} using \ac{HCIPy}, an open-source ob
 \begin{equation}
 I_\text{\ac{vAPP}} = {\mathopen| \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) \mathclose|}^2 + {\mathopen| \mathscr{F}_{2d}\Big( Ae^{-i\theta}\Big) \mathclose|}^2 + {\mathopen| \mathscr{F}_{2d}\Big( A \Big) \cdot C \mathclose|}^2
 \end{equation}
-With $I_\text{\ac{vAPP}}$ the \ac{vAPP} \ac{PSF}, $\mathscr{F}_{2d}$ the 2 dimensional fourier transformation. $A$ and $e^{i\theta}$ represent an amplitude and phase change imparted on the light by the \ac{vAPP}.\\
+With $I_\text{\ac{vAPP}}$ the \ac{vAPP} \ac{PSF}, $\mathscr{F}_{2d}$ the 2 dimensional Fourier transformation. $A$ and $e^{i\theta}$ represent an amplitude and phase change imparted on the light by the \ac{vAPP}.\\
 
-Here we use not one apperture function as in \autoref{sec:PSF} but combine three. The first two ($Ae^{\pm i\theta}$) simulate the opposing phases the circular polarisations receive from the \ac{vAPP} (see \autoref{fig:into_vapp_annotated}). The third factor, is called the leakage term.
+Here we use not one aperture function as in \autoref{sec:PSF} but combine three. The first two ($Ae^{\pm i\theta}$) simulate the opposing phases the circular polarization receive from the \ac{vAPP} (see \autoref{fig:into_vapp_annotated}). The third factor, is called the leakage term.
 %TODO [optional] refer to leakage term, explain leakage term in vAPP theory section.
 
-Instead of modelling an adaptive optics system we modified the Fried parameter for the atmosphere to get similar morphological changes in time to the availible on-sky images. This is sufficient as the dark hole, where we will observes the disk, will lie in the control radius of the \ac{AO} which means the effect of an \ac{AO} system on the disk will mostly be a increase in resolution by reducing the seeing effect.
+Instead of modeling an adaptive optics system we modified the Fried parameter for the atmosphere to get similar morphological changes in time to the available on-sky images. This is sufficient as the dark hole, where we will observes the disk, will lie in the control radius of the \ac{AO} which means the effect of an \ac{AO} system on the disk will mostly be a increase in resolution by reducing the seeing effect.
 %TODO check the above sentence with Steven
 
 %TODO check with steven what dataset I got from him, ask how to cite datasets then cite the dataset
-We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for the generation. For a Fried paramater of $4m$ and exposure time of $0.7$ seconds we find quantitatively similar \ac{PSF} morphologies to the on-sky data\footnote{Unpublished data taken with the SCExAO instrument on the Subaru telescope during an engineering night in the summer of 2017.}. To put this into perspective: to simulate excellent seeing conditions we would use a Fried paramater of 20cm. With these setting we use \ac{HCIPy} to create an ordered set of \acp{PSF} changing through time as the simulated atmosphere evolves. See \autoref{fig:psfs_evolving} for the difference between the first \ac{PSF} in a set and later \acp{PSF} in the same set, compared between on-sky and simulated \acp{PSF}. Note that as time evolves the differences between first and later \acp{PSF} grow. The \textquote{brightness} of the differences can not be compared as the on sky data saturates the detector for most of the coronographic \ac{PSF}. Qualitatively on-sky and generated \acp{PSF} evolve similar in time. We decide to use this method to generate all \acp{PSF}.
+We use a telescope diameter of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for the generation. For a Fried parameter of $4m$ and exposure time of $0.7$ seconds we find quantitatively similar \ac{PSF} mythologies to the on-sky data\footnote{Unpublished data taken with the SCExAO instrument on the Subaru telescope during an engineering night in the summer of 2017.}. To put this into perspective: to simulate excellent seeing conditions we would use a Fried parameter of 20cm. With these setting we use \ac{HCIPy} to create an ordered set of \acp{PSF} changing through time as the simulated atmosphere evolves. See \autoref{fig:psfs_evolving} for the difference between the first \ac{PSF} in a set and later \acp{PSF} in the same set, compared between on-sky and simulated \acp{PSF}. Note that as time evolves the differences between first and later \acp{PSF} grow. The \textquote{brightness} of the differences can not be compared as the on sky data saturates the detector for most of the coronagraphic \ac{PSF}. Qualitatively on-sky and generated \acp{PSF} evolve similar in time. We decide to use this method to generate all \acp{PSF}.
 
 %TODO [critical] add that we use unrealistic exposure time throughout the thesis to simulate correct morphology, also add staturation explanation for wierd values on colorbar
 
@@ -158,7 +158,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
   \end{minipage}
   }%
 
-  \caption{Differences between the first  \ac{PSF}  of an observation and later psfs. Compared between simulated observations on the left and on-sky data on the right. The  \acp{PSF}  where aligned then normalised on the maximum of the leakage term, finally the absolute value of the difference between the first and n-th  \ac{PSF}  was taken. The second, 10th and 50th simulated  \ac{PSF} are 0.7, 7 and 14 seconds apart in simulation time. These give similar morphology to the on sky differences that are 0.0014, 0.014 and 0.07 seconds apart.}
+  \caption{Differences between the first  \ac{PSF}  of an observation and later \acp{PSF}. Compared between simulated observations on the left and on-sky data on the right. The  \acp{PSF}  where aligned then normalized on the maximum of the leakage term, finally the absolute value of the difference between the first and n-th  \ac{PSF}  was taken. The second, 10th and 50th simulated  \ac{PSF} are 0.7, 7 and 14 seconds apart in simulation time. These give similar morphology to the on sky differences that are 0.0014, 0.014 and 0.07 seconds apart.}
   \label{fig:psfs_evolving}
 \end{figure}
 %TODO [optional] add unaltered psfs in appendix
@@ -171,7 +171,7 @@ We use a telescope diamater of $8.2m$ and a wavelength, of $1\cdot 10^{-6}m$ for
 
 \section{Generating observations}
 \label{sec:gen}
-To get a dataset that simulates an obeservation we create an ordered set of disk images each one rotated a bit with respect to the previous image. This accounts for the field rotation between images caused by observing with an alt-azimuth telescope in pupil-stabilized mode. The angle depends on the time between images and the field rotation rate.
+To get a data-set that simulates an observation we create an ordered set of disk images each one rotated a bit with respect to the previous image. This accounts for the field rotation between images caused by observing with an alt-azimuth telescope in pupil-stabilized mode. The angle depends on the time between images and the field rotation rate.
 
 \begin{align}
   \psi &= 0.2506 \cdot \frac{\cos(A) \cos \phi}{\sin(z)} 
@@ -186,10 +186,10 @@ Using variations on this method we create 3 different sets.
 
 \begin{enumerate}
 \item Place the star as a single pixel with value one in the center of the disk before going through the above procedure. This is our observation set.
-\item Leave out the disk, place only the single pixel in the center representing the star. This can be useful for checking if data reduction algoritmes work properly.
+\item Leave out the disk, place only the single pixel in the center representing the star. This can be useful for checking if data reduction algorithms work properly.
 \item Leave out the star, this way we see what the \ac{vAPP} does to the extended disk.
 \end{enumerate}
 
 For each of the sets we can generate an additional variant to look at what the best result attainable is by leaving out the  \ac{PSF}  distortions. We do this by taking the convolution of the n-th disk image with the first \ac{PSF} of the \ac{PSF} set instead of the n-th.
 
-We do not try to simulate noise sources as detector or photon noise. These will not affect the disks morphology and the techniques for handeling them are the same between disks and other objects.
+We do not try to simulate noise sources as detector or photon noise. These will not affect the disks morphology and the techniques for handling them are the same between disks and other objects.

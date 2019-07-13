@@ -61,7 +61,7 @@ Here we discuss what an \ac{PSF} is, how it helps us describe an optical system 
 
 We can describe what happens to light going through an optical system with its \ac{PSF}. It describes the light intensity on the focal-plane (where the science detector is) as a function of x and y when a single point source is imaged on the center of the focal-plane. 
 
-Light is an progagating electromagnatic wave. We derive how to find the \ac{PSF} from the Huygens-Fresnel Principle. It states that any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
+Light is an propagating electromagnetic wave. We derive how to find the \ac{PSF} from the Huygens-Fresnel Principle. It states that any part of a wave can be described as a front of infinitely many point sources interfering with one another. An optical element can change these arrangement of theses sources, for example an aperture allows only a small area to be filled with these point sources as illustrated in \autoref{fig:hecht}. 
 
 \begin{figure}[h]
     \caption{Fraunhofer diffraction from an arbitrary aperture, r and R large compared to the size of the hole. Extracted from Optics 5th edition, by \cite{hecht}.}
@@ -81,13 +81,13 @@ We find the electric field at a point P at distance R by summing up the fields o
 
 Here $Y$, $Z$ describe the position in the imaging plane in which $P$ lies as seen in \autoref{fig:hecht}. Small letters $y$ and $z$ are the position in the aperture plane. The integral is over the aperture, only integrating over the transparent parts. 
 
-Here we integrate only over the apperture and assume all light is transmitted within and no light outside of it. To allow for changes in phase and magnitude caused by for example dirty glass, or a complicated optical instrument don not integrate over only an apperture but use an aperture function and integrate over all space.
+Here we integrate only over the aperture and assume all light is transmitted within and no light outside of it. To allow for changes in phase and magnitude caused by for example dirty glass, or a complicated optical instrument don not integrate over only an aperture but use an aperture function and integrate over all space.
 
 \begin{align}
 \mathscr{A}(y,z) &= \mathscr{A}_0 (y,z)e^{i\upphi(y,z)}\label{eq:helper}
 \end{align}
 
-Here the time changing electromagnatic wave $\varepsilon$ is averaged into a constant field of magnitude one. Then the transmission through the aperture changes the magnitude ($\mathscr{A}_0$) and the phase ($\upphi(y,z)$).
+Here the time changing electromagnetic wave $\varepsilon$ is averaged into a constant field of magnitude one. Then the transmission through the aperture changes the magnitude ($\mathscr{A}_0$) and the phase ($\upphi(y,z)$).
 
 \begin{subequations}[resume]
   \begin{align}
@@ -108,7 +108,7 @@ We can rewrite this to get rid of the dependence on the distance by substituting
   \end{align}
 \end{subequations}
 
-This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (i.e. the aperture function)} \cite{hecht}. Here the fraunhofer diffraction pattern is the instruments focal-plane.
+This is the 2 dimensional Fourier transformation of the aperture function. Thus \textquote{the field distribution in the Fraunhofer diffraction pattern is the Fourier transform of the field distribution across the aperture (i.e. the aperture function)} \cite{hecht}. Here the Fraunhofer diffraction pattern is the instruments focal-plane.
 
 For the \ac{PSF} we are interested in the intensity which is not the electric field $E$ but ${|E|}^2$. This means we can calculate the \ac{PSF} of an instrument by Fourier transforming its (complex) aperture function and squaring the result. Note that the amplitude in the aperture function does not only have to depend on the shape of the aperture as there might be partially transparent material. We can use it to simulate any optical instrument such as the \acf*{vAPP}.
 
@@ -122,7 +122,7 @@ The telescope or coronagraph are not the only optical system at play. There are 
 
 \subsection{Adaptive Optics}
 \label{sec:ao}
-Since the 1990‘s \ac{AO} are used. They utilise an adaptive mirror that can change its shape to undo the phase changing of the atmosphere, see \autoref{fig:ao}. To do this they first need to measure the errors in the wavefront. However as these measurement are not instant the shape of the mirror can never match the current wavefront. There are also some errors in positioning the mirror will always match the required shape. Both these effects cause small distortions in the final image. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO}, the telescope and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics do not correct the entire field. Each system has a control radius around the star in which the \ac{AO} can reduce the seeing.
+Since the 1990‘s \ac{AO} are used. They utilize an adaptive mirror that can change its shape to undo the phase changing of the atmosphere, see \autoref{fig:ao}. To do this they first need to measure the errors in the wavefront. However as these measurement are not instant the shape of the mirror can never match the current wavefront. There are also some errors in positioning the mirror will always match the required shape. Both these effects cause small distortions in the final image. Thus even with \ac{AO} the total \ac{PSF} for the atmosphere, the \ac{AO}, the telescope and the instrument will keep changing in time, however the magnitude of the change is severely reduced. Adaptive optics do not correct the entire field. Each system has a control radius around the star in which the \ac{AO} can reduce the seeing.
 
 \begin{figure}[H]
     \caption{Sketch showing the basic principle of an \ac{AO} system, adapted from UC Berkeley science review: Into focus, Credit: Keith Cheveralls.}
@@ -145,7 +145,7 @@ As the coronagraph works in the pupil-plane it is insensitive to the effects of 
 
 The \ac{vAPP} iterates on the \ac{APP}, it creates its destructive interference by introducing differences in the optical path length thereby changing the phase. These changes are designed to create the mentioned dark zone in the shape of a $180^\circ$ half circle with a radius of 2 to 9 $\lambda/D$ \cite{vapp_doelman}. To achieve these phase changes the path length differences need to change throughout the pupil. The design is stored as a heightmap of the required path differences. It is then manufactured by diamond turning glass. 
 
-Instead of modifying the optical path length, the \ac{vAPP} introduces the phase changes using the geometrical properties of a liquid crystal plate. The two circular polarisations receive opposite phase and create dark holes at opposite sides of the \ac{PSF} \cite{vapp_snik} \cite{vapp_otten} \cite{vapp_doelman}. By then splitting the right and left handed light and imaging both seperated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP}. Here we refer to the small \acp{PSF} within the full \ac{PSF} as coronographic \acp{PSF}, see \autoref{fig:into_vapp_annotated} in \autoref{ch:intro}.
+Instead of modifying the optical path length, the \ac{vAPP} introduces the phase changes using the geometrical properties of a liquid crystal plate. The two circular polarization receive opposite phase and create dark holes at opposite sides of the \ac{PSF} \cite{vapp_snik} \cite{vapp_otten} \cite{vapp_doelman}. By then splitting the right and left handed light and imaging both separated we get not $180^\circ$ of dark zone but $360^\circ$ solving one of the major problems of the \ac{APP}. Here we refer to the small \acp{PSF} within the full \ac{PSF} as coronagraphic \acp{PSF}, see \autoref{fig:into_vapp_annotated} in \autoref{ch:intro}.
 %---------------------------------------------------------------------------------------
 
 
@@ -197,7 +197,7 @@ Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in si
 
 % theory adi 
 % TODO [trivial] field of view as \ac{FOV} ?
-The basis of \ac{ADI} is to let the field of view rotate with respect to the coronograph and detector during an observation. By then taking multiple short images anything off center will be rotated a bit in each image. If the mean of all other images is subtracted from an image we lose most of the stellar \ac{PSF}. Once done for every image, rotating all the results so the field of view is aligned the median can be taken which gives the final image.
+The basis of \ac{ADI} is to let the field of view rotate with respect to the coronagraph and detector during an observation. By then taking multiple short images anything off center will be rotated a bit in each image. If the mean of all other images is subtracted from an image we lose most of the stellar \ac{PSF}. Once done for every image, rotating all the results so the field of view is aligned the median can be taken which gives the final image.
 
 % vAPP adi theory
 To use \ac{ADI} with the \ac{vAPP} we make sure the entire sequence fits in one of the two dark holes. This makes post processing easier as we do not need to worry about merging the two dark holes.
