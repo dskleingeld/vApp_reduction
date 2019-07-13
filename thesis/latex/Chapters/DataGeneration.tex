@@ -9,15 +9,13 @@ There are no obeservations of disks with the \ac{vAPP}. Here we describe how we 
 
 
 
-%TODO introduce additional paramater for scaling the brightness
 \section{Disk model}
 We use a 2-dimensional thin disk model based on the work by \cite{Pieter_Okko}. The model has 4 basic parameters: 
 
 \begin{description}
 \item[Inclination] The angle the disk is tilted towards the observer. A 0 degrees inclination gives a face-on disk and 90 degrees a horizontal line being an edge on disk. As illustrated in \autoref{fig:inclination}
-%TODO Rotation is with respect to the sky reference frame. When the position angle is zero the major axis of the disk is aligned wit hthe north-south meridian. what is sky reference frame?
 \item[Position angle] After inclination the disk can be rotated around the line of sight from the observer, rotation to the left is positive. See \autoref{fig:pos_angle}
-\item[Inner and Outer radii] Disks consist of one or more rings that start and stop at some radius from the star. The inner and outer radius are relative to the size of the image generated and expressed in percent. An Inner radius of 20\% gives a hole in the disk with a diameter of 20\% of the image width. %TODO expand with rings, and explain center star is included in model
+\item[Inner and Outer radii] Disks consist of one or more rings that start and stop at some radius from the star. The inner and outer radius are relative to the size of the image generated and expressed in percent. An Inner radius of 20\% gives a hole in the disk with a diameter of 20\% of the image width. %
 \end{description}
 
 \begin{figure}[h!]
@@ -103,7 +101,7 @@ The best results where achieved using a grid of blurred circles as pattern, see 
 Then we tried a simulation of the  \acp{PSF} using \ac{HCIPy}, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. The framework is used to generate \acp{PSF} with a very rough simulation. We use the provided methods in \ac{HCIPy} to create a multi-layer atmospheric model that changes in time. Then we use that model, the \ac{vAPP} amplitude and \ac{vAPP} phase screen to generate a series of \acp{PSF} using:
 
 \begin{equation}
-I_\text{\ac{vAPP}} = \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) + \mathscr{F}_{2d}\Big( Ae^{-i\theta}\Big) + \mathscr{F}_{2d}\Big( A \Big) \cdot C
+I_\text{\ac{vAPP}} = {\mathopen| \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) \mathclose|}^2 + {\mathopen| \mathscr{F}_{2d}\Big( Ae^{-i\theta}\Big) \mathclose|}^2 + {\mathopen| \mathscr{F}_{2d}\Big( A \Big) \cdot C \mathclose|}^2
 \end{equation}
 With $I_\text{\ac{vAPP}}$ the \ac{vAPP} \ac{PSF}, $\mathscr{F}_{2d}$ the 2 dimensional fourier transformation. $A$ and $e^{i\theta}$ represent an amplitude and phase change imparted on the light by the \ac{vAPP}.\\
 
