@@ -1,15 +1,33 @@
 % principle component analysis + adi on disks: https://arxiv.org/pdf/1905.01860.pdf
 \chapter{Discussion and Conclusion}
 
+%
+% intro
+%
+%
+%
+%
+%
+%
+%
+%
+
+%INTRO
 Here we discuss the results and conclude whether looking at disks reduced with \ac{ADI} from \ac{vAPP} data shows promise. We first take a look at what the \ac{vAPP} and \ac{ADI} do to the disk, see the first two figures in \autoref{chap:results}. Then we compare different disk models and the result after \ac{ADI}. We see if we can recognize the original morphology and or we can clearly separate the different models based on the results. 
 
 \section{ADI disk results in depth}
 \label{sec:adi_res}
-Two disks \textit{A} and \textit{B} (see \autoref{tab:disks}) are presented in depth, they are identical except \textit{A} has one rings and \textit{B} two. Looking at the results for disk \textit{A} we can make out the disk in the simulated image in \autoref{fig:disk4_simulated}. If we look at \autoref{fig:disk4_nostar} showing only the light reflected by the disk we see that the \ac{vAPP} has smeared out the light reflected by the disk, the morphology has not been distorted. 
 
-When \ac{ADI} is applied we see (\autoref{fig:disk4_nostar_adi}) that the morphology is radically changed, quite a number of features appear. Most notably bright blobs in the shape of an eighth of a circle appear just outside the disk where the rings semi-major axis intersects the ring. Less bright similarly shaped blobs appear where the rings semi-minor axis intersects the ring.
+% DISK A
+    % LIGHT IS SMEARED
+    Two disks \textit{A} and \textit{B} (see \autoref{tab:disks}) are presented in depth, they are identical except \textit{A} has one rings and \textit{B} two. Looking at the results for disk \textit{A} we can make out the disk in the simulated image in \autoref{fig:disk4_simulated}. If we look at \autoref{fig:disk4_nostar} showing only the light reflected by the disk we see that the \ac{vAPP} has smeared out the light reflected by the disk, the morphology has not been distorted.
 
-When \ac{ADI} is applied to the simulated image (see \autoref{fig:disk4_adi}) we see residuals from the \ac{PSF} overlaying the morphologically changed disk in the dark hole. Note that the changed disk is slightly smeared out and faded compared to \autoref{fig:disk4_nostar_adi}. This is caused by the atmosphere changing the \acp{PSF} and by the \ac{ADI} process.
+    % FEATURES APPEAR, BLOBS
+    When \ac{ADI} is applied we see (\autoref{fig:disk4_nostar_adi}) that the morphology is radically changed, quite a number of features appear. Most notably bright blobs in the shape of an eighth of a circle appear just outside the disk where the rings semi-major axis intersects the ring. Less bright similarly shaped blobs appear where the rings semi-minor axis intersects the ring.
+
+    % RESIDUALS OVERLAYING DISK
+    When \ac{ADI} is applied to the simulated image (see \autoref{fig:disk4_adi}) we see residuals from the \ac{PSF} overlaying the morphologically changed disk in the dark hole. Note that the changed disk is slightly smeared out and faded compared to \autoref{fig:disk4_nostar_adi}. This is caused by the atmosphere changing the \acp{PSF} and by the \ac{ADI} process.
+
 
 Moving on to disk \textit{B}, we find the similar changes as \textit{A}. This disk has a small secondary inner ring. If we look at \autoref{fig:disk0_simulated} we see that only a small part of the inner disk lies in the dark zone. We see in \autoref{fig:disk0_nostar_adi} that the light of the inner ring is concentrated into bright blobs at opposing sides of the rings semi major axis. When we look at the result of \ac{ADI} on the simulated image of disk \textit{B} (see \autoref{fig:disk0_adi}) we can recognize the blob. This helps in detection the inner ring.
 
@@ -33,6 +51,28 @@ With a lower inclination we expect worse \ac{ADI} performance as there is more r
 Here we do not look at a parameter of the disk itself but the way it was observed. For all other disks an initial field rotation of 120 degrees was used to make sure the disks semi-minor axis was aligned with the straight inside edge of the dark hole. Here we compare a rotated to an un-rotated disk. Looking at \ac{ADI} applied to the \textit{starless} disk we note the intensity of the lower half of the disk is lower for the un-rotated disk (\autoref{fig:disk5_2}) compared to the rotated disk (\autoref{fig:disk4_5}). Taking a look at the result of \ac{ADI} applied to the disk with star we see a larger portion of the disk result lies amid the residuals of the \ac{PSF} obscuring more of the disk.
 \end{description}
 
-\section{Conclusion}
-In general \ac{ADI} is not helpful for disks observed with the \ac{vAPP}. This might change if the \ac{ADI} performance can be tuned to lower the noise in the dark zone result. It could be useful for disks with tight inner radii of a few $\lambda/D$ that place disk features in the dark zone but close to the the coronagraphic \ac{PSF} peak. While using \ac{ADI} we can recognize second rings, differences in disk size and inclination. Observing disks at few $\lambda/D$ from a star using the \ac{vAPP} looks promising and we suggest further study.
+% THIS NEEDS WORK (EXPANSION)
+% currently:
+% ADI not helpfull
+%   unless performance improved
+%   can recognise features though
 
+% conclusions, listed:
+%
+% vAPP smears out the light
+%   - good perfomance for disks
+%   - gets distorted for realistic images
+% ADI radically changes morphology
+%   - blobs on semi major axis
+%   - outwards gradiant linked to disk area
+%   - high inclination needed to be able to observe
+% ADI compared to directly observing the disk in dark hole of vAPP is not usefull
+% unless very close to the psf peak
+
+\section{Conclusion}
+
+Observing disks with the \ac{vAPP} has similar advantages then observing exoplanets. Disk features can be recognized clearly up until they are very close to the center of the coronagraphic \ac{PSF} peak. The \ac{vAPP} does smear out the image of the ring which makes it harder to look at gradients or soft edges. A fitting routine factoring in the smearing effect of the \ac{vAPP} might be able to combat this.
+
+Applying \ac{ADI} to the simulated images reveals disks are heavily deformed due to self subtraction. Unexpectedly the morphology of the deformation does not change when we radically adjust the inclination from 60 to 40 degrees. \ac{ADI} concentrates the disks light on the semi-major axis of the disks from which an outward gradient of light starts. In a similar way, though at far lower brightness, some light is concentrated on the semi minor axis. The ratio of brightness of these concentrated points between the semi-major and minor axis relates to the inclination of the disk. The extend and intensity of the outward gradient relates to the size of the ring from which it starts. Multiple rings are represented by multiple concentrations of light.
+
+As \ac{ADI} deforms the disk heavily we need to recognize deformations to have an idea what the actual disk might look like. In most cases this makes \ac{ADI} useless to observe disks it can be useful at few $\lambda/D$. Since it concentrates light on the semi major axis and has an outward radius small inner rings can at few $\lambda/D$ can be recognized in the \ac{ADI} result easier then by just looking at the unprocessed image. Improvements to the used \ac{ADI} method might improve these results. We recommend further studies look into post processing methods that are less prone to self subtraction. We make a few suggestions in the next section.
