@@ -6,14 +6,14 @@
 
 %----------------------------------------------------------------------------------------
 
-A major and successful topic in astronomy has been the discovery and characterization of exoplanets, planets orbitting another star. This allows us to refine planatary physics, basing it on planets outside the solar system, understand how typical our solar system is and quantify how rare life is. The interest in exoplanets has sparked great progress in the field of high contrast imaging resulting in new imaging techniques and instruments. At the time of writing $3,949$ planets have been confirmed though little is known about their formation. 
+A major and successful topic in astronomy has been the discovery and characterization of exoplanets, planets orbiting another star. This allows us to basing planetary physics on data outside our solar system, understand how typical the solar system is and quantify how rare life is. The interest in exoplanets has sparked great progress in the field of high contrast imaging resulting in new imaging techniques and instruments. At the time of writing $3,949$ planets have been confirmed. 
 
-However large questions still exist around the formation of planets. Certain is that a so called protoplanetary disk is an important stage in the formation of a planetary system. These flat disks of dust and gas extend up to hundeds of AU. They generally persist for millions of years. There exact morphology, especially at small radii is a topic of much debate. The disks can be observed within the visible spectrum, near infrared and radio. Each wavelength probes different molecules materials and processes. ALMA has been succesfull in mapping emissions from molecules while optical and near infrared map the scattert light from the disk.
+Large questions still exist around the formation of planets. Certain is that a protoplanetary disk is an important stage in the formation of a planetary system. These flat disks of dust and gas extend up to hundreds of AU. They generally persist for millions of years. There exact morphology, especially at small radii is a topic of much debate. The disks can be observed within the visible spectrum, near infrared and radio. Each wavelength probes different molecules materials and processes. ALMA has been successful in mapping emissions from molecules while optical and near infrared map the scattered light from the disk.
 
 To observe a disk in the optical and infrared is however a great challenge due to the high contrast between the disk and its star at the required angular resolution. For ground-based observations adaptive optics are used. This negates most of the atmospheric seeing.
 %TODO [optional] ****explain why light from a star (dot) can hide planetary details in a normal telescope (is it only sys+atmosph  \ac{PSF}  for apparture?)****
 
-Reducing contrast is done with a coronagraph, an instrument that blocks the light from a star. The classic Lyot coronagraph blocks the star light in the focal-plane (see: \autoref{fig:lyot_sketch}). In the focus an opaque mask is placed, it scatters the starlight. Then in the pupil-plane a ring shaped mask blocks most of the now scatterd star light. Then at the second focus the image is recorded on the detector.
+Reducing contrast is done with a coronagraph, an instrument that blocks the light from a star. The classic Lyot coronagraph blocks the star light in the focal-plane (see: \autoref{fig:lyot_sketch}). In the focus an opaque mask is placed, it scatters the starlight. Then in the pupil-plane a ring shaped mask blocks most of the now scattered star light. Then at the second focus the image is recorded on the detector.
 
 \begin{figure}
     \includegraphics[width= 1\textwidth]{gfx/lyot_sketch}
@@ -21,7 +21,7 @@ Reducing contrast is done with a coronagraph, an instrument that blocks the ligh
     \label{fig:lyot_sketch}
 \end {figure}
 
-A Lyot coronagraph it not able to observe disks close to stars because it blocks all the light at small separations from the star. The \ac{vAPP} \cite{vapp_snik} is a type of coronagraph placed at the pupil of a telescope. The \ac{vAPP} removes the star light close to the star by modifying the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Any faint object next to the star in the now dark region becomes detectable. Before the \ac{vAPP} does this it creates two copies, here we call these coronographic \acp{PSF}, see the red cicles in \autoref{fig:into_vapp_annotated}. The two copies of the star. Compared to the classic Lyot coronagraph the \ac{vAPP} can reduces starlight very close to a star to a greater degree, see \autoref{fig:vapp_vs_lyot}.  
+A Lyot coronagraph it not able to observe disks close to stars because it blocks all the light at small separations from the star. The \ac{vAPP} \cite{vapp_snik} is a type of coronagraph placed at the pupil of a telescope. The \ac{vAPP} removes the star light close to the star by modifying the phase of incoming light. This phase change flips the light in a D-shaped region around the star to the other side. Any faint object next to the star in the now dark region becomes detectable. Before the \ac{vAPP} does this it creates two copies, here we call these coronagraphic \acp{PSF}, see the red circles in \autoref{fig:into_vapp_annotated}. The two copies of the star. Compared to the classic Lyot coronagraph the \ac{vAPP} can reduces starlight very close to a star to a greater degree, see \autoref{fig:vapp_vs_lyot}.  
 
 \begin{figure}[h!]
       \begin{subfigure}[t]{0.5\textwidth}
@@ -42,18 +42,18 @@ A Lyot coronagraph it not able to observe disks close to stars because it blocks
       \end{subfigure}
       \begin{subfigure}[t]{0.5\textwidth}
         \includegraphics[width=1.2\linewidth]{gfx/plots/miscellaneous/8_clean_vapp_annotated}
-        \caption{Annotated \ac{PSF} of the \ac{vAPP}, the two red circles indicate the coronographic \acp{PSF} containing the dark zones. the white cicles show the leakage terms.}
+        \caption{Annotated \ac{PSF} of the \ac{vAPP}, the two red circles indicate the coronagraphic \acp{PSF} containing the dark zones. the white circles show the leakage terms.}
         \label{fig:into_vapp_annotated}
       \end{subfigure}      
   \caption{The \ac{PSF} is the image an instrument produces when looking at a point source such as a star. Here we see the \ac{PSF} of a instrument without a coronagraph, with the classical Lyot coronagraph and a one using the \ac{vAPP}.}
   \label{fig:vapp_vs_lyot}
 \end{figure}
 
-The \ac{vAPP} has mainly been developed to detect exoplanets. However it could also allow us to resolve disk features and study disks in greater detail directly. However as the \ac{vAPP} has a peculier \ac{PSF} (ee \autoref{fig:into_vapp} and the entire disk will never lie within one of the dark zones it might proof challanging to differentiate disk features from the \acp{PSF} features. 
+The \ac{vAPP} has mainly been developed to detect exoplanets. However it could also allow us to resolve disk features and study disks in greater detail directly. However as the \ac{vAPP} has a peculiar \ac{PSF} (ee \autoref{fig:into_vapp} and the entire disk will never lie within one of the dark zones it might proof challenging to differentiate disk features from the \acp{PSF} features. 
 
-\ac{ADI} is a technique to remove stationary and slowly changing \ac{PSF} structures from an image. It does so by rotating the field of view while keeping the \ac{PSF} stil. It has been well proven for the detection of companions such as exoplanets however it suffers from self subtraction when applied to disks \cite{self_sub1} \cite{self_sub2}. \ac{ADI} removes rotational symmetrie, therefore it might create large scale distortions in the result.
+\ac{ADI} is a technique to remove stationary and slowly changing \ac{PSF} structures from an image. It does so by rotating the field of view while keeping the \ac{PSF} still. It has been well proven for the detection of companions such as exoplanets however it suffers from self subtraction when applied to disks \cite{self_sub1} \cite{self_sub2}. \ac{ADI} removes rotational symmetry, therefore it might create large scale distortions in the result.
 
 Here we see if we can use the \ac{vAPP} instrument to observe disks and if the \ac{ADI} technique can improve the results. We simulate disk observations for different disks using a simple disk model and simulated \acp{PSF}. Then we apply \ac{ADI} to the observations.
 
-We begin with an overview of the theory behind simultating observations, disks and \ac{ADI}. Then we focus on how we have generated the observations. This is followed by a chapter detailing data reduction and then the results are shown, detailing the disks, simulated observations and how they change after data reduction. Finally we discuss the results and give our conclusion. 
+We begin with an overview of the theory behind simulating observations, disks and \ac{ADI}. Then we focus on how we have generated the observations. This is followed by a chapter detailing data reduction and then the results are shown, detailing the disks, simulated observations and how they change after data reduction. Finally we discuss the results and give our conclusion. 
 

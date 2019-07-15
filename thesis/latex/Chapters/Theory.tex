@@ -201,17 +201,17 @@ Furthermore they \cite{garufi} conclude that in small disks of 10 to 20 Au in si
     \label{fig:ADI_schematic}
 \end{figure}
 
-\ac{ADI} is a 4 step process. It is easiest to explain for an exoplanet observed using a normal telescope with symmetrical \ac{PSF}. We follow the illustration in \autoref{fig:ADI_schematic}. The input is a collection of noisy images with one hidden exoplanet (indicated by the red dot). The input was made with field rotation enabled, each is slightly rotated to the previous one. The exoplanet can not be seen in the input and a number of bright noise spots caused by the instrument are present, these naively seem exoplanets. The bright noise spots do not rotate as the telescopes field does, they are in the same place for every image in the input.
+\ac{ADI} is a 4 step process. It is easiest to explain for an exoplanet observed using a normal telescope with symmetrical \ac{PSF}. We follow the illustration in \autoref{fig:ADI_schematic}. The input is a collection of noisy images with one hidden exoplanet (indicated by the red dot). The input was made with field rotation enabled, each image is rotated slightly further then previous one. The exoplanet, though indicated, can not be detected in the input and a number of bright noise spots caused by the instrument are present, these naively seem exoplanets. As they are caused by the instrument the bright noise spots do not rotate as the telescopes field does, they are in the same place for every image in the input. To process an image sequence we go through these steps:
 
 \begin{enumerate}
-    \item First we create a median of all the images. The exoplanet appears in the median multiple times but dramatically dimmer while the bright noise spots are at around the same brightness.
-    \item Now we subtract the median from each of the input images. As the noise spots are about as bright in the median as in the input images they get mostly removed while the exoplanet only drops slightly in brightness. 
-    \item Then the input is de-rotated. For each input in the image we make sure the image of the sky lines up by rotating back the rotation that appeared during observing. The exoplanet is now at the same spot on the image while the noise is spread out.
-    \item Finally we combine the images from the previous step. The light of the exoplanet in all the images gets added while the noise is spread out stays the same.
+    \item First we create a median of all the images. The exoplanet appears in the median multiple times however dramatically dimmer while the bright noise spots are at around the same brightness.
+    \item Now we subtract the median from each of the input images. As the noise spots are about as bright in the median as in the input images they get mostly removed while the exoplanet only drops slightly in brightness as it is much brighter in the input then in the median.
+    \item Then the input is de-rotated. For each input in the image we make sure the image of the sky lines up by rotating back the rotation that was introduced during observing. The exoplanet is now at the same spot on each image in the sequence while the noise is spread out.
+    \item Finally we combine the images from the previous step. The light of the exoplanet in all the images gets added up while the noise is spread out and stays around the same level.
 \end{enumerate}
 
 % theory adi 
 % vAPP adi theory
-To use \ac{ADI} with the \ac{vAPP} we make sure the entire sequence fits in one of the two dark holes. This makes post processing easier as we do not need to worry about merging data from the two dark holes. 
+To use \ac{ADI} with the \ac{vAPP} we make sure the entire rotation fits in one of the two dark holes. This makes post processing easier as we do not need to worry about merging data from the two dark holes. 
 
-Applying \ac{ADI} to disk images might however have adverse effects. For a circular disk the field rotation will change little to the image. The median created in the first step will just be an image of the disk. When we subtract the median from the input the disk will disappear from the input. This is called self subtraction. The less symmetrical a disk is, due to high inclination for example, the less self subtraction we will have.
+Applying \ac{ADI} to disk images might however have adverse effects. For a circular disk the field rotation will change little to the image. The median created in the first step will just be an image of the disk. When we subtract the median from the input the disk will disappear. This is called self subtraction. The less symmetrical a disk is, due to high inclination for example, the less self subtraction we will have.
