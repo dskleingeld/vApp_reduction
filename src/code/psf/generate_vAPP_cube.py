@@ -111,6 +111,8 @@ if __name__ == '__main__':
 
     filepath = script_path.split("vApp_reduction",1)[0]+"vApp_reduction/data/psf_cube_cache/"
     filepath += "psf_cube_"+str(fried_parameter)+"_"+str(time_between)+"_"+str(numb)+".asdf"
+    #plt.imshow(psf_cube[0])
+    #plt.show()
     target = AsdfFile(psf_cube)
     target.write_to(filepath, all_array_compression='zlib')
     print("saved psf_cube to: "+filepath)

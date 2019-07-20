@@ -16,7 +16,7 @@ def saveImage(data, path, vmin=0.0000001, vmax=None):
     ax.imshow(np.abs(data), interpolation='none', cmap=cmap, vmin=vmin, vmax=vmax)
     plt.savefig(path)
 
-def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None, labels=None):
+def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None, labels=None, norm=True):
     fig, ax = plt.subplots()
     cmap = plt.cm.OrRd
     #cmap = plt.cm.RdBu
@@ -26,10 +26,13 @@ def saveImage_withCb(data, path, log=False, vmin=None, vmax=None, lim=None, labe
     #cax = divider.append_axes("right", size="5%", pad=0.05)
     
     data = np.abs(data)
+    if norm == True:
+        data = data/data.max()
+    
     if log == False: 
-        plt.imshow(data/data.max(), interpolation='none', cmap=cmap, vmin=0.1e-7, vmax=vmax)
+        plt.imshow(data, interpolation='none', cmap=cmap, vmin=0.1e-7, vmax=vmax)
     else:
-        plt.imshow(data/data.max(), interpolation='none', cmap=cmap, norm=colors.LogNorm(), vmax=vmax)
+        plt.imshow(data, interpolation='none', cmap=cmap, norm=colors.LogNorm(), vmax=vmax)
 
     if lim != None:
         plt.xlim(lim[0][0],lim[0][1])

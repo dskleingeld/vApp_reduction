@@ -2,10 +2,12 @@ from code.adi import *
 import code.plot.slow as plotslow
 import os
 
+import matplotlib.pyplot as plt
+
 def run():
     
-    time_between_exposures: float = 0.7
-    fried_parameter: float = 4
+    time_between_exposures: float = 20
+    fried_parameter: float = 18
     field_size: float = 10 
     inner_radius: float = 2
     outer_radius: float = 5
@@ -49,13 +51,23 @@ def run():
     psf_cube = [psf.reshape(length,length) for psf in psf_cube]
     (psf_cube, _) = center_cube(psf_cube, ref_img=clean_psf)
 
-    difference1 = psf_cube[0]-psf_cube[1]
-    difference2 = psf_cube[0]-psf_cube[9]
-    difference3 = psf_cube[0]-psf_cube[49]
+    normalised = []
+    for psfimg in psf_cube:
+        #leakage_max = psfimg[95:105, 95:105].max()
+        leakage_max = psfimg.max()
+        normalised.append(psfimg/leakage_max)
 
-    plotslow.saveImage_withCb(difference1, output_path+"psf_diff_007", 0.0015)
-    plotslow.saveImage_withCb(difference2, output_path+"psf_diff_070", 0.0015)
-    plotslow.saveImage_withCb(difference3, output_path+"psf_diff_140", 0.0015)
+    #plt.imshow(psf_cube[0])
+    #plt.show()
+    plotfast.image(np.array(normalised))
+
+    difference1 = normalised[0]-normalised[1]
+    difference2 = normalised[0]-normalised[9]
+    difference3 = normalised[0]-normalised[49]
+
+    plotslow.saveImage_withCb(difference1, output_path+"psf_diff_007", norm=False)
+    plotslow.saveImage_withCb(difference2, output_path+"psf_diff_070", norm=False)
+    plotslow.saveImage_withCb(difference3, output_path+"psf_diff_140", norm=False)
 
     #plotfast.image(np.array([difference1,difference3, difference2]))
 
@@ -80,12 +92,13 @@ def on_sky():
     #plotfast.image(aligned[0][84:102, 122:140])
 
     normalised = []
-    for psf in aligned:
-        leakage_max = psf[84:102, 122:140].max()
-        normalised.append(psf/leakage_max)
+    for psfimg in aligned:
+        #leakage_max = psf[84:102, 122:140].max()
+        leakage_max = psfimg.max()
+        normalised.append(psfimg/leakage_max)
     
     # still contains a few bad shot, not a problem for our purpose
-    #plotfast.image(np.array(normalised))
+    plotfast.image(np.array(normalised))
 
     difference1 = normalised[0]-normalised[1]
     difference2 = normalised[0]-normalised[9]
@@ -94,14 +107,11 @@ def on_sky():
     difference1 = np.rot90(difference1[15:-75, 40:-50])
     difference2 = np.rot90(difference2)[20:205, :175]
     difference3 = np.rot90(difference3)[20:205, :175]
-    print(difference1.shape)
-    print(difference2.shape)
-    print(difference3.shape)
 
     output_path = get_output_path("miscellaneous")
-    plotslow.saveImage_withCb(difference1, output_path+"on_sky_psf_diff_007", 0.5)
-    plotslow.saveImage_withCb(difference2, output_path+"on_sky_psf_diff_070", 0.5)
-    plotslow.saveImage_withCb(difference3, output_path+"on_sky_psf_diff_140", 0.5)
+    plotslow.saveImage_withCb(difference1, output_path+"on_sky_psf_diff_007", norm=False)
+    plotslow.saveImage_withCb(difference2, output_path+"on_sky_psf_diff_070", norm=False)
+    plotslow.saveImage_withCb(difference3, output_path+"on_sky_psf_diff_140", norm=False)
 
 
 
@@ -209,6 +219,7 @@ def clean_vapp():
 
     fig = plt.figure()
     imshow_field(np.log10(total_PSF / total_PSF.max()), vmin=-5, vmax=0)
+
     cbar = plt.colorbar()
     cbar.set_label(r"$^{10}\log(contrast)$")
     plt.ylabel(r"$\lambda/D$")
@@ -218,6 +229,37 @@ def clean_vapp():
     output_path = get_output_path("miscellaneous")
     fig.savefig(output_path+"clean_vapp")
     
+    fig = plt.figure()
+    imshow_field(np.log10(total_PSF / total_PSF.max()), vmin=-5, vmax=0)
+
+    bbox_props = dict(boxstyle="circle,pad=0.3", fill=False, alpha=1, fc=None, ec="red", lw=5)
+    plt.text(10.3, 10.7, " ", ha="center", va="center", rotation=45,
+            size=110,
+            bbox=bbox_props)
+    plt.text(-10.3, -10.7, " ", ha="center", va="center", rotation=45,
+            size=110,
+            bbox=bbox_props)
+    bbox_props = dict(boxstyle="circle,pad=0.3", fill=False, alpha=1, fc=None, ec="white", lw=5)
+    plt.text(0, 0, " ", ha="center", va="center", rotation=45,
+            size=55,
+            bbox=bbox_props)
+    plt.text(8, -15, " ", ha="center", va="center", rotation=45,
+            size=55,
+            bbox=bbox_props)
+    plt.text(-8, 15, " ", ha="center", va="center", rotation=45,
+            size=55,
+            bbox=bbox_props)
+
+
+    cbar = plt.colorbar()
+    cbar.set_label(r"$^{10}\log(contrast)$")
+    plt.ylabel(r"$\lambda/D$")
+    plt.xlabel(r"$\lambda/D$")
+
+    plt.show()
+    output_path = get_output_path("miscellaneous")
+    fig.savefig(output_path+"clean_vapp_annotated")
+
 def plot_sub_psfs():
     
     

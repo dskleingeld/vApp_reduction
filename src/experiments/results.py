@@ -6,9 +6,9 @@ import code.disk as d
 from copy import deepcopy
 
 class Params:
-    time_between_exposures: float = 0.7
+    time_between_exposures: float = 20
     numb: int = 20
-    fried_parameter: float = 4
+    fried_parameter: float = 18
     field_size: float = 10 
     rotation: float = 120
     inclination: float = 60 
@@ -128,8 +128,8 @@ def withADI(params, output_path):
     right_final = simple_adi(right_psfs, img_params)
     left_final = simple_adi(left_psfs, img_params)
 
-    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmax=.0004*params.amplification)
-    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmax=.0004*params.amplification) #vmin=.005 at ampl = 10
+    plotslow.saveImage_withCb(right_final,output_path+"right_ADI", log=False, vmax=.004*params.amplification)
+    plotslow.saveImage_withCb(left_final,output_path+"left_ADI", log=False, vmax=.004*params.amplification) #vmin=.005 at ampl = 10
 
 def coro_psf(params, output_path):
 
@@ -220,8 +220,8 @@ def run():
     # disks.append(("A", default_params))
     # disks.append(("B", deepcopy(default_params)))
     # disks[-1][1].rings = [(0.1,0.2),(0.3,0.4)]
-    disks.append(("C", deepcopy(default_params)))
-    disks[-1][1].amplification /= 6
+    # disks.append(("C", deepcopy(default_params)))
+    # disks[-1][1].amplification /= 50
     # disks.append(("D", deepcopy(default_params)))
     # disks[-1][1].rings = [(0.3,0.4)]   
     # disks.append(("E", deepcopy(default_params)))
@@ -232,6 +232,16 @@ def run():
     # disks[-1][1].rotation = 0
     # disks.append(("H", deepcopy(default_params)))
     # disks[-1][1].inclination = 40
+    
+    params = deepcopy(default_params)
+    params.set_rotation = 360
+    params.numb = 80
+    disks.append(("ADI360", params))
+
+    params = deepcopy(default_params)
+    params.set_rotation = 10
+    params.numb = 1
+    disks.append(("ADI360", params))
 
     for img_name, params in disks:
         script_path = os.path.realpath(__file__).split("vApp_reduction",1)[0]
@@ -253,9 +263,9 @@ def run():
             rings=params.rings,
             amplification=params.amplification)
 
-        plot_model(params, output_path)
-        noReduction(params, output_path)
-        withADI(params, output_path)
-        noStar_noReduction(params, output_path)
-        noStar_ADI(params, output_path)
-        coro_psf(params, output_path)
+        #plot_model(params, output_path)
+        #noReduction(params, output_path)
+        #withADI(params, output_path)
+        #noStar_noReduction(params, output_path)
+        #noStar_ADI(params, output_path)
+        #coro_psf(params, output_path)

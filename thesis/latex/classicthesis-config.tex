@@ -35,19 +35,19 @@
 \PassOptionsToPackage{eulerchapternumbers,listings, pdfspacing, beramono,eulermath,parts}{classicthesis}
 % Available options: drafting parts nochapters linedheaders eulerchapternumbers beramono eulermath pdfspacing minionprospacing tocaligned dottedtoc manychapters listings floatperchapter subfig
 
-\newcommand{\myTitle}{A Classic Thesis Style\xspace}
-\newcommand{\mySubtitle}{An Homage to The Elements of Typographic Style\xspace}
-\newcommand{\myDegree}{Doktor-Ingenieur (Dr.-Ing.)\xspace}
-\newcommand{\myName}{André Miede\xspace}
-\newcommand{\myProf}{Put name here\xspace}
-\newcommand{\myOtherProf}{Put name here\xspace}
-\newcommand{\mySupervisor}{Put name here\xspace}
-\newcommand{\myFaculty}{Put data here\xspace}
-\newcommand{\myDepartment}{Put data here\xspace}
-\newcommand{\myUni}{Put data here\xspace}
-\newcommand{\myLocation}{Saarbrücken\xspace}
-\newcommand{\myTime}{September 2015\xspace}
-\newcommand{\myVersion}{version 4.2\xspace}
+\newcommand{\myTitle}{Detecting disks with the vAPP\xspace}
+\newcommand{\mySubtitle}{\xspace}
+\newcommand{\myDegree}{\xspace}
+\newcommand{\myName}{David Kleingeld\xspace}
+\newcommand{\myProf}{Christoph Keller\xspace}
+\newcommand{\myOtherProf}{Steven Bos\xspace}
+\newcommand{\mySupervisor}{Jos de Boer\xspace}
+\newcommand{\myFaculty}{Faculty of Science\xspace}
+\newcommand{\myDepartment}{Astronomy\xspace}
+\newcommand{\myUni}{Leiden University\xspace}
+\newcommand{\myLocation}{Leiden\xspace}
+\newcommand{\myTime}{Juni 2019\xspace}
+\newcommand{\myVersion}{\xspace}
 
 %----------------------------------------------------------------------------------------
 %	USEFUL COMMANDS
@@ -156,6 +156,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \captionsetup[subfloat]{margin=0.5em}
 \usepackage{subcaption}  %TODO switch to subfig package (newer, still maintained)
 \usepackage{csquotes}
+\usepackage{xfrac}
 %----------------------------------------------------------------------------------------
 %	CODE LISTINGS SETUP
 %----------------------------------------------------------------------------------------
@@ -211,6 +212,7 @@ pdfproducer={LaTeX with hyperref and classicthesis}
 %------------------------------------------------
 }
 
+\usepackage{cleveref}
 %----------------------------------------------------------------------------------------
 %	AUTOREFERENCES SETUP
 %	Redefines how references in text are prefaced for different 
