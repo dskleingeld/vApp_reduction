@@ -64,41 +64,41 @@ We evaluate the model onto an image of 200 by 200 pixels. This speeds up calcula
 
 \section{Atmospheric Distortions}
 
-To simulate an observation we do not use a single given \ac{PSF}. Since during an observation the combined \ac{PSF}  of the atmosphere and instrument changes. However a complete simulation of these effects is outside the scope of the thesis. Instead we try to approach a similar morphology to an on-sky-\ac{PSF}, with similar changes in time. We try two different methods, adding distortions on top of an existing \ac{vAPP} \ac{PSF} and adding an atmosphere simulation to the PSF generation. Finally we compare the result of each method to on-sky observations.
+To simulate an observation we do not use a single given \ac{PSF}. Since during an observation the combined \ac{PSF} of the atmosphere and instrument changes. However a complete simulation of these effects is outside the scope of the thesis. Instead we try to approach a similar morphology to an on-sky-\ac{PSF}, with similar changes in time. We add an atmosphere simulation to the PSF generation then compare the result to on-sky observations.
 
-\subsection{Fourier method}
-First we tried modifying a single given \ac{vAPP} \ac{PSF} to get a set of disturbed \acp{PSF}. To achieve this a pattern is added to the Fourier transform of the \ac{PSF} before transforming it back from Fourier space, see \autoref{eq:Ifinal} below. The pattern is then shifted for every timestamp.
+%\subsection{Fourier method}
+%First we tried modifying a single given \ac{vAPP} \ac{PSF} to get a set of disturbed \acp{PSF}. To achieve this a pattern is added to the Fourier transform of the \ac{PSF} before transforming it back from Fourier space, see \autoref{eq:Ifinal} below. The pattern is then shifted for every timestamp.
 
-\begin{equation}
-I_{\text{final}} = \mathscr{F}_{2d}^{-1} \Big( \text{intensity} \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \cdot \text{pattern} + \left(1-\text{intensity}\right) \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \Big) \label{eq:Ifinal}
-\end{equation}
-Here "intensity" is a number between $0$ and $1$, $\mathscr{F}_{2d}^{-1}$ the inverted 2d Fourier transform and $\mathscr{F}_{2d}$ the normal 2d Fourier transform.\\
+%\begin{equation}
+%I_{\text{final}} = \mathscr{F}_{2d}^{-1} \Big( \text{intensity} \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \cdot \text{pattern} + \left(1-\text{intensity}\right) \cdot \mathscr{F}_{2d}\left(\text{\ac{PSF}}\right) \Big) \label{eq:Ifinal}
+%\end{equation}
+%Here "intensity" is a number between $0$ and $1$, $\mathscr{F}_{2d}^{-1}$ the inverted 2d Fourier transform and $\mathscr{F}_{2d}$ the normal 2d Fourier transform.\\
 
-The best results where achieved using a grid of blurred circles as pattern, see \autoref{fig:patterns}. Note the distortions to the \ac{PSF} are around the center of its peaks but not randomly spread. As clearly this clearly does not suffice to simulate realistic distortions.
+%The best results where achieved using a grid of blurred circles as pattern, see \autoref{fig:patterns}. Note the distortions to the \ac{PSF} are around the center of its peaks but not randomly spread. As clearly this clearly does not suffice to simulate realistic distortions.
 
-\begin{figure}[h!]
-      \begin{subfigure}[t]{0.5\textwidth}
-        \includegraphics[width=1.2\linewidth]{gfx/0_old_psf_diff1}
-        \caption{Difference between two \acp{PSF}  created using this method, between \acp{PSF} the pattern has shifted 10 pixels.}
-      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
-      \begin{subfigure}[t]{0.5\textwidth}
-        \includegraphics[width=1.2\linewidth]{gfx/0_old_psf_diff2}
-        \caption{Difference between two \acp{PSF}  created using this method, between \acp{PSF} the pattern has shifted 5 pixels.}
-      \end{subfigure}
-      
-      \begin{subfigure}[]{0.5\textwidth}
-        \includegraphics[width=1.2\linewidth]{gfx/0_pattern}
-        \caption{Pattern that is shifted and applied to the Fourier space of a \ac{PSF}.}
-      \end{subfigure}
-      
-  \caption{The Pattern used and the differences between \acp{PSF} distorted with it using the method described above.}
-  \label{fig:patterns}
-\end{figure}
-%TODO [optional] add psfs to how how shift happens
+%\begin{figure}[h!]
+%      \begin{subfigure}[t]{0.5\textwidth}
+%        \includegraphics[width=1.2\linewidth]{gfx/0_old_psf_diff1}
+%        \caption{Difference between two \acp{PSF}  created using this method, between \acp{PSF} the pattern has shifted 10 pixels.}
+%      \end{subfigure}% this comment sign needs to be here for the images to be on the same line
+%      \begin{subfigure}[t]{0.5\textwidth}
+%        \includegraphics[width=1.2\linewidth]{gfx/0_old_psf_diff2}
+%        \caption{Difference between two \acp{PSF}  created using this method, between \acp{PSF} the pattern has shifted 5 pixels.}
+%      \end{subfigure}
+%      
+%      \begin{subfigure}[]{0.5\textwidth}
+%        \includegraphics[width=1.2\linewidth]{gfx/0_pattern}
+%        \caption{Pattern that is shifted and applied to the Fourier space of a \ac{PSF}.}
+%      \end{subfigure}
+%      
+%  \caption{The Pattern used and the differences between \acp{PSF} distorted with it using the method described above.}
+%  \label{fig:patterns}
+%\end{figure}
+%%TODO [optional] add psfs to how how shift happens
 
-\subsection{Using HCIPy}
+%\subsection{Using HCIPy}
 \label{sec:hcipy}
-Then we tried a simulation of the  \acp{PSF} using \ac{HCIPy}, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. The framework is used to generate \acp{PSF} with a very rough simulation. We use the provided methods in \ac{HCIPy} to create a multi-layer atmospheric model that changes in time. Then we use that model, the \ac{vAPP} amplitude and \ac{vAPP} phase screen to generate a series of \acp{PSF} using:
+We create the \acp{PSF} using \ac{HCIPy}, an open-source object-oriented framework written in Python for performing end-to-end simulations of high-contrast imaging instruments \cite{hcipy}. The framework is used to generate \acp{PSF} with a very rough simulation. We use the provided methods in \ac{HCIPy} to create a multi-layer atmospheric model that changes in time. Then we use that model, the \ac{vAPP} amplitude sceen and \ac{vAPP} phase screen to generate a series of \acp{PSF} using:
 
 \begin{equation}
 I_\text{\ac{vAPP}} = {\mathopen| \mathscr{F}_{2d}\Big( Ae^{i\theta}\Big) \mathclose|}^2 + {\mathopen| \mathscr{F}_{2d}\Big( Ae^{-i\theta}\Big) \mathclose|}^2 + {\mathopen| \mathscr{F}_{2d}\Big( A \Big) \cdot C \mathclose|}^2
